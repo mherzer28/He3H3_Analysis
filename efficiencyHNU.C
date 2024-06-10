@@ -24,8 +24,9 @@ const double cutConfHe[8] = {0.15,  0.15, 3.0,         120,      2,       1,    
 TString periods16 = "deghijklop";
 TString periods17 = "cefghijklmor";
 TString periods18 = "bdefghilmnop";
-TString resultPath = "/Users/matthiasherzer/alice/root_results/MC";
-TString resultfileHNU = "/Users/matthiasherzer/alice/He3H3_analysis/analysis/result/Correction/correctionHNU.root";
+TString resultPath = "/Users/matthias/alice/root_results/MC";
+TString resultfile = "/Users/matthias/alice/Master/Makros/result/correction/correction.root";
+//_________________________________________________________________________________________________________
 void efficiencyHNU(){
     HeTriEffHNU();
 }
@@ -328,8 +329,8 @@ hRec->Draw();
 cHNU->cd(3);
 gPad->SetLeftMargin(0.18);
 hEff->Draw();
-cHNU->SaveAs("/Users/matthiasherzer/alice/He3H3_analysis/analysis/result/Plots/accxeff/HNUHQU/accxeffH3HQU.pdf");
-cHNU->SaveAs("/Users/matthiasherzer/alice/He3H3_analysis/analysis/result/Plots/accxeff/HNUHQU/accxeffH3HQU.root");
+cHNU->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeffH3_HQU.pdf");
+cHNU->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeffH3_HQU.root");
 TCanvas *c12 = new TCanvas("c12", "H3", 1600, 1600);
 c12->cd();
 c12->SetLeftMargin(0.15);
@@ -362,8 +363,8 @@ legend12->SetFillStyle(0);
 legend12->SetTextFont(42);
 legend12->SetTextSize(0.042);
 legend12->Draw();
-c12->SaveAs("/Users/matthiasherzer/alice/He3H3_analysis/analysis/result/Plots/accxeff/HNUHQU/accxeffH3_2.root");
-c12->SaveAs("/Users/matthiasherzer/alice/He3H3_analysis/analysis/result/Plots/accxeff/HNUHQU/accxeffH3_2.pdf");
+c12->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeffH3_HNUHQU.root");
+c12->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeffH3_HNUHQU.pdf");
 
 TCanvas *c2HNU = new TCanvas("c2HNU", "Anti-H3", 1920, 1080);
 c2HNU->Divide(3);
@@ -387,8 +388,8 @@ hRecAnti->Draw();
 c2HNU->cd(3);
 gPad->SetLeftMargin(0.18);
 hEffAnti->Draw();
-c2HNU->SaveAs("/Users/matthiasherzer/alice/He3H3_analysis/analysis/result/Plots/accxeff/HNUHQU/accxeffH3AntiHQU.pdf");
-c2HNU->SaveAs("/Users/matthiasherzer/alice/He3H3_analysis/analysis/result/Plots/accxeff/HNUHQU/accxeffH3AntiHQU.root");
+c2HNU->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeffH3_Anti_HQU.pdf");
+c2HNU->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeffH3_Anti_HQU.root");
 TCanvas *c22 = new TCanvas("c22", "Anti-H3", 1600, 1600);
 c22->cd();
 c22->SetLeftMargin(0.15);
@@ -422,8 +423,8 @@ legend22->SetFillStyle(0);
 legend22->SetTextFont(42);
 legend22->SetTextSize(0.042);
 legend22->Draw();
-c22->SaveAs("/Users/matthiasherzer/alice/He3H3_analysis/analysis/result/Plots/accxeff/HNUHQU/accxeffH3Anti_2.root");
-c22->SaveAs("/Users/matthiasherzer/alice/He3H3_analysis/analysis/result/Plots/accxeff/HNUHQU/accxeffH3Anti_2.pdf");
+c22->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeffH3_Anti_HNUHQU.root");
+c22->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeffH3_Anti_HNUHQU.pdf");
 //___________________________________________________________________________________________________________
 //Helium 3:
 TChain *fTreeDataGenHe= new TChain("He3TriTree/treeGenHe");
@@ -561,8 +562,8 @@ hRecHe->Draw();
 c3HNU->cd(3);
 gPad->SetLeftMargin(0.18);
 hEffHe->Draw();
-c3HNU->SaveAs("/Users/matthiasherzer/alice/He3H3_analysis/analysis/result/Plots/accxeff/HNUHQU/accxeffHeHQU.pdf");
-c3HNU->SaveAs("/Users/matthiasherzer/alice/He3H3_analysis/analysis/result/Plots/accxeff/HNUHQU/accxeffHeHQU.root");
+c3HNU->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeffHe_HQU.pdf");
+c3HNU->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeffHe_HQU.root");
 TCanvas *c32 = new TCanvas("c32", "He", 1600, 1600);
 c32->cd();
 c32->SetLeftMargin(0.15);
@@ -594,8 +595,8 @@ TLegend *legend32 = new TLegend(0.521625,0.664271,0.901048,0.873717,NULL,"brNDC"
 	legend32->SetTextFont(42);
 	legend32->SetTextSize(0.042);
 	legend32->Draw();
-c32->SaveAs("/Users/matthiasherzer/alice/He3H3_analysis/analysis/result/Plots/accxeff/HNUHQU/accxeffHe_2.root");
-c32->SaveAs("/Users/matthiasherzer/alice/He3H3_analysis/analysis/result/Plots/accxeff/HNUHQU/accxeffHe_2.pdf");
+c32->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeffHe_HNUHQU.root");
+c32->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeffHe_HNUHQU.pdf");
 TCanvas *c4HNU = new TCanvas("c4HNU", "Anti-He", 1920, 1080);
 c4HNU->Divide(3);
 c4HNU->cd(1);
@@ -618,8 +619,8 @@ hRecHeAnti->Draw();
 c4HNU->cd(3);
 gPad->SetLeftMargin(0.18);
 hEffHeAnti->Draw();
-c4HNU->SaveAs("/Users/matthiasherzer/alice/He3H3_analysis/analysis/result/Plots/accxeff/HQU/accxeffHeAntiHQU.pdf");
-c4HNU->SaveAs("/Users/matthiasherzer/alice/He3H3_analysis/analysis/result/Plots/accxeff/HQU/accxeffHeAntiHQU.root");
+c4HNU->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeffHeAnti_HQU.pdf");
+c4HNU->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeffHeAnti_HQU.root");
 TCanvas *c42 = new TCanvas("c42", "Anti-He", 1600, 1600);
 c42->cd();
 c42->SetLeftMargin(0.15);
@@ -651,6 +652,6 @@ TLegend *legend42 = new TLegend(0.521625,0.664271,0.901048,0.873717,NULL,"brNDC"
 	legend42->SetTextFont(42);
 	legend42->SetTextSize(0.042);
 	legend42->Draw();
-c42->SaveAs("/Users/matthiasherzer/alice/He3H3_analysis/analysis/result/Plots/accxeff/HNUHQU/accxeffHeAnti_2.root");
-c42->SaveAs("/Users/matthiasherzer/alice/He3H3_analysis/analysis/result/Plots/accxeff/HNUHQU/accxeffHeAnti_2.pdf");
+c42->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeffHeAnti_HNUHQU_2.root");
+c42->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeffHeAnti_HNUHQU_2.pdf");
 }

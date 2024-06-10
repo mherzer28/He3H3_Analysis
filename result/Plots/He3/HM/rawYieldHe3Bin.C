@@ -4,7 +4,7 @@
 void rawYieldHe3Bin()
 {
 //=========Macro generated from canvas: raw/Raw Yield
-//=========  (Tue Jun  4 15:44:03 2024) by ROOT version 6.30/01
+//=========  (Sun Jun  9 17:03:51 2024) by ROOT version 6.30/01
    TCanvas *raw = new TCanvas("raw", "Raw Yield",0,53,800,847);
    gStyle->SetOptFit(1);
    raw->SetHighLightColor(2);
@@ -18,7 +18,7 @@ void rawYieldHe3Bin()
    TPad *pad1histRaw0000__0 = new TPad("pad1histRaw0000", "pad1",0,0.4,1,1);
    pad1histRaw0000__0->Draw();
    pad1histRaw0000__0->cd();
-   pad1histRaw0000__0->Range(1.183133,0.01,2.628916,80.88778);
+   pad1histRaw0000__0->Range(1.183133,0.01,2.628916,231.11);
    pad1histRaw0000__0->SetFillColor(0);
    pad1histRaw0000__0->SetBorderMode(0);
    pad1histRaw0000__0->SetBorderSize(2);
@@ -32,12 +32,12 @@ void rawYieldHe3Bin()
    hshistRaw0000->SetName("hshistRaw0000");
    hshistRaw0000->SetTitle(" ;#it{p}_{T} (Gev/#it{c});Counts");
    hshistRaw0000->SetMinimum(0.01);
-   hshistRaw0000->SetMaximum(72.8);
+   hshistRaw0000->SetMaximum(208);
    Double_t xAxis1[4] = {1.4, 1.8, 2.2, 2.6}; 
    
    TH1F *hshistRaw0000_stack_1 = new TH1F("hshistRaw0000_stack_1"," ",3, xAxis1);
    hshistRaw0000_stack_1->SetMinimum(0.01);
-   hshistRaw0000_stack_1->SetMaximum(72.8);
+   hshistRaw0000_stack_1->SetMaximum(208);
    hshistRaw0000_stack_1->SetDirectory(nullptr);
    hshistRaw0000_stack_1->SetStats(0);
 
@@ -64,12 +64,12 @@ void rawYieldHe3Bin()
    Double_t xAxis2[4] = {1.4, 1.8, 2.2, 2.6}; 
    
    TH1D *histRaw0000_stack_1 = new TH1D("histRaw0000_stack_1"," ",3, xAxis2);
-   histRaw0000_stack_1->SetBinContent(1,31);
-   histRaw0000_stack_1->SetBinContent(2,56);
-   histRaw0000_stack_1->SetBinContent(3,35);
-   histRaw0000_stack_1->SetBinError(1,5.567764);
-   histRaw0000_stack_1->SetBinError(2,7.483315);
-   histRaw0000_stack_1->SetBinError(3,5.91608);
+   histRaw0000_stack_1->SetBinContent(1,90);
+   histRaw0000_stack_1->SetBinContent(2,160);
+   histRaw0000_stack_1->SetBinContent(3,124);
+   histRaw0000_stack_1->SetBinError(1,9.486833);
+   histRaw0000_stack_1->SetBinError(2,12.64911);
+   histRaw0000_stack_1->SetBinError(3,11.13553);
    histRaw0000_stack_1->SetEntries(3);
    histRaw0000_stack_1->SetDirectory(nullptr);
    histRaw0000_stack_1->SetStats(0);
@@ -91,12 +91,12 @@ void rawYieldHe3Bin()
    Double_t xAxis3[4] = {1.4, 1.8, 2.2, 2.6}; 
    
    TH1D *histRaw0001_stack_2 = new TH1D("histRaw0001_stack_2"," ",3, xAxis3);
-   histRaw0001_stack_2->SetBinContent(1,20);
-   histRaw0001_stack_2->SetBinContent(2,38);
-   histRaw0001_stack_2->SetBinContent(3,35);
-   histRaw0001_stack_2->SetBinError(1,4.472136);
-   histRaw0001_stack_2->SetBinError(2,6.164414);
-   histRaw0001_stack_2->SetBinError(3,5.91608);
+   histRaw0001_stack_2->SetBinContent(1,70);
+   histRaw0001_stack_2->SetBinContent(2,92);
+   histRaw0001_stack_2->SetBinContent(3,100);
+   histRaw0001_stack_2->SetBinError(1,8.3666);
+   histRaw0001_stack_2->SetBinError(2,9.591663);
+   histRaw0001_stack_2->SetBinError(3,10);
    histRaw0001_stack_2->SetEntries(3);
    histRaw0001_stack_2->SetDirectory(nullptr);
    histRaw0001_stack_2->SetStats(0);
@@ -163,7 +163,7 @@ void rawYieldHe3Bin()
    TPad *pad2histRaw0000__1 = new TPad("pad2histRaw0000", "pad2",0,0.05,1,0.4);
    pad2histRaw0000__1->Draw();
    pad2histRaw0000__1->cd();
-   pad2histRaw0000__1->Range(1.183133,0.05313849,2.628916,1.279939);
+   pad2histRaw0000__1->Range(1.183133,0.2828887,2.628916,0.9366337);
    pad2histRaw0000__1->SetFillColor(0);
    pad2histRaw0000__1->SetBorderMode(0);
    pad2histRaw0000__1->SetBorderSize(2);
@@ -177,13 +177,13 @@ void rawYieldHe3Bin()
    Double_t xAxis4[4] = {1.4, 1.8, 2.2, 2.6}; 
    
    TH1D *histRatiohistRaw0000__1 = new TH1D("histRatiohistRaw0000__1","",3, xAxis4);
-   histRatiohistRaw0000__1->SetBinContent(1,0.6451613);
-   histRatiohistRaw0000__1->SetBinContent(2,0.6785714);
-   histRatiohistRaw0000__1->SetBinContent(3,1);
-   histRatiohistRaw0000__1->SetBinError(1,0.1850366);
-   histRatiohistRaw0000__1->SetBinError(2,0.1426178);
-   histRatiohistRaw0000__1->SetBinError(3,0.2390457);
-   histRatiohistRaw0000__1->SetEntries(48.33221);
+   histRatiohistRaw0000__1->SetBinContent(1,0.7777778);
+   histRatiohistRaw0000__1->SetBinContent(2,0.575);
+   histRatiohistRaw0000__1->SetBinContent(3,0.8064516);
+   histRatiohistRaw0000__1->SetBinError(1,0.1239496);
+   histRatiohistRaw0000__1->SetBinError(2,0.07523401);
+   histRatiohistRaw0000__1->SetBinError(3,0.1083906);
+   histRatiohistRaw0000__1->SetEntries(142.2631);
    histRatiohistRaw0000__1->SetDirectory(nullptr);
    histRatiohistRaw0000__1->SetStats(0);
    histRatiohistRaw0000__1->SetMarkerStyle(8);

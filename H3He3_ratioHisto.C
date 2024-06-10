@@ -19,12 +19,16 @@
 #include "TLine.h"
 #include "H3He3_ratioHisto.h"
 
+const TString trigger = "HM"; //HM or HNUHQU
 TString Folder = "result";
 TString rootfile = "/Users/matthias/alice/Master/Makros/Rootfiles/DataH3.root";
 TString rootfileyield = "/Users/matthias/alice/Master/Makros/Rootfiles/DataYield.root";
+const Int_t nParticles = 3;	
+double eventnumber = 6.79038e+08 + 2.98214e+08; //HM
 //____________________________________________________________________________________________
 void H3He3_ratioHisto(){
-    histRatio();
+    //histRatio();
+	histRatioCorrected();
 }
 //_____________________________________________________________________________________________
 void histRatio(){
@@ -34,7 +38,11 @@ void histRatio(){
 	TH1D * yieldCombined[nParticles] = {0};
 	TH1D * yieldCombinedAnti = {0};
 	TCanvas *ratioPlot[nParticles] = {0};
+	TCanvas *ratioPlot_event1 = {0};
+	TCanvas *ratioPlot_event2 = {0};
 	TLegend *legendratio[nParticles] = {0};
+	TH1D * yieldCombinedPerEventH3_uncorrected = {0};
+	TH1D * yieldCombinedPerEventHe3_uncorrected = {0};
 	TLine * l[nParticles] = {0};
 	for (int particle = 0; particle < nParticles; particle++){
 		yieldH3[particle] = (TH1D*) fH3->Get(Form("histRaw%02d", particle));
@@ -102,27 +110,80 @@ void histRatio(){
 	legendratio[particle]->AddEntry((TObject*)0, "High-multiplicity trigger", "");
 	legendratio[particle]->Draw();
 	}
-	ratioPlot[2]->SaveAs(Folder + Form("/Plots/H3/HM/ratioHe3H3.png"));
-	ratioPlot[2]->SaveAs(Folder + Form("/Plots/H3/HM/ratioHe3H3.root"));
-	ratioPlot[2]->SaveAs(Folder + Form("/Plots/H3/HM/ratioHe3H3.C"));
-	ratioPlot[1]->SaveAs(Folder + Form("/Plots/H3/HM/ratioAntiHe3H3.png"));
-	ratioPlot[1]->SaveAs(Folder + Form("/Plots/H3/HM/ratioAntiHe3H3.root"));
-	ratioPlot[1]->SaveAs(Folder + Form("/Plots/H3/HM/ratioAntiHe3H3.C"));
-	ratioPlot[0]->SaveAs(Folder + Form("/Plots/H3/HM/ratioNorHe3H3.png"));
-	ratioPlot[0]->SaveAs(Folder + Form("/Plots/H3/HM/ratioNorHe3H3.root"));
-	ratioPlot[0]->SaveAs(Folder + Form("/Plots/H3/HM/ratioNorHe3H3.C"));
+	ratioPlot[2]->SaveAs(Folder + Form("/Plots/Korrekturen/ratioHe3H3.pdf"));
+	ratioPlot[2]->SaveAs(Folder + Form("/Plots/Korrekturen/ratioHe3H3.root"));
+	ratioPlot[2]->SaveAs(Folder + Form("/Plots/Korrekturen/ratioHe3H3.C"));
+	ratioPlot[1]->SaveAs(Folder + Form("/Plots/Korrekturen/ratioAntiHe3H3.pdf"));
+	ratioPlot[1]->SaveAs(Folder + Form("/Plots/Korrekturen/ratioAntiHe3H3.root"));
+	ratioPlot[1]->SaveAs(Folder + Form("/Plots/Korrekturen/ratioAntiHe3H3.C"));
+	ratioPlot[0]->SaveAs(Folder + Form("/Plots/Korrekturen/ratioNorHe3H3.pdf"));
+	ratioPlot[0]->SaveAs(Folder + Form("/Plots/Korrekturen/ratioNorHe3H3.root"));
+	ratioPlot[0]->SaveAs(Folder + Form("/Plots/Korrekturen/ratioNorHe3H3.C"));
+	//Per Event:
+	yieldCombinedPerEventH3_uncorrected = (TH1D*)yieldH3[2]->Clone("yieldCombinedPerEventH3_uncorrected");
+	yieldCombinedPerEventH3_uncorrected->Scale(1./eventnumber);
+	ratioPlot_event1 = new TCanvas("ratioPlot_event1", "", 2000,2000);
+	yieldCombinedPerEventH3_uncorrected->GetXaxis()->SetTitle("#it{p}_{T} (GeV/#it{c})");
+	yieldCombinedPerEventH3_uncorrected->GetYaxis()->SetTitle("1/N_{evt} d^{2}N/(dy d#it{p}_{t}) (GeV/#it{c})^{-1}");
+	yieldCombinedPerEventH3_uncorrected->SetStats(0);
+	yieldCombinedPerEventH3_uncorrected->SetMarkerStyle(8);
+	yieldCombinedPerEventH3_uncorrected->SetMarkerSize(1.5);
+	gPad->SetLogy();
+	yieldCombinedPerEventH3_uncorrected->Draw();
+	TLegend *legendratioH3_uncorrected = new TLegend(0.5344418,0.6865854,0.9041964,0.8865854,NULL,"brNDC");
+	legendratioH3_uncorrected->SetEntrySeparation(.4);
+	legendratioH3_uncorrected->SetBorderSize(0);
+	legendratioH3_uncorrected->SetFillStyle(0);
+	//legendratioH3_uncorrected->AddEntry(yieldCombined[2], "#frac{{}^{3}H}{{}^{3}He}", "lep");
+	legendratioH3_uncorrected->AddEntry((TObject*)0, "Uncorrected", "");
+	legendratioH3_uncorrected->AddEntry((TObject*)0, "ALICE pp #sqrt{s} = 13 TeV, |y| < 0.5", "");
+	legendratioH3_uncorrected->AddEntry((TObject*)0, "Particle: {}^{3}H", "");
+	legendratioH3_uncorrected->AddEntry((TObject*)0, "High Multiplicity trigger", "");
+	//yieldCombinedPerEvent->GetXaxis()->SetRange(1.,6.);
+	legendratioH3_uncorrected->Draw();
+	ratioPlot_event1->SaveAs(Folder + Form("/Plots/H3/Korrekturen/H3perEvent.C"));
+	ratioPlot_event1->SaveAs(Folder + Form("/Plots/H3/Korrekturen/H3perEvent.pdf"));
+	ratioPlot_event1->SaveAs(Folder + Form("/Plots/H3/Korrekturen/H3perEvent.root"));
+
+	yieldCombinedPerEventHe3_uncorrected = (TH1D*)yieldHe3[2]->Clone("yieldCombinedPerEventHe3_uncorrected");
+	yieldCombinedPerEventHe3_uncorrected->Scale(1./eventnumber);
+	ratioPlot_event2 = new TCanvas("ratioPlot_event2", "", 2000,2000);
+	yieldCombinedPerEventHe3_uncorrected->GetXaxis()->SetTitle("#it{p}_{T} (GeV/#it{c})");
+	yieldCombinedPerEventHe3_uncorrected->GetYaxis()->SetTitle("1/N_{evt} d^{2}N/(dy d#it{p}_{t}) (GeV/#it{c})^{-1}");
+	yieldCombinedPerEventHe3_uncorrected->SetStats(0);
+	yieldCombinedPerEventHe3_uncorrected->SetMarkerStyle(8);
+	yieldCombinedPerEventHe3_uncorrected->SetMarkerSize(1.5);
+	gPad->SetLogy();
+	yieldCombinedPerEventHe3_uncorrected->Draw();
+	TLegend *legendratioHe3_uncorrected = new TLegend(0.5344418,0.6865854,0.9041964,0.8865854,NULL,"brNDC");
+	legendratioHe3_uncorrected->SetEntrySeparation(.4);
+	legendratioHe3_uncorrected->SetBorderSize(0);
+	legendratioHe3_uncorrected->SetFillStyle(0);
+	//legendratioHe3_uncorrected->AddEntry(yieldCombined[2], "#frac{{}^{3}H}{{}^{3}He}", "lep");
+	legendratioHe3_uncorrected->AddEntry((TObject*)0, "Uncorrected", "");
+	legendratioHe3_uncorrected->AddEntry((TObject*)0, "ALICE pp #sqrt{s} = 13 TeV, |y| < 0.5", "");
+	legendratioHe3_uncorrected->AddEntry((TObject*)0, "Particle: {}^{3}He", "");
+	legendratioHe3_uncorrected->AddEntry((TObject*)0, "High Multiplicity trigger", "");
+	//yieldCombinedPerEvent->GetXaxis()->SetRange(1.,6.);
+	legendratioHe3_uncorrected->Draw();
+	ratioPlot_event2->SaveAs(Folder + Form("/Plots/He3/Korrekturen/He3perEvent.C"));
+	ratioPlot_event2->SaveAs(Folder + Form("/Plots/He3/Korrekturen/He3perEvent.pdf"));
+	ratioPlot_event2->SaveAs(Folder + Form("/Plots/He3/Korrekturen/He3perEvent.root"));
 }
 void histRatioCorrected(){
-	TFile *fH3 = TFile::Open("/Users/matthiasherzer/alice/He3H3_analysis/analysis/result/Correction/correctionresult.root", "UPDATE");
+	TFile *fH3 = TFile::Open("/Users/matthias/alice/Master/Makros/result/correction/correctionresult.root", "UPDATE");
 	TH1D * yieldH3[nParticles] = {0};
     TH1D * yieldHe3[nParticles] = {0};
 	TH1D * yieldCombined[nParticles] = {0};
 	TH1D * yieldCombinedAnti = {0};
 	TH1D * yieldCombinedPerEvent = {0};
+	TH1D * yieldCombinedPerEventHe = {0};
 	TCanvas *ratioPlot = {0};
 	TCanvas *ratioPlot2 = {0};
 	TCanvas *ratioPlot3 = {0};
 	TCanvas *ratioPlot4 = {0};
+	TCanvas *ratioPlot5 = {0};
+	TGraphErrors* compare_graph = {0};
 	double eventnumber = 6.79038e+08 + 2.98214e+08;
 	ratioPlot = new TCanvas("ratioPlot", "", 2000,2000);
 	THStack *ratioStack = new THStack("ratioStack", " ; #it{p}_{T} (GeV/#it{c}); #frac{{}^{3}H}{{}^{3}He}");
@@ -139,7 +200,7 @@ void histRatioCorrected(){
 	}
 	
 	
-	TFile * f = new TFile("/Users/matthiasherzer/alice/He3H3_analysis/analysis/result/Correction/ratioyieldcorr.root","recreate");
+	TFile * f = new TFile("/Users/matthias/alice/Master/Makros/result/correction/ratioyieldcorr.root","recreate");
 	for (int particle = 0; particle < nParticles; particle++){
 		yieldH3[particle]->SetMarkerStyle(42);
 		yieldHe3[particle]->SetMarkerStyle(43);
@@ -243,14 +304,36 @@ void histRatioCorrected(){
 	ratioPlot3->SaveAs(Folder + Form("/Plots/Korrekturen/corrRatioAntiPartHe3H3.C"));
 	yieldCombinedPerEvent = (TH1D*)yieldH3[2]->Clone("yieldCombinedPerEvent");
 	yieldCombinedPerEvent->Scale(1./eventnumber);
+	//comparison habib:
+	const int n = 3;
+    double x[n] = {1.25, 1.75, 2.25}; 
+    double y[n] = {1.0374E-6, 1.1954E-6, 8.4629E-7};
+    //double ex[n] = {1.9493E-07, 1.211E-7, 8.6239E-8}; 
+	double ex[n] = {0.25, 0.25, 0.25}; 
+    double ey[n] = {1.5696E-7,6.8876E-8 ,6.407E-8 }; 
+	compare_graph = new TGraphErrors(n, x, y, ex, ey);
+    compare_graph->SetMarkerStyle(8);  
+    compare_graph->SetMarkerSize(1.5);
+    compare_graph->SetLineWidth(2);
+    for (int i = 0; i < n; i++) {
+        compare_graph->SetPoint(i, x[i], y[i]);
+        compare_graph->SetPointError(i, ex[i], ey[i]);
+    }
+	compare_graph->SetMarkerColor(kBlue);
+    compare_graph->SetLineColor(kBlue);
+	//_______________________________________
 	ratioPlot4 = new TCanvas("ratioPlot4", "", 2000,2000);
 	yieldCombinedPerEvent->GetXaxis()->SetTitle("#it{p}_{T} (GeV/#it{c})");
 	yieldCombinedPerEvent->GetYaxis()->SetTitle("1/N_{evt} d^{2}N/(dy d#it{p}_{t}) (GeV/#it{c})^{-1}");
 	yieldCombinedPerEvent->SetStats(0);
 	yieldCombinedPerEvent->SetMarkerStyle(8);
 	yieldCombinedPerEvent->SetMarkerSize(1.5);
+	yieldCombinedPerEvent->SetLineWidth(2);
+	yieldCombinedPerEvent->SetMarkerColor(kRed);
+    yieldCombinedPerEvent->SetLineColor(kRed);
 	gPad->SetLogy();
-	yieldCombinedPerEvent->Draw();
+	yieldCombinedPerEvent->Draw("E");
+	compare_graph->Draw("P SAME"); //comparison habib
 	TLegend *legendratio4 = new TLegend(0.5344418,0.6865854,0.9041964,0.8865854,NULL,"brNDC");
 	legendratio4->SetEntrySeparation(.4);
 	legendratio4->SetBorderSize(0);
@@ -258,8 +341,35 @@ void histRatioCorrected(){
 	//legendrat4io->AddEntry(yieldCombined[2], "#frac{{}^{3}H}{{}^{3}He}", "lep");
 	legendratio4->AddEntry((TObject*)0, "Corrected", "");
 	legendratio4->AddEntry((TObject*)0, "ALICE pp #sqrt{s} = 13 TeV, |y| < 0.5", "");
+	legendratio4->AddEntry((TObject*)0, "Particle: {}^{3}H", "");
 	legendratio4->AddEntry((TObject*)0, "High Multiplicity trigger", "");
-	//yieldCombinedPerEvent->GetXaxis()->SetRange(1.,6.);
+	yieldCombinedPerEvent->GetXaxis()->SetRange(1.,3);
 	legendratio4->Draw();
-	ratioPlot4->SaveAs(Folder + Form("/Plots/Korrekturen/H3perEvent.C"));
+	ratioPlot4->SaveAs(Folder + Form("/Plots/H3/Korrekturen/H3perEvent.C"));
+	ratioPlot4->SaveAs(Folder + Form("/Plots/H3/Korrekturen/H3perEvent.pdf"));
+	ratioPlot4->SaveAs(Folder + Form("/Plots/H3/Korrekturen/H3perEvent.root"));
+	yieldCombinedPerEventHe = (TH1D*)yieldHe3[2]->Clone("yieldCombinedPerEventHe");
+	yieldCombinedPerEventHe->Scale(1./eventnumber);
+	ratioPlot5 = new TCanvas("ratioPlot5", "", 2000,2000);
+	yieldCombinedPerEventHe->GetXaxis()->SetTitle("#it{p}_{T} (GeV/#it{c})");
+	yieldCombinedPerEventHe->GetYaxis()->SetTitle("1/N_{evt} d^{2}N/(dy d#it{p}_{t}) (GeV/#it{c})^{-1}");
+	yieldCombinedPerEventHe->SetStats(0);
+	yieldCombinedPerEventHe->SetMarkerStyle(8);
+	yieldCombinedPerEventHe->SetMarkerSize(1.5);
+	gPad->SetLogy();
+	yieldCombinedPerEventHe->Draw();
+	TLegend *legendratio5 = new TLegend(0.5344418,0.6865854,0.9041964,0.8865854,NULL,"brNDC");
+	legendratio5->SetEntrySeparation(.4);
+	legendratio5->SetBorderSize(0);
+	legendratio5->SetFillStyle(0);
+	//legendrat5io->AddEntry(yieldCombined[2], "#frac{{}^{3}H}{{}^{3}He}", "lep");
+	legendratio5->AddEntry((TObject*)0, "Corrected", "");
+	legendratio5->AddEntry((TObject*)0, "ALICE pp #sqrt{s} = 13 TeV, |y| < 0.5", "");
+	legendratio5->AddEntry((TObject*)0, "Particle: {}^{3}He", "");
+	legendratio5->AddEntry((TObject*)0, "High Multiplicity trigger", "");
+	yieldCombinedPerEventHe->GetXaxis()->SetRange(1.,3);
+	legendratio5->Draw();
+	ratioPlot5->SaveAs(Folder + Form("/Plots/He3/Korrekturen/He3perEvent.C"));
+	ratioPlot5->SaveAs(Folder + Form("/Plots/He3/Korrekturen/He3perEvent.pdf"));
+	ratioPlot5->SaveAs(Folder + Form("/Plots/He3/Korrekturen/He3perEvent.root"));
 }	

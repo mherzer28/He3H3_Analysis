@@ -4,7 +4,7 @@
 void rawYieldH3BinCounting()
 {
 //=========Macro generated from canvas: rawBin/raw yield bin counting
-//=========  (Mon Jun  3 10:21:19 2024) by ROOT version 6.30/01
+//=========  (Sun Jun  9 16:07:29 2024) by ROOT version 6.30/01
    TCanvas *rawBin = new TCanvas("rawBin", "raw yield bin counting",0,53,1200,847);
    gStyle->SetOptFit(1);
    rawBin->SetHighLightColor(2);
@@ -18,7 +18,7 @@ void rawYieldH3BinCounting()
    TPad *pad1histRaw00__0 = new TPad("pad1histRaw00", "pad1",0,0.4,1,1);
    pad1histRaw00__0->Draw();
    pad1histRaw00__0->cd();
-   pad1histRaw00__0->Range(1.183133,0.01,2.628916,131.257);
+   pad1histRaw00__0->Range(1.183133,0.01,2.628916,132.0232);
    pad1histRaw00__0->SetFillColor(0);
    pad1histRaw00__0->SetBorderMode(0);
    pad1histRaw00__0->SetBorderSize(2);
@@ -32,12 +32,12 @@ void rawYieldH3BinCounting()
    hs->SetName("hs");
    hs->SetTitle(" ; #it{p}_{T} (GeV/#it{c}); Counts");
    hs->SetMinimum(0.01);
-   hs->SetMaximum(118.1323);
+   hs->SetMaximum(118.8219);
    Double_t xAxis1[4] = {1.4, 1.8, 2.2, 2.6}; 
    
    TH1F *hs_stack_1 = new TH1F("hs_stack_1"," ",3, xAxis1);
    hs_stack_1->SetMinimum(0.01);
-   hs_stack_1->SetMaximum(118.1323);
+   hs_stack_1->SetMaximum(118.8219);
    hs_stack_1->SetDirectory(nullptr);
    hs_stack_1->SetStats(0);
 
@@ -64,10 +64,10 @@ void rawYieldH3BinCounting()
    Double_t xAxis2[4] = {1.4, 1.8, 2.2, 2.6}; 
    
    TH1D *histRaw00_stack_1 = new TH1D("histRaw00_stack_1","",3, xAxis2);
-   histRaw00_stack_1->SetBinContent(1,90.87103);
+   histRaw00_stack_1->SetBinContent(1,91.40146);
    histRaw00_stack_1->SetBinContent(2,73.90052);
    histRaw00_stack_1->SetBinContent(3,60.56426);
-   histRaw00_stack_1->SetBinError(1,9.949874);
+   histRaw00_stack_1->SetBinError(1,10);
    histRaw00_stack_1->SetBinError(2,9.165151);
    histRaw00_stack_1->SetBinError(3,11);
    histRaw00_stack_1->SetEntries(3);
@@ -173,13 +173,13 @@ void rawYieldH3BinCounting()
    Double_t xAxis4[4] = {1.4, 1.8, 2.2, 2.6}; 
    
    TH1D *histRatiohistRaw00__10 = new TH1D("histRatiohistRaw00__10","",3, xAxis4);
-   histRatiohistRaw00__10->SetBinContent(1,0.8801603);
+   histRatiohistRaw00__10->SetBinContent(1,0.8750524);
    histRatiohistRaw00__10->SetBinContent(2,1.076137);
    histRatiohistRaw00__10->SetBinContent(3,0.9628063);
-   histRatiohistRaw00__10->SetBinError(1,0.140796);
+   histRatiohistRaw00__10->SetBinError(1,0.1399268);
    histRatiohistRaw00__10->SetBinError(2,0.186658);
    histRatiohistRaw00__10->SetBinError(3,0.2753823);
-   histRatiohistRaw00__10->SetEntries(65.29621);
+   histRatiohistRaw00__10->SetEntries(65.18978);
    histRatiohistRaw00__10->SetDirectory(nullptr);
    histRatiohistRaw00__10->SetStats(0);
    histRatiohistRaw00__10->SetMarkerStyle(8);

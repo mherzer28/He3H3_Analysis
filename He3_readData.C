@@ -21,8 +21,8 @@
 
 using namespace std;
 	TString trigger = "HM"; // HM or HNU Trigger
-    //TString resultPath ="/Volumes/MyPassport/pass2/HeTri_pass2";
-	TString resultPath = "/Users/matthias/alice/root_results/He";
+    TString resultPath ="/Volumes/MyPassport/pass2/HeTri_pass2";
+	//TString resultPath = "/Users/matthias/alice/root_results/He";
 	TString periods16 = "deghijklop";
 	TString periods17 = "cefghijklmor"; //klmor + cefghij
     TString periods18 = "bdefghilmnop";
@@ -121,8 +121,18 @@ void setTreeBranch(TTree *fTree) {
 void readDataHe3(){
 	TCanvas *c1;
 	//TChain *fTreeData= new TChain("treeHeHM");
-	TChain *fTreeData= new TChain("treeHeHM");
-	fTreeData->Add(resultPath + "/Analysis_merged_all_He.root");
+	TChain *fTreeData= new TChain("He3TriTree/treeHe");
+	//fTreeData->Add(resultPath + "/Analysis_merged_all_He.root");
+	for (Int_t i = 0; i < periods16.Length(); i++){
+		fTreeData->Add(resultPath+ "/Data/LHC16"  + periods16(i,1)+ "/AnalysisResults.root");
+		}
+	for (Int_t i = 0; i < periods17.Length(); i++){
+		fTreeData->Add(resultPath+ "/Data/LHC17"  + periods17(i,1)+ "/AnalysisResults.root");
+		}
+		
+	for (Int_t i = 0; i < periods18.Length(); i++){
+		fTreeData->Add(resultPath+ "/Data/LHC18"  + periods18(i,1)+ "/AnalysisResults.root");
+		}
 	setTreeBranch(fTreeData);
 	
 	// create pt bin histograms
@@ -153,7 +163,7 @@ void readDataHe3(){
 
 		//if (!tTrigHNU && !tTrigHQU) continue;	//Nuclei Trigger
 
-		if (!tTrigHMV0 && !tTrigHMSPD && !tTrigHNU && !tTrigHQU ) continue;  // use high multiplicity triggers (w/o multiplicity cut!)
+		if (!tTrigHMV0 && !tTrigHMSPD) continue;  // use high multiplicity triggers (w/o multiplicity cut!)
 
 		int particle = 0;
 		if (tCharge < 0) particle = 1;
