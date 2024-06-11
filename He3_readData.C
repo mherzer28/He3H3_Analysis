@@ -161,10 +161,13 @@ void readDataHe3(){
 
 		if (TMath::Abs(tY) > cutYHe)	continue;	// set rapidity range 
 
-		//if (!tTrigHNU && !tTrigHQU) continue;	//Nuclei Trigger
-
-		if (!tTrigHMV0 && !tTrigHMSPD) continue;  // use high multiplicity triggers (w/o multiplicity cut!)
-
+		if (trigger == HM){
+			if (!tTrigHMV0 && !tTrigHMSPD) continue;  // use high multiplicity triggers (w/o multiplicity cut!)
+		}
+		else if (trigger == HNU){
+			if (!tTrigHNU && !tTrigHQU) continue;	//Nuclei Trigger
+		}
+		
 		int particle = 0;
 		if (tCharge < 0) particle = 1;
 		for (int pt = 0; pt < nPtBins; pt++){

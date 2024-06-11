@@ -19,7 +19,7 @@
 #include "TLine.h"
 #include "H3_tofHisto.h"
 
-TString trigger = "HM"; // "HNU" or "HM" or "HNUHQU"
+TString trigger = "HM"; // "HNU" or "HM" 
 const Int_t nParticles = 3;	
 const Int_t nPtBins = 3;
 Double_t ptBins[] = {1.4, 1.8, 2.2, 2.6};
@@ -220,6 +220,9 @@ void histoH3(){
  	if (trigger == "HM"){
 		infoLabel->AddText("Trigger: HM");
 	}
+	if (trigger == "HNU"){
+		infoLabel->AddText("Trigger: HNU & HQU");
+	}
 	infoLabel->AddText("work in progress"); 
 	canPtBinsH3[particle]->cd(3 * rows);
 	cutLabel->Draw();
@@ -229,6 +232,11 @@ void histoH3(){
 		canPtBinsH3[particle]->SaveAs(Folder + Form("/Plots/H3/HM/%02dBinsH3%02d.pdf", nPtBins, particle));
 		canPtBinsH3[particle]->SaveAs(Folder + Form("/Plots/H3/HM/%02dBinsH3%02d.png", nPtBins, particle));
 		canPtBinsH3[particle]->SaveAs(Folder + Form("/Plots/H3/HM/%02dBinsH3%02d.root", nPtBins, particle));	
+	}
+	if (trigger == "HNU"){
+		canPtBinsH3[particle]->SaveAs(Folder + Form("/Plots/H3/HNU/%02dBinsH3%02d.pdf", nPtBins, particle));
+		canPtBinsH3[particle]->SaveAs(Folder + Form("/Plots/H3/HNU/%02dBinsH3%02d.png", nPtBins, particle));
+		canPtBinsH3[particle]->SaveAs(Folder + Form("/Plots/H3/HNU/%02dBinsH3%02d.root", nPtBins, particle));	
 	}
     }
 	TCanvas *canTOF[nParticles][nPtBins] = {0}; 
@@ -278,7 +286,14 @@ void histoH3(){
 				legendtof[particle][pt]->AddEntry((TObject*)0, Form("Particle: {}^{3}H"), "");
 			}
 			legendtof[particle][pt]->AddEntry((TObject*)0, Form("%1.2f < #frac{#it{p}_{T}}{(GeV/#it{c})} < %1.2f ",ptBins[pt], ptBins[pt+1]), "");
-			legendtof[particle][pt]->AddEntry((TObject*)0, "High-multiplicity trigger", "");
+			if (trigger == "HM")
+			{
+				legendtof[particle][pt]->AddEntry((TObject*)0, "High-multiplicity trigger", "");
+			}
+			if (trigger == "HNU")
+			{
+				legendtof[particle][pt]->AddEntry((TObject*)0, "TRD trigger", "");
+			}
 			legendtof[particle][pt]->SetBorderSize(0);
 			legendtof[particle][pt]->Draw("same");
 			legendtof2[particle][pt] = new TLegend(0.213504,0.701511,0.532847,0.845088);
@@ -290,9 +305,16 @@ void histoH3(){
 			legendtof2[particle][pt]->AddEntry(fitres[particle][pt],"Fit","l");
 			legendtof2[particle][pt]->AddEntry(histTOFfit[particle][pt],"Data","l");
 			legendtof2[particle][pt]->Draw("same");
+			if(trigger == "HM"){
 			canTOF[particle][pt]->SaveAs(Folder + Form("/Plots/H3/HM/bins/H3Plot%02d%02d.pdf", particle, pt));
 			canTOF[particle][pt]->SaveAs(Folder + Form("/Plots/H3/HM/bins/H3Plot%02d%02d.root", particle, pt));
 			canTOF[particle][pt]->SaveAs(Folder + Form("/Plots/H3/HM/bins/H3Plot%02d%02d.C", particle, pt));
+			}
+			if(trigger == "HNU"){
+			canTOF[particle][pt]->SaveAs(Folder + Form("/Plots/H3/HNU/bins/H3Plot%02d%02d.pdf", particle, pt));
+			canTOF[particle][pt]->SaveAs(Folder + Form("/Plots/H3/HNU/bins/H3Plot%02d%02d.root", particle, pt));
+			canTOF[particle][pt]->SaveAs(Folder + Form("/Plots/H3/HNU/bins/H3Plot%02d%02d.C", particle, pt));
+			}
 		}
 	}
 	// raw yield
@@ -314,9 +336,16 @@ void histoH3(){
     particleLegend->Draw("Same");
     //histRaw[2]->Scale(1./2.);
 	//histRaw[2]->Draw("SAME");
-    canRaw->SaveAs(Folder + Form("/Plots/H3/HM/rawYieldH3BinCounting.pdf"));
-    canRaw->SaveAs(Folder + Form("/Plots/H3/HM/rawYieldH3BinCounting.root"));
-	canRaw->SaveAs(Folder + Form("/Plots/H3/HM/rawYieldH3BinCounting.C"));
+	if (trigger == "HM"){
+    	canRaw->SaveAs(Folder + Form("/Plots/H3/HM/rawYieldH3BinCounting.pdf"));
+    	canRaw->SaveAs(Folder + Form("/Plots/H3/HM/rawYieldH3BinCounting.root"));
+		canRaw->SaveAs(Folder + Form("/Plots/H3/HM/rawYieldH3BinCounting.C"));
+	}
+	if (trigger == "HNU"){
+    	canRaw->SaveAs(Folder + Form("/Plots/H3/HNU/rawYieldH3BinCounting.pdf"));
+    	canRaw->SaveAs(Folder + Form("/Plots/H3/HNU/rawYieldH3BinCounting.root"));
+		canRaw->SaveAs(Folder + Form("/Plots/H3/HNU/rawYieldH3BinCounting.C"));
+	}
     canRaw->Write(0, TObject::kOverwrite);
     
     //fit function yield plot:
@@ -328,8 +357,15 @@ void histoH3(){
     particleLegendFit->Draw("SAME");
     //histRawFit[2]->Scale(1./2.);
 	//histRawFit[2]->Draw("SAME");
-    canRawFit->SaveAs(Folder + Form("/Plots/H3/HM/rawYieldH3FitFunc.pdf"));
-    canRawFit->SaveAs(Folder + Form("/Plots/H3/HM/rawYieldH3FitFunc.root"));
+	if (trigger == "HM"){
+		canRawFit->SaveAs(Folder + Form("/Plots/H3/HM/rawYieldH3FitFunc.pdf"));
+    	canRawFit->SaveAs(Folder + Form("/Plots/H3/HM/rawYieldH3FitFunc.root"));
+	}
+	if (trigger == "HNU"){
+		canRawFit->SaveAs(Folder + Form("/Plots/H3/HM/rawYieldH3FitFunc.pdf"));
+    	canRawFit->SaveAs(Folder + Form("/Plots/H3/HM/rawYieldH3FitFunc.root"));
+	}
+   
     canRawFit->Write(0, TObject::kOverwrite);
 
     //combined yield plot
