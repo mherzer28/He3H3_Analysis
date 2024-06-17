@@ -19,20 +19,18 @@
 #include "TLine.h"
 #include "H3_tofHisto.h"
 
-TString trigger = "HM"; // "HNU" or "HM" 
+TString trigger = "HNU"; // "HNU" or "HM" 
 const Int_t nParticles = 3;	
 const Int_t nPtBins = 3;
-Double_t ptBins[] = {1.4, 1.8, 2.2, 2.6};
-Int_t tofBinsH3[3][100] = 
-	{{30, 30, 30, 30, 30, 40, 25, 35, 25},	//TRD H3
-    { 30, 30, 30, 30, 30, 40, 25, 35, 25},	//TRD Anti H3
-    { 30, 30, 30, 30, 30, 40, 25, 35, 25}}; //TRD Both
 const TString particleNames[] = {"{}^{3}H","{}^{3}#bar{H}","{}^{3}H+{}^{3}#bar{H}"};
 const TString particleShortNames[] = {"H3", "AntiH3", "both"}; 
 int particleColors[] = {kBlue, kRed, kBlack};
 TString Folder = "result";
 TString rootFilePath = Folder;
-TString rootfile = "/Users/matthias/alice/Master/Makros/Rootfiles/DataH3.root";
+TString rootfile;
+std::vector<std::vector<int>> tofBinsH3(3, std::vector<int>(100, 0)); // Changed to vector
+std::vector<double> ptBins; // Changed to vector
+std::vector<double> cutConf(10, 0); // Changed to vector
 //________________________________________________________________________________________________________________________
 void H3_tofHisto(){
     fit();
@@ -40,6 +38,21 @@ void H3_tofHisto(){
 }
 //___________________________________________________________________________________________________________
 void fit(){
+	if (trigger == "HNU") {
+        rootfile = "/Users/matthias/alice/Master/Makros/Rootfiles/DataH3_HNU.root";
+        tofBinsH3[0] = {25, 25, 25, 25, 25, 25, 25, 35, 25}; // TRD H3 TRD
+        tofBinsH3[1] = {25, 25, 25, 25, 25, 25, 25, 35, 25}; // TRD Anti H3
+        tofBinsH3[2] = {25, 25, 25, 25, 25, 25, 25, 35, 25}; // Both
+        ptBins = {1.3, 1.8, 2.3, 2.8}; // HNU
+		cutConf = {0.15,  0.15,  2.0,    120,    2,     1,      1,       3,        0,       0};
+    } else {
+        rootfile = "/Users/matthias/alice/Master/Makros/Rootfiles/DataH3.root";
+        tofBinsH3[0] = {30, 30, 30, 30, 30, 40, 25, 35, 25}; // TRD H3 HM
+        tofBinsH3[1] = {30, 30, 30, 30, 30, 40, 25, 35, 25}; // TRD Anti H3
+        tofBinsH3[2] = {30, 30, 30, 30, 30, 40, 25, 35, 25}; // TRD Both
+        ptBins = {1.4, 1.8, 2.2, 2.6};
+		cutConf = {0.15,  0.15,  2.0,    120,    2,     1,      1,       3,        0,       0};
+    }
 	TH1D * histTOFfit[nParticles][nPtBins] = {0};
 	TH1D * histRawYield[nParticles] = {0};
     TH1D * histRawYieldFit[nParticles] = {0};
@@ -48,8 +61,8 @@ void fit(){
     
 	for (int particle = 0; particle < nParticles; particle++){
 		// create histos for raw yield, mean, sigma  
-		histRawYield[particle] = new TH1D(Form("histRaw%02d",particle), "", nPtBins, ptBins);
-        histRawYieldFit[particle] = new TH1D(Form("histRawFit%02d",particle), "", nPtBins, ptBins);
+		histRawYield[particle] = new TH1D(Form("histRaw%02d",particle), "", nPtBins, ptBins.data());
+        histRawYieldFit[particle] = new TH1D(Form("histRawFit%02d",particle), "", nPtBins, ptBins.data());
 		for (int pt = 0; pt < nPtBins; pt++){
 			// load pt-bin histos from file
 			histTOFfit[particle][pt] = (TH1D*)f->Get(Form("histPtH3%02d%02d",particle, pt));
@@ -78,10 +91,10 @@ void fit(){
 				}	
 			}
 			if (particle == 1){
-				if (pt == 2){
-					fit->FixParameter(0, 20);
-					fit->FixParameter(1, 8.03636);
-					fit->FixParameter(2, 0.25);
+				if (pt == 0){
+					fit->FixParameter(0, 20.0229);
+					fit->FixParameter(1, 7.96535);
+					fit->FixParameter(2, 0.224178);
 				}	
 			}
 			if (particle == 1){
@@ -91,10 +104,10 @@ void fit(){
 				}
 			}
 			if (particle == 1){
-				if (pt == 0){
-					fit->FixParameter(0, 20.0229);
-					fit->FixParameter(1, 7.96535);
-					fit->FixParameter(2, 0.224178);
+				if (pt == 2){
+					fit->FixParameter(0, 20);
+					fit->FixParameter(1, 8.03636);
+					fit->FixParameter(2, 0.25);
 				}	
 			}
 			if (particle == 2){
@@ -102,12 +115,8 @@ void fit(){
 					fit->FixParameter(0, 40.5622);
 				}	
 			}
-			if (particle == 2){
-				if (pt == 2){
-					fit->FixParameter(0, 28.5622);
-				}	
-			}
 			*/
+			
 			/*if (particle == 0){
 				if (pt == 1){
 					fit->FixParameter(0, 19);
@@ -202,7 +211,7 @@ void histoH3(){
 	cutLabel->SetBorderSize(0);
 	cutLabel->SetFillStyle(0);
 	cutLabel->AddText("|y| < 0.5");
-	cutLabel->AddText("|TPC n#sigma| < 2");
+	cutLabel->AddText(Form("|TPC n#sigma| < %.0f",cutConf[2]));
 	cutLabel->AddText("|Dca XY| < 0.15 cm");
 	cutLabel->AddText("|Dca Z| < 0.15 cm");
 	if (trigger == "HM"){

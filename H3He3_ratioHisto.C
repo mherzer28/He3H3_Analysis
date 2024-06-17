@@ -19,20 +19,39 @@
 #include "TLine.h"
 #include "H3He3_ratioHisto.h"
 
-const TString trigger = "HM"; //HM or HNUHQU
+const TString trigger = "HNU"; //HM or HNU
 TString Folder = "result";
 TString rootfile = "/Users/matthias/alice/Master/Makros/Rootfiles/DataH3.root";
-TString rootfileyield = "/Users/matthias/alice/Master/Makros/Rootfiles/DataYield.root";
+TString rootfileHe3 = "/Users/matthias/alice/Master/Makros/Rootfiles/DataH3.root";
+TString	rootfileYield = "/Users/matthias/alice/Master/Makros/Rootfiles/DataYield.root";
+TString rootfile_HNU = "/Users/matthias/alice/Master/Makros/Rootfiles/DataH3_HNU.root";
+TString rootfileHe3_HNU = "/Users/matthias/alice/Master/Makros/Rootfiles/DataH3_HNU.root";
+TString	rootfileYield_HNU = "/Users/matthias/alice/Master/Makros/Rootfiles/DataYield_HNU.root";
+//Correction root files:
+TString rootfileYield_corr = "/Users/matthias/alice/Master/Makros/result/correction/DataYield_corr.root";
+TString rootfileYield_corr_HNU = "/Users/matthias/alice/Master/Makros/result/correction/DataYield_corr_HNU.root";
 const Int_t nParticles = 3;	
 double eventnumber = 6.79038e+08 + 2.98214e+08; //HM
 //____________________________________________________________________________________________
 void H3He3_ratioHisto(){
-    //histRatio();
-	histRatioCorrected();
+    histRatio();
+	//histRatioCorrected();
 }
 //_____________________________________________________________________________________________
 void histRatio(){
-	TFile *fH3 = TFile::Open(rootfile, "UPDATE");
+	TFile *fH3;
+	TFile *fHe;
+	TFile *fYield;
+	if (trigger == "HM")
+	{
+		fH3 = TFile::Open(rootfile, "UPDATE");
+	}
+	if (trigger == "HNU")
+	{
+		fH3 = TFile::Open(rootfile_HNU, "UPDATE");
+	}
+
+	
 	TH1D * yieldH3[nParticles] = {0};
     TH1D * yieldHe3[nParticles] = {0};
 	TH1D * yieldCombined[nParticles] = {0};
@@ -50,15 +69,26 @@ void histRatio(){
 		yieldCombined[particle] = (TH1D*)yieldH3[particle]->Clone("histratio");
 		yieldCombined[particle]->SetName(Form("histRatio%02d",particle));
 	}
-	
-	TFile *fHe = TFile::Open("/Users/matthias/alice/Master/Makros/Rootfiles/Data.root", "UPDATE");
+	if (trigger == "HM")
+	{
+		fHe = TFile::Open(rootfileHe3, "UPDATE");
+	}
+	if (trigger == "HNU")
+	{
+		fHe = TFile::Open(rootfileHe3_HNU, "UPDATE");
+	}
 	for (int particle = 0; particle < nParticles; particle++){
         yieldHe3[particle] = (TH1D*) fHe->Get(Form("histRaw%02d%02d",0, particle));
 		yieldHe3[particle]->SetName(Form("histYieldHe3%02d",particle));
 	}
-	
-	
-	TFile * f = new TFile(rootfileyield,"recreate");
+	if (trigger == "HM")
+	{
+		fYield = new TFile(rootfileYield,"recreate");
+	}
+	if (trigger == "HNU")
+	{
+		fYield = new TFile(rootfileYield_HNU,"recreate");
+	}	
 	for (int particle = 0; particle < nParticles; particle++){
 		yieldH3[particle]->SetMarkerStyle(42);
 		yieldHe3[particle]->SetMarkerStyle(43);
@@ -107,18 +137,43 @@ void histRatio(){
 	legendratio[particle]->SetBorderSize(0);
 	legendratio[particle]->AddEntry((TObject*)0, "This work", "");
 	legendratio[particle]->AddEntry((TObject*)0, "ALICE pp #sqrt{s} = 13 TeV", "");
-	legendratio[particle]->AddEntry((TObject*)0, "High-multiplicity trigger", "");
+	if (trigger == "HM")
+	{
+		legendratio[particle]->AddEntry((TObject*)0, "High-multiplicity trigger", "");
+	}
+	if (trigger == "HNU")
+	{
+		legendratio[particle]->AddEntry((TObject*)0, "TRD trigger", "");
+	}
 	legendratio[particle]->Draw();
 	}
-	ratioPlot[2]->SaveAs(Folder + Form("/Plots/Korrekturen/ratioHe3H3.pdf"));
-	ratioPlot[2]->SaveAs(Folder + Form("/Plots/Korrekturen/ratioHe3H3.root"));
-	ratioPlot[2]->SaveAs(Folder + Form("/Plots/Korrekturen/ratioHe3H3.C"));
-	ratioPlot[1]->SaveAs(Folder + Form("/Plots/Korrekturen/ratioAntiHe3H3.pdf"));
-	ratioPlot[1]->SaveAs(Folder + Form("/Plots/Korrekturen/ratioAntiHe3H3.root"));
-	ratioPlot[1]->SaveAs(Folder + Form("/Plots/Korrekturen/ratioAntiHe3H3.C"));
-	ratioPlot[0]->SaveAs(Folder + Form("/Plots/Korrekturen/ratioNorHe3H3.pdf"));
-	ratioPlot[0]->SaveAs(Folder + Form("/Plots/Korrekturen/ratioNorHe3H3.root"));
-	ratioPlot[0]->SaveAs(Folder + Form("/Plots/Korrekturen/ratioNorHe3H3.C"));
+	if (trigger == "HM")
+	{
+		ratioPlot[2]->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HM/ratioHe3H3.pdf");
+		ratioPlot[2]->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HM/ratioHe3H3.root");
+		ratioPlot[2]->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HM/ratioHe3H3.C");
+		ratioPlot[1]->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HM/ratioAntiHe3H3.pdf");
+		ratioPlot[1]->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HM/ratioAntiHe3H3.root");
+		ratioPlot[1]->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HM/ratioAntiHe3H3.C");
+		ratioPlot[0]->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HM/ratioNorHe3H3.pdf");
+		ratioPlot[0]->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HM/ratioNorHe3H3.root");
+		ratioPlot[0]->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HM/ratioNorHe3H3.C");
+	}
+	if (trigger == "HNU")
+	{
+		ratioPlot[2]->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HNU/ratioHe3H3.pdf");
+		ratioPlot[2]->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HNU/ratioHe3H3.root");
+		ratioPlot[2]->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HNU/ratioHe3H3.C");
+		ratioPlot[1]->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HNU/ratioAntiHe3H3.pdf");
+		ratioPlot[1]->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HNU/ratioAntiHe3H3.root");
+		ratioPlot[1]->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HNU/ratioAntiHe3H3.C");
+		ratioPlot[0]->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HNU/ratioNorHe3H3.pdf");
+		ratioPlot[0]->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HNU/ratioNorHe3H3.root");
+		ratioPlot[0]->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HNU/ratioNorHe3H3.C");
+	}
+	
+	
+	
 	//Per Event:
 	yieldCombinedPerEventH3_uncorrected = (TH1D*)yieldH3[2]->Clone("yieldCombinedPerEventH3_uncorrected");
 	yieldCombinedPerEventH3_uncorrected->Scale(1./eventnumber);
@@ -138,12 +193,28 @@ void histRatio(){
 	legendratioH3_uncorrected->AddEntry((TObject*)0, "Uncorrected", "");
 	legendratioH3_uncorrected->AddEntry((TObject*)0, "ALICE pp #sqrt{s} = 13 TeV, |y| < 0.5", "");
 	legendratioH3_uncorrected->AddEntry((TObject*)0, "Particle: {}^{3}H", "");
-	legendratioH3_uncorrected->AddEntry((TObject*)0, "High Multiplicity trigger", "");
+	if (trigger == "HM")
+	{
+		legendratioH3_uncorrected->AddEntry((TObject*)0, "High Multiplicity trigger", "");
+	}
+	if (trigger == "HNU")
+	{
+		legendratioH3_uncorrected->AddEntry((TObject*)0, "TRD trigger", "");
+	}
 	//yieldCombinedPerEvent->GetXaxis()->SetRange(1.,6.);
 	legendratioH3_uncorrected->Draw();
-	ratioPlot_event1->SaveAs(Folder + Form("/Plots/H3/Korrekturen/H3perEvent.C"));
-	ratioPlot_event1->SaveAs(Folder + Form("/Plots/H3/Korrekturen/H3perEvent.pdf"));
-	ratioPlot_event1->SaveAs(Folder + Form("/Plots/H3/Korrekturen/H3perEvent.root"));
+	if (trigger == "HM")
+	{	
+		ratioPlot_event1->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/H3/HM/H3perEvent.C");
+		ratioPlot_event1->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/H3/HM/H3perEvent.pdf");
+		ratioPlot_event1->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/H3/HM/H3perEvent.root");
+	}
+	if (trigger == "HNU")
+	{	
+		ratioPlot_event1->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/H3/HNU/H3perEvent.C");
+		ratioPlot_event1->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/H3/HNU/H3perEvent.pdf");
+		ratioPlot_event1->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/H3/HNU/H3perEvent.root");
+	}
 
 	yieldCombinedPerEventHe3_uncorrected = (TH1D*)yieldHe3[2]->Clone("yieldCombinedPerEventHe3_uncorrected");
 	yieldCombinedPerEventHe3_uncorrected->Scale(1./eventnumber);
@@ -163,15 +234,44 @@ void histRatio(){
 	legendratioHe3_uncorrected->AddEntry((TObject*)0, "Uncorrected", "");
 	legendratioHe3_uncorrected->AddEntry((TObject*)0, "ALICE pp #sqrt{s} = 13 TeV, |y| < 0.5", "");
 	legendratioHe3_uncorrected->AddEntry((TObject*)0, "Particle: {}^{3}He", "");
-	legendratioHe3_uncorrected->AddEntry((TObject*)0, "High Multiplicity trigger", "");
+	if (trigger == "HM")
+	{
+		legendratioHe3_uncorrected->AddEntry((TObject*)0, "High Multiplicity trigger", "");
+	}
+	if (trigger == "HNU")
+	{
+		legendratioHe3_uncorrected->AddEntry((TObject*)0, "TRD trigger", "");
+	}
 	//yieldCombinedPerEvent->GetXaxis()->SetRange(1.,6.);
 	legendratioHe3_uncorrected->Draw();
-	ratioPlot_event2->SaveAs(Folder + Form("/Plots/He3/Korrekturen/He3perEvent.C"));
-	ratioPlot_event2->SaveAs(Folder + Form("/Plots/He3/Korrekturen/He3perEvent.pdf"));
-	ratioPlot_event2->SaveAs(Folder + Form("/Plots/He3/Korrekturen/He3perEvent.root"));
+	if (trigger == "HM")
+	{
+		ratioPlot_event2->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/He3/HM/He3perEvent_UC.C");
+		ratioPlot_event2->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/He3/HM/He3perEvent_UC.pdf");
+		ratioPlot_event2->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/He3/HM/He3perEvent_UC.root");
+	}
+	if (trigger == "HNU")
+	{
+		ratioPlot_event2->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/He3/HNU/He3perEvent_UC.C");
+		ratioPlot_event2->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/He3/HNU/He3perEvent_UC.pdf");
+		ratioPlot_event2->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/He3/HNU/He3perEvent_UC.root");
+	}
+	
+	
 }
 void histRatioCorrected(){
-	TFile *fH3 = TFile::Open("/Users/matthias/alice/Master/Makros/result/correction/correctionresult.root", "UPDATE");
+	TFile *fH3_corr;
+	TFile *fYield_corr;
+	TLine *l2;
+	TLine *l3; 
+	if (trigger == "HM")
+	{
+		fH3_corr = TFile::Open("/Users/matthias/alice/Master/Makros/result/correction/correctionresult.root", "UPDATE");
+	}
+	if (trigger == "HNU")
+	{
+		fH3_corr = TFile::Open("/Users/matthias/alice/Master/Makros/result/correction/correctionresult_HNU.root", "UPDATE");
+	}
 	TH1D * yieldH3[nParticles] = {0};
     TH1D * yieldHe3[nParticles] = {0};
 	TH1D * yieldCombined[nParticles] = {0};
@@ -188,19 +288,25 @@ void histRatioCorrected(){
 	ratioPlot = new TCanvas("ratioPlot", "", 2000,2000);
 	THStack *ratioStack = new THStack("ratioStack", " ; #it{p}_{T} (GeV/#it{c}); #frac{{}^{3}H}{{}^{3}He}");
 	for (int particle = 0; particle < nParticles; particle++){
-		yieldH3[particle] = (TH1D*) fH3->Get(Form("hCorr%d", particle));
+		yieldH3[particle] = (TH1D*) fH3_corr->Get(Form("hCorr%d", particle));
 		yieldH3[particle]->SetName(Form("histYieldH3%02d",particle));
 		yieldCombined[particle] = (TH1D*)yieldH3[particle]->Clone("histratio");
 		yieldCombined[particle]->SetName(Form("histRatio%02d",particle));
 	}
 	
 	for (int particle = 0; particle < nParticles; particle++){
-        yieldHe3[particle] = (TH1D*) fH3->Get(Form("hCorrHe%d", particle));
+        yieldHe3[particle] = (TH1D*) fH3_corr->Get(Form("hCorrHe%d", particle));
 		yieldHe3[particle]->SetName(Form("histYieldHe3%02d",particle));
 	}
+	if (trigger == "HM")
+	{
+		fYield_corr = new TFile(rootfileYield_corr,"recreate");
+	}
+	if (trigger == "HNU")
+	{
+		fYield_corr = new TFile(rootfileYield_corr_HNU,"recreate");
+	}
 	
-	
-	TFile * f = new TFile("/Users/matthias/alice/Master/Makros/result/correction/ratioyieldcorr.root","recreate");
 	for (int particle = 0; particle < nParticles; particle++){
 		yieldH3[particle]->SetMarkerStyle(42);
 		yieldHe3[particle]->SetMarkerStyle(43);
@@ -249,11 +355,31 @@ void histRatioCorrected(){
 	//legendratio->AddEntry(yieldCombined[2], "#frac{{}^{3}H}{{}^{3}He}", "lep");
 	legendratio->AddEntry((TObject*)0, "Corrected", "");
 	legendratio->AddEntry((TObject*)0, "ALICE pp #sqrt{s} = 13 TeV", "");
-	legendratio->AddEntry((TObject*)0, "High-multiplicity trigger", "");
+	if (trigger == "HM")
+	{
+		legendratio->AddEntry((TObject*)0, "High-multiplicity trigger", "");
+	}
+	if (trigger == "HNU")
+	{
+		legendratio->AddEntry((TObject*)0, "TRD trigger", "");
+	}
+	
+	
+	
 	legendratio->Draw();
-	ratioPlot->SaveAs(Folder + Form("/Plots/Korrekturen/corrRatioHe3H3.png"));
-	ratioPlot->SaveAs(Folder + Form("/Plots/Korrekturen/corrRatioHe3H3.root"));
-	ratioPlot->SaveAs(Folder + Form("/Plots/Korrekturen/corrRatioHe3H3.C"));
+	if (trigger == "HM")
+	{
+		ratioPlot->SaveAs(Folder + Form("/Plots/Korrekturen/corrRatioHe3H3.png"));
+		ratioPlot->SaveAs(Folder + Form("/Plots/Korrekturen/corrRatioHe3H3.root"));
+		ratioPlot->SaveAs(Folder + Form("/Plots/Korrekturen/corrRatioHe3H3.C"));
+	}
+	if (trigger == "HNU")
+	{
+		ratioPlot->SaveAs(Folder + Form("/Plots/Korrekturen/corrRatioHe3H3_HNU.png"));
+		ratioPlot->SaveAs(Folder + Form("/Plots/Korrekturen/corrRatioHe3H3_HNU.root"));
+		ratioPlot->SaveAs(Folder + Form("/Plots/Korrekturen/corrRatioHe3H3_HNU.C"));
+	}
+	
 	ratioPlot2 = new TCanvas("ratioPlot2", "", 2000,2000);
 	yieldCombined[0]->SetTitle(" ");
 	yieldCombined[0]->SetStats(0);
@@ -261,7 +387,14 @@ void histRatioCorrected(){
 	yieldCombined[0]->GetYaxis()->SetTitle("#frac{{}^{3}H}{{}^{3}He}");
 	yieldCombined[0]->SetMarkerStyle(8);
 	yieldCombined[0]->Draw();
-	TLine *l2 = new TLine(1.4,1.,2.6,1.);
+	if (trigger == "HM")
+	{
+		l2 = new TLine(1.4,1.,2.6,1.);
+	}
+	if (trigger == "HNU")
+	{
+		l2 = new TLine(1.3,1.,2.8,1.);
+	}
 	l2->SetLineColor(kGray+2);
 	l2->SetLineStyle(3);
 	l2->SetLineWidth(3);
@@ -273,11 +406,29 @@ void histRatioCorrected(){
 	//legendrat2io->AddEntry(yieldCombined[2], "#frac{{}^{3}H}{{}^{3}He}", "lep");
 	legendratio2->AddEntry((TObject*)0, "Corrected", "");
 	legendratio2->AddEntry((TObject*)0, "ALICE pp #sqrt{s} = 13 TeV", "");
-	legendratio2->AddEntry((TObject*)0, "High Multiplicity trigger", "");
+	if (trigger == "HM")
+	{
+		legendratio2->AddEntry((TObject*)0, "High Multiplicity trigger", "");
+	}
+	if (trigger == "HNU")
+	{
+		legendratio2->AddEntry((TObject*)0, "TRD trigger", "");
+	}
+	
 	legendratio2->Draw();
-	ratioPlot2->SaveAs(Folder + Form("/Plots/Korrekturen/corrRatioPartHe3H3.png"));
-	ratioPlot2->SaveAs(Folder + Form("/Plots/Korrekturen/corrRatioPartHe3H3.root"));
-	ratioPlot2->SaveAs(Folder + Form("/Plots/Korrekturen/corrRatioPartHe3H3.C"));
+	if (trigger == "HM")
+	{
+		ratioPlot2->SaveAs(Folder + Form("/Plots/ratio/HM/corrRatioPartHe3H3.png"));
+		ratioPlot2->SaveAs(Folder + Form("/Plots/ratio/HM/corrRatioPartHe3H3.root"));
+		ratioPlot2->SaveAs(Folder + Form("/Plots/ratio/HM/corrRatioPartHe3H3.C"));
+	}
+	if (trigger == "HNU")
+	{
+		ratioPlot2->SaveAs(Folder + Form("/Plots/ratio/HM/corrRatioPartHe3H3_HNU.png"));
+		ratioPlot2->SaveAs(Folder + Form("/Plots/ratio/HM/corrRatioPartHe3H3_HNU.root"));
+		ratioPlot2->SaveAs(Folder + Form("/Plots/ratio/HM/corrRatioPartHe3H3_HNU.C"));
+	}
+	
 	ratioPlot3 = new TCanvas("ratioPlot3", "", 2000,2000);
 	yieldCombined[1]->SetTitle(" ");
 	yieldCombined[1]->SetStats(0);
@@ -285,7 +436,14 @@ void histRatioCorrected(){
 	yieldCombined[1]->GetYaxis()->SetTitle("#frac{{}^{3}#bar{H}}{{}^{3}#bar{He}}");
 	yieldCombined[1]->SetMarkerStyle(8);
 	yieldCombined[1]->Draw();
-	TLine *l3 = new TLine(1.4,1.,2.6,1.);
+	if (trigger == "HM")
+	{
+		l3 = new TLine(1.4,1.,2.6,1.);
+	}
+	if (trigger == "HNU")
+	{
+		l3 = new TLine(1.3,1.,2.8,1.);
+	}
 	l3->SetLineColor(kGray+2);
 	l3->SetLineStyle(3);
 	l3->SetLineWidth(1);
@@ -297,14 +455,37 @@ void histRatioCorrected(){
 	//legendrat3io->AddEntry(yieldCombined[2], "#frac{{}^{3}H}{{}^{3}He}", "lep");
 	legendratio3->AddEntry((TObject*)0, "Corrected", "");
 	legendratio3->AddEntry((TObject*)0, "ALICE pp #sqrt{s} = 13 TeV", "");
-	legendratio3->AddEntry((TObject*)0, "High-multiplicity trigger", "");
+	if (trigger == "HM")
+	{
+		legendratio3->AddEntry((TObject*)0, "High-multiplicity trigger", "");
+	}
+	if (trigger == "HNU")
+	{
+		legendratio3->AddEntry((TObject*)0, "TRD trigger", "");
+	}
+	
+
 	legendratio3->Draw();
-	ratioPlot3->SaveAs(Folder + Form("/Plots/Korrekturen/corrRatioAntiPartHe3H3.png"));
-	ratioPlot3->SaveAs(Folder + Form("/Plots/Korrekturen/corrRatioAntiPartHe3H3.root"));
-	ratioPlot3->SaveAs(Folder + Form("/Plots/Korrekturen/corrRatioAntiPartHe3H3.C"));
+	if (trigger == "HM")
+	{
+		ratioPlot3->SaveAs(Folder + Form("/Plots/ratio/HM/corrRatioAntiPartHe3H3.png"));
+		ratioPlot3->SaveAs(Folder + Form("/Plots/ratio/HM/corrRatioAntiPartHe3H3.root"));
+		ratioPlot3->SaveAs(Folder + Form("/Plots/ratio/HM/corrRatioAntiPartHe3H3.C"));
+	}
+	if (trigger == "HNU")
+	{
+		ratioPlot3->SaveAs(Folder + Form("/Plots/ratio/HNU/corrRatioAntiPartHe3H3_HNU.png"));
+		ratioPlot3->SaveAs(Folder + Form("/Plots/ratio/HNU/corrRatioAntiPartHe3H3_HNU.root"));
+		ratioPlot3->SaveAs(Folder + Form("/Plots/ratio/HNU/corrRatioAntiPartHe3H3_HNU.C"));
+	}
 	yieldCombinedPerEvent = (TH1D*)yieldH3[2]->Clone("yieldCombinedPerEvent");
 	yieldCombinedPerEvent->Scale(1./eventnumber);
 	//comparison habib:
+	if (trigger == "HM")
+	{
+		
+	}
+	
 	const int n = 3;
     double x[n] = {1.25, 1.75, 2.25}; 
     double y[n] = {1.0374E-6, 1.1954E-6, 8.4629E-7};
@@ -342,12 +523,33 @@ void histRatioCorrected(){
 	legendratio4->AddEntry((TObject*)0, "Corrected", "");
 	legendratio4->AddEntry((TObject*)0, "ALICE pp #sqrt{s} = 13 TeV, |y| < 0.5", "");
 	legendratio4->AddEntry((TObject*)0, "Particle: {}^{3}H", "");
-	legendratio4->AddEntry((TObject*)0, "High Multiplicity trigger", "");
+	if (trigger == "HM")
+	{
+		legendratio4->AddEntry((TObject*)0, "High Multiplicity trigger", "");
+	}
+	if (trigger == "HNU")
+	{
+		legendratio4->AddEntry((TObject*)0, "TRD trigger", "");
+	}
+	
+	
+	
 	yieldCombinedPerEvent->GetXaxis()->SetRange(1.,3);
 	legendratio4->Draw();
-	ratioPlot4->SaveAs(Folder + Form("/Plots/H3/Korrekturen/H3perEvent.C"));
-	ratioPlot4->SaveAs(Folder + Form("/Plots/H3/Korrekturen/H3perEvent.pdf"));
-	ratioPlot4->SaveAs(Folder + Form("/Plots/H3/Korrekturen/H3perEvent.root"));
+	if (trigger == "HM")
+	{
+		ratioPlot4->SaveAs(Folder + Form("/Plots/H3/Korrekturen/HM/H3perEvent.C"));
+		ratioPlot4->SaveAs(Folder + Form("/Plots/H3/Korrekturen/HM/H3perEvent.pdf"));
+		ratioPlot4->SaveAs(Folder + Form("/Plots/H3/Korrekturen/HM/H3perEvent.root"));
+	}
+	if (trigger == "HNU")
+	{
+		ratioPlot4->SaveAs(Folder + Form("/Plots/H3/Korrekturen/HNU/H3perEvent_HNU.C"));
+		ratioPlot4->SaveAs(Folder + Form("/Plots/H3/Korrekturen/HNU/H3perEvent_HNU.pdf"));
+		ratioPlot4->SaveAs(Folder + Form("/Plots/H3/Korrekturen/HNU/H3perEvent_HNU.root"));
+	}
+	
+	
 	yieldCombinedPerEventHe = (TH1D*)yieldHe3[2]->Clone("yieldCombinedPerEventHe");
 	yieldCombinedPerEventHe->Scale(1./eventnumber);
 	ratioPlot5 = new TCanvas("ratioPlot5", "", 2000,2000);
@@ -366,10 +568,28 @@ void histRatioCorrected(){
 	legendratio5->AddEntry((TObject*)0, "Corrected", "");
 	legendratio5->AddEntry((TObject*)0, "ALICE pp #sqrt{s} = 13 TeV, |y| < 0.5", "");
 	legendratio5->AddEntry((TObject*)0, "Particle: {}^{3}He", "");
-	legendratio5->AddEntry((TObject*)0, "High Multiplicity trigger", "");
+	if (trigger == "HM")
+	{
+		legendratio5->AddEntry((TObject*)0, "High Multiplicity trigger", "");
+	}
+	if (trigger == "HNU")
+	{
+		legendratio5->AddEntry((TObject*)0, "TRD trigger", "");
+	}
+	
 	yieldCombinedPerEventHe->GetXaxis()->SetRange(1.,3);
 	legendratio5->Draw();
-	ratioPlot5->SaveAs(Folder + Form("/Plots/He3/Korrekturen/He3perEvent.C"));
-	ratioPlot5->SaveAs(Folder + Form("/Plots/He3/Korrekturen/He3perEvent.pdf"));
-	ratioPlot5->SaveAs(Folder + Form("/Plots/He3/Korrekturen/He3perEvent.root"));
+	if (trigger == "HM")
+	{
+		ratioPlot5->SaveAs(Folder + Form("/Plots/He3/Korrekturen/HM/He3perEvent.C"));
+		ratioPlot5->SaveAs(Folder + Form("/Plots/He3/Korrekturen/HM/He3perEvent.pdf"));
+		ratioPlot5->SaveAs(Folder + Form("/Plots/He3/Korrekturen/HM/He3perEvent.root"));
+	}
+	if (trigger == "HNU")
+	{
+		ratioPlot5->SaveAs(Folder + Form("/Plots/He3/Korrekturen/HNU/He3perEvent_HNU.C"));
+		ratioPlot5->SaveAs(Folder + Form("/Plots/He3/Korrekturen/HNU/He3perEvent_HNU.pdf"));
+		ratioPlot5->SaveAs(Folder + Form("/Plots/He3/Korrekturen/HNU/He3perEvent_HNU.root"));
+	}
+	
 }	

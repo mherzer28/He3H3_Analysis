@@ -44,7 +44,7 @@ void get_rawHe(){
 	for (int particle = 0; particle < nParticles; particle++){
 		rawyieldHe3[particle] = (TH1D*) f->Get(Form("histRaw%02d%02d",0, particle));
 	}
-	TFile *f2 = TFile::Open("/Users/matthias/alice/Master/Makros/result/correction//correctionYieldHe.root", "recreate");
+	TFile *f2 = TFile::Open("/Users/matthias/alice/Master/Makros/result/correction/correctionYieldHe.root", "recreate");
 	for (int particle = 0; particle < nParticles; particle++){
 		rawyieldHe3[particle]->Write(0, TObject::kOverwrite);
 	}

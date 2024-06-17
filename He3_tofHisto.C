@@ -19,16 +19,17 @@
 #include "TLine.h"
 #include "He3_tofHisto.h"
 
-TString trigger = "HM"; // "HNU" or "HM" 
+TString trigger = "HNU"; // "HNU" or "HM" 
 const Int_t nParticles = 3;	
 const Int_t nPtBins = 3;
-Double_t ptBins[] = {1.4, 1.8, 2.2, 2.6};
 const TString particleNames[] = {"{}^{3}He", "{}^{3}#bar{He}","{}^{3}He+{}^{3}#bar{He}"};
 const TString particleShortNames[] = {"He3", "AntiHe", "both"};
 int particleColors[] = {kBlue, kRed, kBlack};
 TString Folder = "result";
-TString rootfile = "/Users/matthias/alice/Master/Makros/Rootfiles/Data.root";
 TString rootFilePath = "/Users/matthias/alice/Master/Makros/Rootfiles";
+TString rootfile;
+std::vector<std::vector<int>> tofBinsH3(3, std::vector<int>(100, 0)); // Changed to vector
+std::vector<double> ptBins; // Changed to vector
 //________________________________________________________________________________________________________________________
 void He3_tofHisto(){
     fit();
@@ -36,6 +37,19 @@ void He3_tofHisto(){
 }
 //________________________________________________________________________________________________________________________
 void fit(){
+	if (trigger == "HNU") {
+        rootfile = "/Users/matthias/alice/Master/Makros/Rootfiles/DataHe3_HNU.root";
+        tofBinsH3[0] = {25, 25, 25, 25, 25, 25, 25, 35, 25}; // TRD H3 TRD
+        tofBinsH3[1] = {25, 25, 25, 25, 25, 25, 25, 35, 25}; // TRD Anti H3
+        tofBinsH3[2] = {25, 25, 25, 25, 25, 25, 25, 35, 25}; // Both
+        ptBins = {1.3, 1.8, 2.3, 2.8}; // HNU
+    } else {
+        rootfile = "/Users/matthias/alice/Master/Makros/Rootfiles/DataHe3.root";
+        tofBinsH3[0] = {30, 30, 30, 30, 30, 40, 25, 35, 25}; // TRD H3 HM
+        tofBinsH3[1] = {30, 30, 30, 30, 30, 40, 25, 35, 25}; // TRD Anti H3
+        tofBinsH3[2] = {30, 30, 30, 30, 30, 40, 25, 35, 25}; // TRD Both
+        ptBins = {1.4, 1.8, 2.2, 2.6};
+    }
 	TH1D * histTOFfit[nParticles][nPtBins] = {0};
 	TH1D * histRawYield[nParticles] = {0};
 	TH1D * histRawYieldFit[nParticles] = {0};
@@ -44,8 +58,8 @@ void fit(){
 
 	for (int particle = 0; particle < nParticles; particle++){
 		// create histos for raw yield, mean, sigma  
-		histRawYield[particle] = new TH1D(Form("histRaw%02d%02d", 0,particle), ";#it{p}_{T} (Gev/#it{c});Counts", nPtBins, ptBins);
-		histRawYieldFit[particle] = new TH1D(Form("histRawFit%02d",particle), ";#it{p}_{T} (Gev/#it{c});Counts", nPtBins, ptBins);
+		histRawYield[particle] = new TH1D(Form("histRaw%02d%02d", 0,particle), ";#it{p}_{T} (Gev/#it{c});Counts", nPtBins, ptBins.data());
+		histRawYieldFit[particle] = new TH1D(Form("histRawFit%02d",particle), ";#it{p}_{T} (Gev/#it{c});Counts", nPtBins, ptBins.data());
 		for (int pt = 0; pt < nPtBins; pt++){
 			// load pt-bin histos from file
 			histTOFfit[particle][pt] = (TH1D*)f->Get(Form("histPtHe3%02d%02d%02d", 0, particle, pt));
@@ -55,7 +69,7 @@ void fit(){
 			TF1 *fit = new TF1("fitfunc", "gaus(0)", 1.5, 2.5); // use "crystalball" instead of "gaus" if there is a tail  
 			fit->SetParNames("Constant", "Mean", "Sigma");
 			fit->SetParameters(20,1.96,0.2);
-			
+			/*
 			if (particle == 0){
 				if (pt == 0){
 					fit->FixParameter(2, 0.0927816);
@@ -79,7 +93,7 @@ void fit(){
 					fit->FixParameter(2, 0.0753235);
 				}	
 			}
-			
+			*/
 			//TFitResultPtr fp = histTOFfit[particle][pt]->Fit("fitfunc","S");
 			histTOFfit[particle][pt]->Fit(fit, "B");
 			// fit histo and get parameter

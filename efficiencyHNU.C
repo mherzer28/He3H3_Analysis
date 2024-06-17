@@ -25,7 +25,7 @@ TString periods16 = "deghijklop";
 TString periods17 = "cefghijklmor";
 TString periods18 = "bdefghilmnop";
 TString resultPath = "/Users/matthias/alice/root_results/MC";
-TString resultfile = "/Users/matthias/alice/Master/Makros/result/correction/correction.root";
+TString resultfileHNU = "/Users/matthias/alice/Master/Makros/result/correction/correction_HNU.root";
 //_________________________________________________________________________________________________________
 void efficiencyHNU(){
     HeTriEffHNU();
@@ -225,8 +225,8 @@ Int_t nEntries = (Int_t)fTreeDataGenH3->GetEntries();
 		if (TMath::Abs(tGenY) > cutYTri)	continue;	// set rapidity range
 
 		//if (!tTrigHNU) continue;	//Nuclei Trigger
-		if (!tTrigHQU) continue;
-		//if (!tTrigHNU && !tTrigHQU) continue;	
+		//if (!tTrigHQU) continue;
+		if (!tTrigMB) continue;	
 
 		int particle = 0;
 		if (tGenCharge < 0) particle = 1;
@@ -276,8 +276,8 @@ Int_t nEntriesRec = (Int_t)fTreeDataH3->GetEntries();
 		if (TMath::Abs(tY) > cutYTri)	continue;	// set rapidity range
 
 		//if (!tTrigHNU) continue;	//Nuclei Trigger
-		if (!tTrigHQU) continue;
-		//if (!tTrigHNU && !tTrigHQU) continue;	//Nuclei Trigger	
+		//if (!tTrigHQU) continue;
+		if (!tTrigHNU && !tTrigHQU) continue;	//Nuclei Trigger	
 
 		int particle = 0;
 		if (tChargeTri < 0) particle = 1;
@@ -458,8 +458,8 @@ Int_t nEntriesHe = (Int_t)fTreeDataGenHe->GetEntries();
 		if (TMath::Abs(tGenY) > cutYTri)	continue;	// set rapidity range
 
 		//if (!tTrigHNU) continue;	//Nuclei Trigger
-		if (!tTrigHQU) continue;
-		//if (!tTrigHNU && !tTrigHQU) continue;	//Nuclei Trigger	
+		//if (!tTrigHQU) continue;
+		if (!tTrigMB) continue;	//Nuclei Trigger	
 
 		int particle = 0;
 		if (tGenCharge < 0) particle = 1;
@@ -509,8 +509,8 @@ Int_t nEntriesRecHe = (Int_t)fTreeDataHe->GetEntries();
 		if (TMath::Abs(tY) > cutYTri)	continue;	// set rapidity range
 
 		//if (!tTrigHNU) continue;	//Nuclei Trigger
-		if (!tTrigHQU) continue;
-		//if (!tTrigHNU && !tTrigHQU) continue;	//Nuclei Trigger	
+		//if (!tTrigHQU) continue;
+		if (!tTrigHNU && !tTrigHQU) continue;	//Nuclei Trigger	
 
 		int particle = 0;
 		if (tCharge < 0) particle = 1;

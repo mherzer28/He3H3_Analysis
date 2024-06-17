@@ -19,32 +19,24 @@
 #include "TLine.h"
 #include "He3_readData.h"
 
-using namespace std;
-	TString trigger = "HM"; // HM or HNU Trigger
-    TString resultPath ="/Volumes/MyPassport/pass2/HeTri_pass2";
-	//TString resultPath = "/Users/matthias/alice/root_results/He";
-	TString periods16 = "deghijklop";
-	TString periods17 = "cefghijklmor"; //klmor + cefghij
-    TString periods18 = "bdefghilmnop";
-    const Int_t nParticles = 3;	
-    const Int_t nPtBins = 3;
-    //Double_t ptBins[] = {1.0, 1.5, 2., 2.5};
-	Double_t ptBins[] = {1.4, 1.8, 2.2, 2.6};
-	//Double_t ptBins[] = {1.3, 1.8, 2.3, 2.8};
-    const TString particleNames[] = {"{}^{3}He", "{}^{3}#bar{He}","{}^{3}He+{}^{3}#bar{He}"};
-    const TString particleShortNames[] = {"He3", "AntiHe", "both"};
-    int particleColors[] = {kBlue, kRed, kBlack};
-    Int_t tofBinsHe3[3][100] =  			
-   {{30, 30, 30, 30, 30, 25, 35, 35, 25},	//TRD He3
-    {30, 30, 30, 30, 30, 25, 35, 35, 25},	//TRD Anti He3
-    {30, 30, 30, 30, 30, 25, 35, 35, 25}}; //TRD Both
-    const Double_t He3Mass = 2.80923f;
-    TString Folder = "result";
-    TString rootfile = "/Users/matthias/alice/Master/Makros/Rootfiles/Data.root";
-    TString rootFilePath = Folder + "/Rootfiles/";
-    const double cutYHe = 0.5; //set rapidity range: -0.5 - 0.5
-    enum cutNames             {DcaXY, DcaZ, HeTPCnSigma, TPCnCls, TPCchi2, TPCrefit, Kink, TRDtracklets};
-    const double cutConf[8] = {0.15,  0.15, 	3.0,       120,      2,       1,       1,		1};
+TString trigger = "HM"; // "HNU" or "HM"
+//TString resultPath = "/Users/matthias/alice/root_results/H3";
+TString resultPath = "/Volumes/MyPassport/pass2/HeTri_pass2";
+const Int_t nPtBins = 3;
+TString periods16 = "deghijklop";
+TString periods17 = "cefghijklmor"; //klmor + cefghij
+TString periods18 = "bdefghilmnop";
+const Int_t nParticles = 3;
+const TString particleNames[] = {"{}^{3}He","{}^{3}#bar{He}","{}^{3}He+{}^{3}#bar{He}"};
+const TString particleShortNames[] = {"He3", "AntiHe3", "both"};
+int particleColors[] = {kBlue, kRed, kBlack};
+TString Folder = "result";
+TString rootFilePath = Folder;
+std::vector<double> cutConf(10, 0); // Changed to vector
+const double cutYHe = 0.5; //set rapidity range: -0.5 - 0.5
+TString rootfile;
+std::vector<std::vector<int>> tofBinsHe3(3, std::vector<int>(100, 0)); // Changed to vector
+std::vector<double> ptBins; // Changed to vector
 //________________________________________________________________________________________________________________________
 void He3_readData(){
     createDir();
@@ -119,6 +111,21 @@ void setTreeBranch(TTree *fTree) {
 	}
 //________________________________________________________________________________________________________________________
 void readDataHe3(){
+	if (trigger == "HNU") {
+        rootfile = "/Users/matthias/alice/Master/Makros/Rootfiles/DataHe3_HNU.root";
+        tofBinsHe3[0] = {25, 25, 25, 25, 25, 25, 25, 35, 25}; // TRD He3 TRD
+        tofBinsHe3[1] = {25, 25, 25, 25, 25, 25, 25, 35, 25}; // TRD Anti He3
+        tofBinsHe3[2] = {25, 25, 25, 25, 25, 25, 25, 35, 25}; // Both
+        ptBins = {1.3, 1.8, 2.3, 2.8}; // HNU
+        cutConf = {0.15,  0.15,  3.0,    120,    2,     1,      1,       0,        0,       0};
+    } else {
+        rootfile = "/Users/matthias/alice/Master/Makros/Rootfiles/DataHe3.root";
+        tofBinsHe3[0] = {30, 30, 30, 30, 30, 40, 25, 35, 25}; // TRD He3 HM
+        tofBinsHe3[1] = {30, 30, 30, 30, 30, 40, 25, 35, 25}; // TRD Anti He3
+        tofBinsHe3[2] = {30, 30, 30, 30, 30, 40, 25, 35, 25}; // TRD Both
+        ptBins = {1.4, 1.8, 2.2, 2.6};
+        cutConf = {0.15,  0.15,  3.0,    120,    2,     1,      1,       0,        0,       0};
+    }
 	TCanvas *c1;
 	//TChain *fTreeData= new TChain("treeHeHM");
 	TChain *fTreeData= new TChain("He3TriTree/treeHe");
@@ -161,10 +168,10 @@ void readDataHe3(){
 
 		if (TMath::Abs(tY) > cutYHe)	continue;	// set rapidity range 
 
-		if (trigger == HM){
+		if (trigger == "HM"){
 			if (!tTrigHMV0 && !tTrigHMSPD) continue;  // use high multiplicity triggers (w/o multiplicity cut!)
 		}
-		else if (trigger == HNU){
+		if (trigger == "HNU"){
 			if (!tTrigHNU && !tTrigHQU) continue;	//Nuclei Trigger
 		}
 		

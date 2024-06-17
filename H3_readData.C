@@ -17,37 +17,28 @@
 #include "TObject.h"
 #include "TGraph.h"
 #include "TLine.h"
+#include <vector>
 #include "H3_readData.h"
 
-//TString resultPath ="/Volumes/MyPassport/pass2/HeTri_pass2";
-//TString resultPath = "/Volumes/MyPassport/pass2_WorkingTree/Rootfiles";
-//TString resultPath = "/Users/matthiasherzer/alice/root_results";
-//TString resultPath = "/Users/matthiasherzer/alice/root_results/Rootfiles/HQUHNU";
+TString trigger = "HNU"; // "HNU" or "HM"
 TString resultPath = "/Users/matthias/alice/root_results/H3";
 const Int_t nPtBins = 3;
-//Double_t ptBins[] = {1.3, 1.7, 2.1, 2.6}; //neue gute
-Double_t ptBins[] = {1.4, 1.8, 2.2, 2.6};
-TString trigger = "HM"; // "HNU" or "HM" or "HNUHQU"
 TString periods16 = "deghijklop";
 TString periods17 = "cefghijklmor"; //klmor + cefghij
 TString periods18 = "bdefghilmnop";
-const Int_t nParticles = 3;	
+const Int_t nParticles = 3;
 const TString particleNames[] = {"{}^{3}H","{}^{3}#bar{H}","{}^{3}H+{}^{3}#bar{H}"};
-const TString particleShortNames[] = {"H3", "AntiH3", "both"}; 
+const TString particleShortNames[] = {"H3", "AntiH3", "both"};
 int particleColors[] = {kBlue, kRed, kBlack};
-Int_t tofBinsH3[3][100] = 
-	{{30, 30, 30, 30, 30, 40, 25, 35, 25},	//TRD H3
-    { 30, 30, 30, 30, 30, 40, 25, 35, 25},	//TRD Anti H3
-    { 30, 30, 30, 30, 30, 40, 25, 35, 25}}; //TRD Both
 const Double_t H3Mass = 2.80892f;
 TString Folder = "result";
 TString rootFilePath = Folder;
-TString rootfile = "/Users/matthias/alice/Master/Makros/Rootfiles/DataH3.root";
-
+std::vector<double> cutConf(10, 0); // Changed to vector
 const double cutYTri = 0.5; //set rapidity range: -0.5 - 0.5
-enum cutNames             {DcaXY, DcaZ, TriTPCnSigma, TPCnCls, TPCchi2, TPCrefit, Kink, TRDnTracklets, ITSnCluster, ITSrefit};
-const double cutConf[10] = {0.15,  0.15, 	2.0, 		120,      2,       1,        1,         1,           1,           1};
-//____________________________________________________________________________________________
+TString rootfile;
+std::vector<std::vector<int>> tofBinsH3(3, std::vector<int>(100, 0)); // Changed to vector
+std::vector<double> ptBins; // Changed to vector
+//________________________________________________________________________________________________________
 void H3_readData(){
     readDataH3();
 }
@@ -133,6 +124,21 @@ void setTreeBranchH3(TTree *fTree) {
 }
 //_________________________________________________________________________________________________________
 void readDataH3(){
+	if (trigger == "HNU") {
+        rootfile = "/Users/matthias/alice/Master/Makros/Rootfiles/DataH3_HNU.root";
+        tofBinsH3[0] = {25, 25, 25, 25, 25, 25, 25, 35, 25}; // TRD H3 TRD
+        tofBinsH3[1] = {25, 25, 25, 25, 25, 25, 25, 35, 25}; // TRD Anti H3
+        tofBinsH3[2] = {25, 25, 25, 25, 25, 25, 25, 35, 25}; // Both
+        ptBins = {1.3, 1.8, 2.3, 2.8}; // HNU
+        cutConf = {0.15,  0.15,  2.0,    120,    2,     1,      1,       0,        0,       0};
+    } else {
+        rootfile = "/Users/matthias/alice/Master/Makros/Rootfiles/DataH3.root";
+        tofBinsH3[0] = {30, 30, 30, 30, 30, 40, 25, 35, 25}; // TRD H3 HM
+        tofBinsH3[1] = {30, 30, 30, 30, 30, 40, 25, 35, 25}; // TRD Anti H3
+        tofBinsH3[2] = {30, 30, 30, 30, 30, 40, 25, 35, 25}; // TRD Both
+        ptBins = {1.4, 1.8, 2.2, 2.6};
+        cutConf = {0.15,  0.15,  2.0,    120,    2,     1,      1,       1,        0,       0};
+    }
 	TCanvas *c1;
 	TChain *fTreeData = new TChain("treeTriHM");
 	//TChain *fTreeData = new TChain("He3TriTree/treeTri");
@@ -177,8 +183,16 @@ void readDataH3(){
 
 		if (TMath::Abs(tY) > cutYTri)	continue;	// set rapidity range
 
-	
-		if (!tTrigHMV0 && !tTrigHMSPD) continue;  // use high multiplicity triggers (w/o multiplicity cut!)
+		if (trigger == "HM")
+		{
+			if (!tTrigHMV0 && !tTrigHMSPD) continue;  // use high multiplicity triggers (w/o multiplicity cut!)
+		}
+		if (trigger == "HNU")
+		{
+			if (!tTrigHNU && !tTrigHQU) continue;	//Nuclei Trigger
+		}
+		
+		
 
 		int particle = 0;
 		if (tChargeTri < 0) particle = 1;

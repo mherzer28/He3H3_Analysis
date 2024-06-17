@@ -258,7 +258,7 @@ void correctionHNU(){
 
     gStyle->SetOptStat(0);
 
-    TFile *result = new TFile("/Users/matthiasherzer/alice/He3H3_analysis/analysis/result/Correction/correctionYieldHNU.root", "UPDATE");
+    TFile *result = new TFile("/Users/matthias/alice/Master/Makros/result/correction/correctionYield_HNU.root", "UPDATE");
     for (int particle = 0; particle < nParticles; particle++){
         rawHist[particle] = (TH1D*) result->Get(Form("histRaw%02d", particle));
         rawHist[particle]->SetName(Form("rawHist%d", particle));
@@ -267,7 +267,7 @@ void correctionHNU(){
         normHisto(rawHist[particle]);
         rawHist[particle]->Scale(1. / rapidity);
     }
-    TFile *resultHe = new TFile("/Users/matthiasherzer/alice/He3H3_analysis/analysis/result/Correction/correctionYieldHe3HNU.root", "UPDATE");
+    TFile *resultHe = new TFile("/Users/matthias/alice/Master/Makros/result/correction/correctionYieldHe_HNU.root", "UPDATE");
     for (int particle = 0; particle < nParticles; particle++){
         rawHistHe[particle] = (TH1D*)resultHe->Get(Form("histRaw%02d%02d", 0,particle));
         rawHistHe[particle]->SetName(Form("rawHistHe%d", particle));
@@ -277,7 +277,7 @@ void correctionHNU(){
         rawHistHe[particle]->Scale(1. / rapidity);
     }
 
-    TFile *result2 = new TFile("/Users/matthiasherzer/alice/He3H3_analysis/analysis/result/Correction/correctionHNU.root", "UPDATE");
+    TFile *result2 = new TFile("/Users/matthias/alice/Master/Makros/result/correction/correction_HNU.root", "UPDATE");
     hGenH3[0] = (TH1D*)result2->Get("hGen");
     hRecH3[0] = (TH1D*)result2->Get("hRec");
     hGenHe[0] = (TH1D*)result2->Get("hGenHe");
@@ -295,7 +295,7 @@ void correctionHNU(){
     hRecHe[2] = (TH1D*) hRecHe[0]->Clone(Form("hRecHe%d", 2));
     hRecHe[2]->Add(hRecHe[1]);
 
-    TFile *resultCorrection = new TFile("/Users/matthiasherzer/alice/He3H3_analysis/analysis/result/Correction/correctionresultHNU.root", "recreate");
+    TFile *resultCorrection = new TFile("/Users/matthias/alice/Master/Makros/result/correction/correctionresult_HNU.root", "recreate");
     
     for (int particle = 0; particle < nParticles; particle++){
         hGenH3[particle]->Write(0, TObject::kOverwrite);
@@ -381,7 +381,7 @@ void correctionHNU(){
 	infoLabel->SetFillStyle(0);
  	infoLabel->AddText("Particle: " + particleNames[0] + "+" + particleNames[1]);
  	infoLabel->AddText("pp #sqrt{s} = 13 TeV");	 	
-	infoLabel->AddText("Trigger: High multiplicity");
+	infoLabel->AddText("Trigger: HNU HQU");
 	infoLabel->AddText("work in progress");  
     infoLabel->Draw();   
     i = 4;
@@ -391,7 +391,7 @@ void correctionHNU(){
         hCorr[particle]->Draw();
         i++;
     }
-    c->SaveAs("/Users/matthiasherzer/alice/He3H3_analysis/analysis/result/Plots/Korrekturen/corryieldHNUH3.pdf");
+    c->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/Korrekturen/corryieldHNUH3.pdf");
 
     TCanvas * c2 = new TCanvas("He", "He" , 1920, 1080);
 
@@ -414,7 +414,7 @@ void correctionHNU(){
 	infoLabelHe->SetFillStyle(0);
  	infoLabelHe->AddText("Particle: " + particleNamesHe[0] + "+" + particleNamesHe[1]);
  	infoLabelHe->AddText("pp #sqrt{s} = 13 TeV");	 	
-	infoLabelHe->AddText("Trigger: High multiplicity");
+	infoLabelHe->AddText("Trigger: HNU HQU");
 	infoLabelHe->AddText("work in progress");  
     infoLabelHe->Draw();
     i = 4;
@@ -424,7 +424,7 @@ void correctionHNU(){
         hCorrHe[particle]->Draw();
         i++;
     }
-    c2->SaveAs("/Users/matthiasherzer/alice/He3H3_analysis/analysis/result/Plots/Korrekturen/corryielHNUdHe.pdf");
+    c2->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/Korrekturen/corryielHNUdHe.pdf");
     
     TCanvas *canYield = new TCanvas("CorrYield", "corr yield bin counting", 1920, 1080);
     TLegend *particleLegend = legendParticle(hCorr, 2);
@@ -434,9 +434,9 @@ void correctionHNU(){
     particleLegend->Draw("Same");
     //hCorr[2]->Scale(1./2.);
 	//hCorr[2]->Draw("SAME");
-    canYield->SaveAs(Form("/Users/matthiasherzer/alice/He3H3_analysis/analysis/result/Plots/Korrekturen/ratiocorryieldHNUH3.pdf"));
-    canYield->SaveAs(Form("/Users/matthiasherzer/alice/He3H3_analysis/analysis/result/Plots/Korrekturen/ratiocorryieldHNUH3.root"));
-	canYield->SaveAs(Form("/Users/matthiasherzer/alice/He3H3_analysis/analysis/result/Plots/Korrekturen/ratiocorryieldHNUH3.C"));
+    canYield->SaveAs(Form("/Users/matthias/alice/Master/Makros/result/Plots/Korrekturen/ratiocorryieldHNUH3.pdf"));
+    canYield->SaveAs(Form("/Users/matthias/alice/Master/Makros/result/Plots/Korrekturen/ratiocorryieldHNUH3.root"));
+	canYield->SaveAs(Form("/Users/matthias/alice/Master/Makros/result/Plots/Korrekturen/ratiocorryieldHNUH3.C"));
     canYield->Write(0, TObject::kOverwrite);
 
     TCanvas *canYieldHe = new TCanvas("CorrYieldHe", "He corr yield bin counting", 1920, 1080);
@@ -447,8 +447,8 @@ void correctionHNU(){
     particleLegendHe->Draw("Same");
     //hCorrHe[2]->Scale(1./2.);
 	//hCorrHe[2]->Draw("SAME");
-    canYieldHe->SaveAs(Form("/Users/matthiasherzer/alice/He3H3_analysis/analysis/result/Plots/Korrekturen/ratiocorryieldHNUHe.pdf"));
-    canYieldHe->SaveAs(Form("/Users/matthiasherzer/alice/He3H3_analysis/analysis/result/Plots/Korrekturen/ratiocorryieldHNUHe.root"));
-	canYieldHe->SaveAs(Form("/Users/matthiasherzer/alice/He3H3_analysis/analysis/result/Plots/Korrekturen/ratiocorryieldHNUHe.C"));
+    canYieldHe->SaveAs(Form("/Users/matthias/alice/Master/Makros/result/Plots/Korrekturen/ratiocorryieldHNUHe.pdf"));
+    canYieldHe->SaveAs(Form("/Users/matthias/alice/Master/Makros/result/Plots/Korrekturen/ratiocorryieldHNUHe.root"));
+	canYieldHe->SaveAs(Form("/Users/matthias/alice/Master/Makros/result/Plots/Korrekturen/ratiocorryieldHNUHe.C"));
     canYieldHe->Write(0, TObject::kOverwrite);
 }
