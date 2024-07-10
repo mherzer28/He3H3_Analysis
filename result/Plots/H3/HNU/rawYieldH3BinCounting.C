@@ -4,7 +4,7 @@
 void rawYieldH3BinCounting()
 {
 //=========Macro generated from canvas: rawBin/raw yield bin counting
-//=========  (Sat Jun 15 16:07:46 2024) by ROOT version 6.30/01
+//=========  (Mon Jun 17 17:42:29 2024) by ROOT version 6.30/01
    TCanvas *rawBin = new TCanvas("rawBin", "raw yield bin counting",0,53,1200,847);
    gStyle->SetOptFit(1);
    rawBin->SetHighLightColor(2);
@@ -64,7 +64,7 @@ void rawYieldH3BinCounting()
    Double_t xAxis2[4] = {1.3, 1.8, 2.3, 2.8}; 
    
    TH1D *histRaw00_stack_1 = new TH1D("histRaw00_stack_1","",3, xAxis2);
-   histRaw00_stack_1->SetBinContent(1,17.20419);
+   histRaw00_stack_1->SetBinContent(1,16.84034);
    histRaw00_stack_1->SetBinContent(2,61.35072);
    histRaw00_stack_1->SetBinContent(3,77.11537);
    histRaw00_stack_1->SetBinError(1,4.795832);
@@ -89,10 +89,10 @@ void rawYieldH3BinCounting()
    Double_t xAxis3[4] = {1.3, 1.8, 2.3, 2.8}; 
    
    TH1D *histRaw01_stack_2 = new TH1D("histRaw01_stack_2","",3, xAxis3);
-   histRaw01_stack_2->SetBinContent(1,6.502232);
+   histRaw01_stack_2->SetBinContent(1,8.497763);
    histRaw01_stack_2->SetBinContent(2,142.1852);
    histRaw01_stack_2->SetBinContent(3,137.7163);
-   histRaw01_stack_2->SetBinError(1,1.732051);
+   histRaw01_stack_2->SetBinError(1,3.464102);
    histRaw01_stack_2->SetBinError(2,12.40967);
    histRaw01_stack_2->SetBinError(3,22.06808);
    histRaw01_stack_2->SetEntries(3);
@@ -159,7 +159,7 @@ void rawYieldH3BinCounting()
    TPad *pad2histRaw00__1 = new TPad("pad2histRaw00", "pad2",0,0.05,1,0.4);
    pad2histRaw00__1->Draw();
    pad2histRaw00__1->cd();
-   pad2histRaw00__1->Range(1.028916,-1.054434,2.836145,2.823999);
+   pad2histRaw00__1->Range(1.028916,-1.021761,2.836145,2.822873);
    pad2histRaw00__1->SetFillColor(0);
    pad2histRaw00__1->SetBorderMode(0);
    pad2histRaw00__1->SetBorderSize(2);
@@ -173,13 +173,13 @@ void rawYieldH3BinCounting()
    Double_t xAxis4[4] = {1.3, 1.8, 2.3, 2.8}; 
    
    TH1D *histRatiohistRaw00__10 = new TH1D("histRatiohistRaw00__10","",3, xAxis4);
-   histRatiohistRaw00__10->SetBinContent(1,0.3779447);
+   histRatiohistRaw00__10->SetBinContent(1,0.5046076);
    histRatiohistRaw00__10->SetBinContent(2,2.31758);
    histRatiohistRaw00__10->SetBinContent(3,1.785848);
-   histRatiohistRaw00__10->SetBinError(1,0.145724);
+   histRatiohistRaw00__10->SetBinError(1,0.2509267);
    histRatiohistRaw00__10->SetBinError(2,0.3771383);
    histRatiohistRaw00__10->SetBinError(3,0.4600841);
-   histRatiohistRaw00__10->SetEntries(53.53298);
+   histRatiohistRaw00__10->SetEntries(50.93611);
    histRatiohistRaw00__10->SetDirectory(nullptr);
    histRatiohistRaw00__10->SetStats(0);
    histRatiohistRaw00__10->SetMarkerStyle(8);

@@ -38,6 +38,7 @@ void Cut_Tree(){
 	readDataH316();
     readDataH317();
     readDataH318();
+	readDataH318_2();
     merge();
     //hadd();
 }

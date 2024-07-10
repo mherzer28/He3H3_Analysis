@@ -391,7 +391,7 @@ void correctionHNU(){
         hCorr[particle]->Draw();
         i++;
     }
-    c->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/Korrekturen/corryieldHNUH3.pdf");
+    c->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HNU/corryield_H3_HNU.pdf");
 
     TCanvas * c2 = new TCanvas("He", "He" , 1920, 1080);
 
@@ -424,7 +424,7 @@ void correctionHNU(){
         hCorrHe[particle]->Draw();
         i++;
     }
-    c2->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/Korrekturen/corryielHNUdHe.pdf");
+    c2->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HNU/corryield_He_HNU.pdf");
     
     TCanvas *canYield = new TCanvas("CorrYield", "corr yield bin counting", 1920, 1080);
     TLegend *particleLegend = legendParticle(hCorr, 2);
@@ -434,9 +434,9 @@ void correctionHNU(){
     particleLegend->Draw("Same");
     //hCorr[2]->Scale(1./2.);
 	//hCorr[2]->Draw("SAME");
-    canYield->SaveAs(Form("/Users/matthias/alice/Master/Makros/result/Plots/Korrekturen/ratiocorryieldHNUH3.pdf"));
-    canYield->SaveAs(Form("/Users/matthias/alice/Master/Makros/result/Plots/Korrekturen/ratiocorryieldHNUH3.root"));
-	canYield->SaveAs(Form("/Users/matthias/alice/Master/Makros/result/Plots/Korrekturen/ratiocorryieldHNUH3.C"));
+    canYield->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HNU/ratiocorryield_H3_HNU.pdf");
+    canYield->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HNU/ratiocorryield_H3_HNU.root");
+	canYield->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HNU/ratiocorryield_H3_HNU.C");
     canYield->Write(0, TObject::kOverwrite);
 
     TCanvas *canYieldHe = new TCanvas("CorrYieldHe", "He corr yield bin counting", 1920, 1080);
@@ -447,8 +447,8 @@ void correctionHNU(){
     particleLegendHe->Draw("Same");
     //hCorrHe[2]->Scale(1./2.);
 	//hCorrHe[2]->Draw("SAME");
-    canYieldHe->SaveAs(Form("/Users/matthias/alice/Master/Makros/result/Plots/Korrekturen/ratiocorryieldHNUHe.pdf"));
-    canYieldHe->SaveAs(Form("/Users/matthias/alice/Master/Makros/result/Plots/Korrekturen/ratiocorryieldHNUHe.root"));
-	canYieldHe->SaveAs(Form("/Users/matthias/alice/Master/Makros/result/Plots/Korrekturen/ratiocorryieldHNUHe.C"));
+    canYieldHe->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HNU/ratiocorryield_He3_HNU.pdf");
+    canYieldHe->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HNU/ratiocorryield_He3_HNU.root");
+	canYieldHe->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HNU/ratiocorryield_He3_HNU.C");
     canYieldHe->Write(0, TObject::kOverwrite);
 }

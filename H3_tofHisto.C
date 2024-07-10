@@ -19,7 +19,7 @@
 #include "TLine.h"
 #include "H3_tofHisto.h"
 
-TString trigger = "HNU"; // "HNU" or "HM" 
+TString trigger = "HM"; // "HNU" or "HM" 
 const Int_t nParticles = 3;	
 const Int_t nPtBins = 3;
 const TString particleNames[] = {"{}^{3}H","{}^{3}#bar{H}","{}^{3}H+{}^{3}#bar{H}"};
@@ -56,6 +56,7 @@ void fit(){
 	TH1D * histTOFfit[nParticles][nPtBins] = {0};
 	TH1D * histRawYield[nParticles] = {0};
     TH1D * histRawYieldFit[nParticles] = {0};
+	TH1D * histSpectra[nParticles] = {0};
 	TFile *f = new TFile(rootfile, "UPDATE");
 	TCanvas *c = new TCanvas(); 
     
@@ -63,6 +64,7 @@ void fit(){
 		// create histos for raw yield, mean, sigma  
 		histRawYield[particle] = new TH1D(Form("histRaw%02d",particle), "", nPtBins, ptBins.data());
         histRawYieldFit[particle] = new TH1D(Form("histRawFit%02d",particle), "", nPtBins, ptBins.data());
+		histSpectra[particle] = new TH1D(Form("histSpectra%02d",particle), "", nPtBins, ptBins.data());
 		for (int pt = 0; pt < nPtBins; pt++){
 			// load pt-bin histos from file
 			histTOFfit[particle][pt] = (TH1D*)f->Get(Form("histPtH3%02d%02d",particle, pt));
@@ -74,75 +76,29 @@ void fit(){
 			TF1 *fit = new TF1("fitfunc", "gaus(0)+expo(3)", 5, 11.);
 			fit->SetParNames("Constant", "Mean", "Sigma", "p0", "p1");
 			fit->SetParameters(20,7.89,0.25);
-			/*if (particle == 0){
-				if (pt == 2){
-					fit->FixParameter(0, 19.8985);
-				}	
-			}
-			if (particle == 0){
-				if (pt == 1){
-					fit->FixParameter(0, 18.5622);
-				}	
-			}
-			if (particle == 0){
+			if (trigger == "HNU")
+			{
+				if (particle == 0){
 				if (pt == 0){
-					fit->FixParameter(0, 22.8281);
-					fit->FixParameter(2, 0.28);
-				}	
-			}
-			if (particle == 1){
+					fit->FixParameter(0, 6.53981);
+					fit->FixParameter(1, 8.02328);
+					fit->FixParameter(2, 0.231111);
+					fit->FixParameter(3, 0.0335589);
+					fit->FixParameter(4, 0.00379432);
+					}	
+				}
+				if (particle == 1){
 				if (pt == 0){
-					fit->FixParameter(0, 20.0229);
-					fit->FixParameter(1, 7.96535);
-					fit->FixParameter(2, 0.224178);
-				}	
-			}
-			if (particle == 1){
-				if (pt==1){
-					fit->FixParameter(0, 17.7406);
-					fit->FixParameter(2, 0.311216);
+					fit->FixParameter(0, 6.13366);
+					fit->FixParameter(1, 8.02857);
+					fit->FixParameter(2, 0.141486);
+					fit->FixParameter(3, -0.0814496);
+					fit->FixParameter(4, 0.00890916);
+					}	
 				}
 			}
-			if (particle == 1){
-				if (pt == 2){
-					fit->FixParameter(0, 20);
-					fit->FixParameter(1, 8.03636);
-					fit->FixParameter(2, 0.25);
-				}	
-			}
-			if (particle == 2){
-				if (pt == 0){
-					fit->FixParameter(0, 40.5622);
-				}	
-			}
-			*/
 			
-			/*if (particle == 0){
-				if (pt == 1){
-					fit->FixParameter(0, 19);
-				}	
-			}
-			if (particle == 1){
-				if (pt == 2){
-					fit->FixParameter(0, 37);
-				}	
-			}
-			if (particle == 1){
-				if (pt == 2){
-					fit->FixParameter(0, 20);
-					fit->FixParameter(1, 7.95);
-					fit->FixParameter(2, 0.23);
-				}	
-			}
 			
-			if (particle == 0){
-				if (pt == 0){
-					fit->FixParameter(0, 27);
-					fit->FixParameter(1, 7.91812);
-					fit->FixParameter(2, 0.27388);
-				}	
-			}
-            */
             //histTOFfit[particle][pt]->Fit(fitGaus,"R");
 			//histTOFfit[particle][pt]->Fit(backg,"R+");
 			Double_t par[6];
@@ -172,12 +128,15 @@ void fit(){
 				//histRawYieldFit[particle]->SetBinError(pt+1, fitIntError + backIntError);
                 cout << "Bin Counting " << integral - backInt << ", Funktion " << fitInt - backInt << endl;
                 cout << "Param High " << hi << ", Low " << lo << endl;
-                
+				histSpectra[particle]->SetBinContent(pt+1, integral - backInt);
+				histSpectra[particle]->SetBinError(pt+1, intError + backIntError);
+				histSpectra[particle]->GetXaxis()->SetRangeUser(0.8, 4.5);
 			}
 			histTOFfit[particle][pt]->Write(0, TObject::kOverwrite);
 		}
 		histRawYield[particle]->Write(0, TObject::kOverwrite);
         histRawYieldFit[particle]->Write(0, TObject::kOverwrite);
+		histSpectra[particle]->Write(0, TObject::kOverwrite);
 	}
 	f->Close();
 	c->Close();

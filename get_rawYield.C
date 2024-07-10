@@ -20,7 +20,7 @@
 #include "get_rawYield.h"
 
 TString rootfile = "/Users/matthias/alice/Master/Makros/Rootfiles/DataH3.root";
-TString rootfile_He = "/Users/matthias/alice/Master/Makros/Rootfiles/Data.root";
+TString rootfile_He = "/Users/matthias/alice/Master/Makros/Rootfiles/DataHe3.root";
 const Int_t nParticles = 3;
 
 void get_rawYield(){

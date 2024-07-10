@@ -4,7 +4,7 @@
 void H3Plot0100()
 {
 //=========Macro generated from canvas: pt10/pt10
-//=========  (Sat Jun 15 16:07:45 2024) by ROOT version 6.30/01
+//=========  (Mon Jun 17 17:42:28 2024) by ROOT version 6.30/01
    TCanvas *pt10 = new TCanvas("pt10", "pt10",0,53,1400,847);
    gStyle->SetOptFit(1);
    pt10->SetHighLightColor(2);
@@ -40,28 +40,28 @@ void H3Plot0100()
    fitfunc4->SetFillStyle(0);
    fitfunc4->SetLineColor(2);
    fitfunc4->SetLineWidth(5);
-   fitfunc4->SetChisquare(2.115443e-05);
-   fitfunc4->SetNDF(1);
+   fitfunc4->SetChisquare(2.114416e-05);
+   fitfunc4->SetNDF(6);
    fitfunc4->GetXaxis()->SetLabelFont(42);
    fitfunc4->GetXaxis()->SetTitleOffset(1);
    fitfunc4->GetXaxis()->SetTitleFont(42);
    fitfunc4->GetYaxis()->SetLabelFont(42);
    fitfunc4->GetYaxis()->SetTitleFont(42);
-   fitfunc4->SetParameter(0,6.133655);
-   fitfunc4->SetParError(0,2.839692);
-   fitfunc4->SetParLimits(0,0,0);
-   fitfunc4->SetParameter(1,8.028573);
-   fitfunc4->SetParError(1,0.06606735);
-   fitfunc4->SetParLimits(1,0,0);
-   fitfunc4->SetParameter(2,-0.1414858);
-   fitfunc4->SetParError(2,0.05496829);
-   fitfunc4->SetParLimits(2,0,0);
-   fitfunc4->SetParameter(3,-0.08144956);
-   fitfunc4->SetParError(3,7.081997);
-   fitfunc4->SetParLimits(3,0,0);
-   fitfunc4->SetParameter(4,0.008909159);
-   fitfunc4->SetParError(4,0.7760445);
-   fitfunc4->SetParLimits(4,0,0);
+   fitfunc4->SetParameter(0,6.13366);
+   fitfunc4->SetParError(0,0);
+   fitfunc4->SetParLimits(0,6.13366,6.13366);
+   fitfunc4->SetParameter(1,8.02857);
+   fitfunc4->SetParError(1,0);
+   fitfunc4->SetParLimits(1,8.02857,8.02857);
+   fitfunc4->SetParameter(2,0.141486);
+   fitfunc4->SetParError(2,0);
+   fitfunc4->SetParLimits(2,0.141486,0.141486);
+   fitfunc4->SetParameter(3,-0.0814496);
+   fitfunc4->SetParError(3,0);
+   fitfunc4->SetParLimits(3,-0.0814496,-0.0814496);
+   fitfunc4->SetParameter(4,0.00890916);
+   fitfunc4->SetParError(4,0);
+   fitfunc4->SetParLimits(4,0.00890916,0.00890916);
    fitfunc4->SetParent(histTOFfit0100__4);
    histTOFfit0100__4->GetListOfFunctions()->Add(fitfunc4);
    histTOFfit0100__4->SetLineWidth(5);

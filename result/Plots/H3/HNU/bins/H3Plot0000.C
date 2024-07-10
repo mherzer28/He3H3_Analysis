@@ -4,7 +4,7 @@
 void H3Plot0000()
 {
 //=========Macro generated from canvas: pt00/pt00
-//=========  (Sat Jun 15 16:07:45 2024) by ROOT version 6.30/01
+//=========  (Mon Jun 17 17:42:28 2024) by ROOT version 6.30/01
    TCanvas *pt00 = new TCanvas("pt00", "pt00",0,53,1400,847);
    gStyle->SetOptFit(1);
    pt00->SetHighLightColor(2);
@@ -56,28 +56,28 @@ void H3Plot0000()
    fitfunc1->SetFillStyle(0);
    fitfunc1->SetLineColor(2);
    fitfunc1->SetLineWidth(5);
-   fitfunc1->SetChisquare(0.1673306);
-   fitfunc1->SetNDF(8);
+   fitfunc1->SetChisquare(0.2047919);
+   fitfunc1->SetNDF(13);
    fitfunc1->GetXaxis()->SetLabelFont(42);
    fitfunc1->GetXaxis()->SetTitleOffset(1);
    fitfunc1->GetXaxis()->SetTitleFont(42);
    fitfunc1->GetYaxis()->SetLabelFont(42);
    fitfunc1->GetYaxis()->SetTitleFont(42);
-   fitfunc1->SetParameter(0,6.539808);
-   fitfunc1->SetParError(0,2.472112);
-   fitfunc1->SetParLimits(0,0,0);
-   fitfunc1->SetParameter(1,8.023281);
-   fitfunc1->SetParError(1,0.07527869);
-   fitfunc1->SetParLimits(1,0,0);
-   fitfunc1->SetParameter(2,0.2311109);
-   fitfunc1->SetParError(2,0.08077395);
-   fitfunc1->SetParLimits(2,0,0);
+   fitfunc1->SetParameter(0,6.53981);
+   fitfunc1->SetParError(0,0);
+   fitfunc1->SetParLimits(0,6.53981,6.53981);
+   fitfunc1->SetParameter(1,8.02328);
+   fitfunc1->SetParError(1,0);
+   fitfunc1->SetParLimits(1,8.02328,8.02328);
+   fitfunc1->SetParameter(2,0.231111);
+   fitfunc1->SetParError(2,0);
+   fitfunc1->SetParLimits(2,0.231111,0.231111);
    fitfunc1->SetParameter(3,0.0335589);
-   fitfunc1->SetParError(3,1.714947);
-   fitfunc1->SetParLimits(3,0,0);
-   fitfunc1->SetParameter(4,-0.00379432);
-   fitfunc1->SetParError(4,0.2160663);
-   fitfunc1->SetParLimits(4,0,0);
+   fitfunc1->SetParError(3,0);
+   fitfunc1->SetParLimits(3,0.0335589,0.0335589);
+   fitfunc1->SetParameter(4,0.00379432);
+   fitfunc1->SetParError(4,0);
+   fitfunc1->SetParLimits(4,0.00379432,0.00379432);
    fitfunc1->SetParent(histTOFfit0000__1);
    histTOFfit0000__1->GetListOfFunctions()->Add(fitfunc1);
    histTOFfit0000__1->SetLineWidth(5);

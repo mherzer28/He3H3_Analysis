@@ -4,7 +4,7 @@
 void rawYieldHe3Bin()
 {
 //=========Macro generated from canvas: raw/Raw Yield
-//=========  (Sun Jun  9 17:03:51 2024) by ROOT version 6.30/01
+//=========  (Tue Jun 18 15:21:45 2024) by ROOT version 6.30/01
    TCanvas *raw = new TCanvas("raw", "Raw Yield",0,53,800,847);
    gStyle->SetOptFit(1);
    raw->SetHighLightColor(2);
@@ -91,10 +91,10 @@ void rawYieldHe3Bin()
    Double_t xAxis3[4] = {1.4, 1.8, 2.2, 2.6}; 
    
    TH1D *histRaw0001_stack_2 = new TH1D("histRaw0001_stack_2"," ",3, xAxis3);
-   histRaw0001_stack_2->SetBinContent(1,70);
+   histRaw0001_stack_2->SetBinContent(1,72);
    histRaw0001_stack_2->SetBinContent(2,92);
    histRaw0001_stack_2->SetBinContent(3,100);
-   histRaw0001_stack_2->SetBinError(1,8.3666);
+   histRaw0001_stack_2->SetBinError(1,8.485281);
    histRaw0001_stack_2->SetBinError(2,9.591663);
    histRaw0001_stack_2->SetBinError(3,10);
    histRaw0001_stack_2->SetEntries(3);
@@ -163,7 +163,7 @@ void rawYieldHe3Bin()
    TPad *pad2histRaw0000__1 = new TPad("pad2histRaw0000", "pad2",0,0.05,1,0.4);
    pad2histRaw0000__1->Draw();
    pad2histRaw0000__1->cd();
-   pad2histRaw0000__1->Range(1.183133,0.2828887,2.628916,0.9366337);
+   pad2histRaw0000__1->Range(1.183133,0.2768021,2.628916,0.9488942);
    pad2histRaw0000__1->SetFillColor(0);
    pad2histRaw0000__1->SetBorderMode(0);
    pad2histRaw0000__1->SetBorderSize(2);
@@ -176,34 +176,34 @@ void rawYieldHe3Bin()
    pad2histRaw0000__1->SetFrameBorderMode(0);
    Double_t xAxis4[4] = {1.4, 1.8, 2.2, 2.6}; 
    
-   TH1D *histRatiohistRaw0000__1 = new TH1D("histRatiohistRaw0000__1","",3, xAxis4);
-   histRatiohistRaw0000__1->SetBinContent(1,0.7777778);
-   histRatiohistRaw0000__1->SetBinContent(2,0.575);
-   histRatiohistRaw0000__1->SetBinContent(3,0.8064516);
-   histRatiohistRaw0000__1->SetBinError(1,0.1239496);
-   histRatiohistRaw0000__1->SetBinError(2,0.07523401);
-   histRatiohistRaw0000__1->SetBinError(3,0.1083906);
-   histRatiohistRaw0000__1->SetEntries(142.2631);
-   histRatiohistRaw0000__1->SetDirectory(nullptr);
-   histRatiohistRaw0000__1->SetStats(0);
-   histRatiohistRaw0000__1->SetMarkerStyle(8);
-   histRatiohistRaw0000__1->GetXaxis()->SetTitle("#it{p}_t (GeV/c)");
-   histRatiohistRaw0000__1->GetXaxis()->SetLabelFont(43);
-   histRatiohistRaw0000__1->GetXaxis()->SetLabelSize(15);
-   histRatiohistRaw0000__1->GetXaxis()->SetTitleSize(16);
-   histRatiohistRaw0000__1->GetXaxis()->SetTitleOffset(4);
-   histRatiohistRaw0000__1->GetXaxis()->SetTitleFont(43);
-   histRatiohistRaw0000__1->GetYaxis()->SetTitle("{}^{3}#bar{He} / {}^{3}He");
-   histRatiohistRaw0000__1->GetYaxis()->SetNdivisions(5);
-   histRatiohistRaw0000__1->GetYaxis()->SetLabelFont(43);
-   histRatiohistRaw0000__1->GetYaxis()->SetLabelSize(15);
-   histRatiohistRaw0000__1->GetYaxis()->SetTitleSize(16);
-   histRatiohistRaw0000__1->GetYaxis()->SetTitleOffset(2.5);
-   histRatiohistRaw0000__1->GetYaxis()->SetTitleFont(43);
-   histRatiohistRaw0000__1->GetZaxis()->SetLabelFont(42);
-   histRatiohistRaw0000__1->GetZaxis()->SetTitleOffset(1);
-   histRatiohistRaw0000__1->GetZaxis()->SetTitleFont(42);
-   histRatiohistRaw0000__1->Draw("ep");
+   TH1D *histRatiohistRaw0000__10 = new TH1D("histRatiohistRaw0000__10","",3, xAxis4);
+   histRatiohistRaw0000__10->SetBinContent(1,0.8);
+   histRatiohistRaw0000__10->SetBinContent(2,0.575);
+   histRatiohistRaw0000__10->SetBinContent(3,0.8064516);
+   histRatiohistRaw0000__10->SetBinError(1,0.1264911);
+   histRatiohistRaw0000__10->SetBinError(2,0.07523401);
+   histRatiohistRaw0000__10->SetBinError(3,0.1083906);
+   histRatiohistRaw0000__10->SetEntries(142.44);
+   histRatiohistRaw0000__10->SetDirectory(nullptr);
+   histRatiohistRaw0000__10->SetStats(0);
+   histRatiohistRaw0000__10->SetMarkerStyle(8);
+   histRatiohistRaw0000__10->GetXaxis()->SetTitle("#it{p}_t (GeV/c)");
+   histRatiohistRaw0000__10->GetXaxis()->SetLabelFont(43);
+   histRatiohistRaw0000__10->GetXaxis()->SetLabelSize(15);
+   histRatiohistRaw0000__10->GetXaxis()->SetTitleSize(16);
+   histRatiohistRaw0000__10->GetXaxis()->SetTitleOffset(4);
+   histRatiohistRaw0000__10->GetXaxis()->SetTitleFont(43);
+   histRatiohistRaw0000__10->GetYaxis()->SetTitle("{}^{3}#bar{He} / {}^{3}He");
+   histRatiohistRaw0000__10->GetYaxis()->SetNdivisions(5);
+   histRatiohistRaw0000__10->GetYaxis()->SetLabelFont(43);
+   histRatiohistRaw0000__10->GetYaxis()->SetLabelSize(15);
+   histRatiohistRaw0000__10->GetYaxis()->SetTitleSize(16);
+   histRatiohistRaw0000__10->GetYaxis()->SetTitleOffset(2.5);
+   histRatiohistRaw0000__10->GetYaxis()->SetTitleFont(43);
+   histRatiohistRaw0000__10->GetZaxis()->SetLabelFont(42);
+   histRatiohistRaw0000__10->GetZaxis()->SetTitleOffset(1);
+   histRatiohistRaw0000__10->GetZaxis()->SetTitleFont(42);
+   histRatiohistRaw0000__10->Draw("ep");
    pad2histRaw0000__1->Modified();
    raw->cd();
    raw->Modified();

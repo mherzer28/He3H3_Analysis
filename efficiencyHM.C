@@ -29,7 +29,6 @@ TString resultfile = "/Users/matthias/alice/Master/Makros/result/correction/corr
 //_________________________________________________________________________________________________________
 void efficiencyHM(){
     HeTriEff();
-	HeEff();
 }
 bool Cut(int mode) {
     if (mode == 1){

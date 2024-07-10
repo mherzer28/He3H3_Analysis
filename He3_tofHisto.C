@@ -19,7 +19,7 @@
 #include "TLine.h"
 #include "He3_tofHisto.h"
 
-TString trigger = "HNU"; // "HNU" or "HM" 
+TString trigger = "HM"; // "HNU" or "HM" 
 const Int_t nParticles = 3;	
 const Int_t nPtBins = 3;
 const TString particleNames[] = {"{}^{3}He", "{}^{3}#bar{He}","{}^{3}He+{}^{3}#bar{He}"};
@@ -69,31 +69,42 @@ void fit(){
 			TF1 *fit = new TF1("fitfunc", "gaus(0)", 1.5, 2.5); // use "crystalball" instead of "gaus" if there is a tail  
 			fit->SetParNames("Constant", "Mean", "Sigma");
 			fit->SetParameters(20,1.96,0.2);
-			/*
-			if (particle == 0){
+			if (trigger == "HNU")
+			{
+				if (particle == 0){
+				if (pt == 0){
+					fit->FixParameter(0, 24.3842);
+					fit->FixParameter(1, 2.0938);
+					fit->FixParameter(2, 0.0821775);
+					}	
+				}
+				if (particle == 1){
+				if (pt == 0){
+					fit->FixParameter(0, 13);
+					fit->FixParameter(1, 2.11);
+					fit->FixParameter(2, 0.121189);
+					}	
+				if (pt == 1){
+					fit->FixParameter(0, 101);
+					fit->FixParameter(1, 2.01018);
+					fit->FixParameter(2, 0.0594477);
+					}	
+				if (pt == 2){
+					fit->FixParameter(0, 56.4487);
+					fit->FixParameter(1, 1.9747);
+					fit->FixParameter(2, 0.0597807);
+					}	
+				}
+			}
+			if (trigger == "HM")
+			{
+				if (particle == 0){
 				if (pt == 0){
 					fit->FixParameter(2, 0.0927816);
-				}	
+					}	
+				}
 			}
-			if (particle == 0){
-				if (pt == 1){
-					fit->FixParameter(0, 65);
-					fit->FixParameter(2, 0.0586948);
-				}	
-			}
-			if (particle == 1){
-				if (pt == 0){
-					fit->FixParameter(0, 12);
-					fit->FixParameter(1, 2.10);
-					fit->FixParameter(2, 0.106929);
-				}	
-			}
-			if (particle == 1){
-				if (pt == 2){
-					fit->FixParameter(2, 0.0753235);
-				}	
-			}
-			*/
+			
 			//TFitResultPtr fp = histTOFfit[particle][pt]->Fit("fitfunc","S");
 			histTOFfit[particle][pt]->Fit(fit, "B");
 			// fit histo and get parameter

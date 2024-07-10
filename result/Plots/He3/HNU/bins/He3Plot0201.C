@@ -4,7 +4,7 @@
 void He3Plot0201()
 {
 //=========Macro generated from canvas: pt21/pt21
-//=========  (Mon Jun 17 15:59:46 2024) by ROOT version 6.30/01
+//=========  (Mon Jun 17 17:36:11 2024) by ROOT version 6.30/01
    TCanvas *pt21 = new TCanvas("pt21", "pt21",0,53,1400,847);
    gStyle->SetOptFit(1);
    pt21->SetHighLightColor(2);
