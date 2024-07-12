@@ -163,11 +163,11 @@ void PID_MC(){
 		fTreeDataHe3->GetEntry(i);
 		
 		if (TMath::Abs(tY) > 0.5)	continue;	// set rapidity range
-
+        //if (!tTrigHNU && !tTrigHQU) continue;	//Nuclei Trigger
 		int particle = 0;
 		if (tCharge < 0) particle = 1;
-        //if (tTOFSignalHe > 1.75 && tTOFSignalHe < 2.39 && tMCtrue > 0 && tPrimary > 0 && tTRDPid > 0 && tTRDPid <= 255){
-        if (tMCtrue > 0 && tPrimary > 0 && tTRDPid > 0 && tTRDPid <= 255){
+        if (tTOFSignalHe > 1.75 && tTOFSignalHe < 2.39 && tMCtrue > 0 && tPrimary > 0 && tTRDPid > 0 && tTRDPid <= 255){
+        //if (tMCtrue > 0 && tPrimary > 0 && tTRDPid > 0 && tTRDPid <= 255){
 		    if (particle == 0){
                 histo_dist_mc_He3->Fill(tTRDPid);
             }
@@ -202,11 +202,11 @@ void PID_MC(){
 		fTreeDataH3->GetEntry(i);
 		
 		if (TMath::Abs(tY) > 0.5)	continue;	// set rapidity range
-
+        //if (!tTrigHNU && !tTrigHQU) continue;	//Nuclei Trigger
 		int particle = 0;
 		if (tChargeTri < 0) particle = 1;
-        //if (tTOFSignalHe > 1.75 && tTOFSignalHe < 2.39 && tMCtrue > 0 && tPrimary > 0 && tTRDPid > 0 && tTRDPid <= 255){
-        if (tMCtrue > 0 && tPrimary > 0 && tTRDPid > 0 && tTRDPid <= 255){
+        if (tTOFSignalTri > 7.04 && tTOFSignalHe < 8.91 && tMCtrue > 0 && tPrimary > 0 && tTRDPid > 0 && tTRDPid <= 255){
+        //if (tMCtrue > 0 && tPrimary > 0 && tTRDPid > 0 && tTRDPid <= 255){
 		    if (particle == 0){
                 histo_dist_mc_H3->Fill(tTRDPid);
             }
@@ -330,14 +330,14 @@ void plot(){
     histoPID_He3_MC[0]->SetMarkerStyle(8);
 
     //Fit:
-    TF1 *fit0 = new TF1("fitfunc0", "gaus", 180, 255);
+    TF1 *fit0 = new TF1("fitfunc0", "gaus", 193, 255);
     fit0->SetParNames("Constant", "Mean", "Sigma");
     fit0->SetParameters(10000, histoPID_He3_MC[0]->GetMean(), histoPID_He3_MC[0]->GetRMS());
     fit0->SetLineColor(kBlue);
     histoPID_He3_MC[0]->Fit(fit0, "R");
-    TF1 *fit1 = new TF1("fitfunc1", "gaus", 180, 255);
+    TF1 *fit1 = new TF1("fitfunc1", "gaus", 193, 255);
     fit1->SetParNames("Constant", "Mean", "Sigma");
-    fit1->SetParameters(10000, histoPID_He3_MC[1]->GetMean(), histoPID_He3_MC[1]->GetRMS());
+    fit1->SetParameters(12000, histoPID_He3_MC[1]->GetMean(), histoPID_He3_MC[1]->GetRMS());
     fit1->SetLineColor(kRed);
     histoPID_He3_MC[1]->Fit(fit1, "R");
 
@@ -383,16 +383,16 @@ void plot(){
     //fit0H3->SetParNames("Constant", "Mean", "Sigma");
     fit0H3->SetParNames("Alpha", "n", "Mean", "Sigma", "Constant");
     //fit0H3->SetParameters(10000, histoPID_H3_MC[0]->GetMean(), histoPID_H3_MC[0]->GetRMS());
-    fit0H3->SetParameters(2.0, 6.0, 75, 100, 3500);
+    fit0H3->SetParameters(1.5, 3.0, 100, 25, 4500);
     fit0H3->SetLineColor(kBlue);
-    //histoPID_H3_MC[0]->Fit(fit0H3, "R");
+    histoPID_H3_MC[0]->Fit(fit0H3, "R");
     TF1 *fit1H3 = new TF1("fitfunc1H3", crystalBallFunc, 0, 255, 5);    //fit1H3->SetParNames("Constant", "Mean", "Sigma");
     fit1H3->SetParNames("Alpha", "n", "Mean", "Sigma", "Constant");
     //fit1H3->SetParameters(10000, histoPID_H3_MC[1]->GetMean(), histoPID_H3_MC[1]->GetRMS());
-    fit1H3->SetParameters(1.0, 6.0, 90, 100, 3500);
+    fit1H3->SetParameters(1.5, 3.0, 110, 25, 4700);
     fit1H3->SetLineColor(kRed);
     fit1H3->Print();
-    //histoPID_H3_MC[1]->Fit(fit1H3, "R");
+    histoPID_H3_MC[1]->Fit(fit1H3, "R");
 
 
     histoPID_H3_MC[1]->Draw("P");
