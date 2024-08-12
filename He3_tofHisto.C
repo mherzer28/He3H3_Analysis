@@ -19,7 +19,7 @@
 #include "TLine.h"
 #include "He3_tofHisto.h"
 
-TString trigger = "HM"; // "HNU" "HQU" "HNUHQU" or "HM" 
+TString trigger = "HQU"; // "HNU" "HQU" "HNUHQU" or "HM" 
 const Int_t nParticles = 3;	
 const Int_t nPtBins = 3;
 const TString particleNames[] = {"{}^{3}He", "{}^{3}#bar{He}","{}^{3}He+{}^{3}#bar{He}"};
@@ -28,8 +28,9 @@ int particleColors[] = {kBlue, kRed, kBlack};
 TString Folder = "result";
 TString rootFilePath = "/Users/matthias/alice/Master/Makros/Rootfiles";
 TString rootfile;
-std::vector<std::vector<int>> tofBinsH3(3, std::vector<int>(100, 0)); // Changed to vector
+std::vector<std::vector<int>> tofBinsHe3(3, std::vector<int>(100, 0)); // Changed to vector
 std::vector<double> ptBins; // Changed to vector
+std::vector<double> cutConf(10, 0); // Changed to vector
 //________________________________________________________________________________________________________________________
 void He3_tofHisto(){
     fit();
@@ -39,30 +40,30 @@ void He3_tofHisto(){
 void fit(){
 	if (trigger == "HNU") {
         rootfile = "/Users/matthias/alice/Master/Makros/Rootfiles/DataHe3_HNU.root";
-        tofBinsHe3[0] = {25, 25, 25, 25, 25, 25, 25, 35, 25}; // TRD H3 TRD
-        tofBinsHe3[1] = {25, 25, 25, 25, 25, 25, 25, 35, 25}; // TRD Anti H3
+        tofBinsHe3[0] = {25, 25, 25, 25, 25, 25, 25, 35, 25}; // TRD He3 TRD
+        tofBinsHe3[1] = {25, 25, 25, 25, 25, 25, 25, 35, 25}; // TRD Anti He3
         tofBinsHe3[2] = {25, 25, 25, 25, 25, 25, 25, 35, 25}; // Both
         ptBins = {1.3, 1.8, 2.3, 2.8}; // HNU
-        cutConf = {0.15,  0.15,  2.0,    120,    2,     1,      1,       0,        0,       0};
+        cutConf = {0.15,  0.15,  3.0,    120,    2,     1,      1,       0,        0,       0};
     } else if (trigger == "HQU") {
         rootfile = "/Users/matthias/alice/Master/Makros/Rootfiles/DataHe3_HQU.root";
-        tofBinsHe3[0] = {25, 25, 25, 25, 25, 25, 25, 35, 25}; // TRD H3 TRD
-        tofBinsHe3[1] = {25, 25, 25, 25, 25, 25, 25, 35, 25}; // TRD Anti H3
+        tofBinsHe3[0] = {25, 25, 25, 25, 25, 25, 25, 35, 25}; // TRD He3 TRD
+        tofBinsHe3[1] = {25, 25, 25, 25, 25, 25, 25, 35, 25}; // TRD Anti He3
         tofBinsHe3[2] = {25, 25, 25, 25, 25, 25, 25, 35, 25}; // Both
         ptBins = {1.3, 1.8, 2.3, 2.8}; // HNU
-        cutConf = {0.15,  0.15,  2.0,    120,    2,     1,      1,       0,        0,       0};
+        cutConf = {0.15,  0.15,  3.0,    120,    2,     1,      1,       0,        0,       0};
     } else if (trigger == "HNU&HQU") {
         rootfile = "/Users/matthias/alice/Master/Makros/Rootfiles/DataHe3_HNUHQU.root";
-        tofBinsHe3[0] = {25, 25, 25, 25, 25, 25, 25, 35, 25}; // TRD H3 TRD
-        tofBinsHe3[1] = {25, 25, 25, 25, 25, 25, 25, 35, 25}; // TRD Anti H3
+       	tofBinsHe3[0] = {25, 25, 25, 25, 25, 25, 25, 35, 25}; // TRD He3 TRD
+        tofBinsHe3[1] = {25, 25, 25, 25, 25, 25, 25, 35, 25}; // TRD Anti He3
         tofBinsHe3[2] = {25, 25, 25, 25, 25, 25, 25, 35, 25}; // Both
         ptBins = {1.3, 1.8, 2.3, 2.8}; // HNU
-        cutConf = {0.15,  0.15,  2.0,    120,    2,     1,      1,       0,        0,       0};
+        cutConf = {0.15,  0.15,  3.0,    120,    2,     1,      1,       0,        0,       0};
     }  else {
         rootfile = "/Users/matthias/alice/Master/Makros/Rootfiles/DataHe3.root";
-        tofBinsH3[0] = {30, 30, 30, 30, 30, 40, 25, 35, 25}; // TRD H3 HM
-        tofBinsH3[1] = {30, 30, 30, 30, 30, 40, 25, 35, 25}; // TRD Anti H3
-        tofBinsH3[2] = {30, 30, 30, 30, 30, 40, 25, 35, 25}; // TRD Both
+        tofBinsHe3[0] = {30, 30, 30, 30, 30, 40, 25, 35, 25}; // TRD H3 HM
+        tofBinsHe3[1] = {30, 30, 30, 30, 30, 40, 25, 35, 25}; // TRD Anti H3
+        tofBinsHe3[2] = {30, 30, 30, 30, 30, 40, 25, 35, 25}; // TRD Both
         ptBins = {1.4, 1.8, 2.2, 2.6};
     }
 	TH1D * histTOFfit[nParticles][nPtBins] = {0};

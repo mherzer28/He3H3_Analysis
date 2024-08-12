@@ -19,7 +19,7 @@
 #include "TLine.h"
 #include "He3_readData.h"
 
-TString trigger = "HNU"; // "HNU" or "HM" or "HNU&HQU" or "HQU"
+TString trigger = "HQU"; // "HNU" or "HM" or "HNU&HQU" or "HQU"
 //TString resultPath = "/Users/matthias/alice/root_results/He3";
 TString resultPath = "/Volumes/MyPassport/pass2/HeTri_pass2";
 const Int_t nPtBins = 3;
@@ -113,25 +113,25 @@ void setTreeBranch(TTree *fTree) {
 void readDataHe3(){
 	if (trigger == "HNU") {
         rootfile = "/Users/matthias/alice/Master/Makros/Rootfiles/DataHe3_HNU.root";
-        tofBinsHe3[0] = {25, 25, 25, 25, 25, 25, 25, 35, 25}; // TRD H3 TRD
-        tofBinsHe3[1] = {25, 25, 25, 25, 25, 25, 25, 35, 25}; // TRD Anti H3
+        tofBinsHe3[0] = {25, 25, 25, 25, 25, 25, 25, 35, 25}; // TRD He3 TRD
+        tofBinsHe3[1] = {25, 25, 25, 25, 25, 25, 25, 35, 25}; // TRD Anti He3
         tofBinsHe3[2] = {25, 25, 25, 25, 25, 25, 25, 35, 25}; // Both
         ptBins = {1.3, 1.8, 2.3, 2.8}; // HNU
-        cutConf = {0.15,  0.15,  2.0,    120,    2,     1,      1,       0,        0,       0};
+        cutConf = {0.15,  0.15,  3.0,    120,    2,     1,      1,       0,        0,       0};
     } else if (trigger == "HQU") {
         rootfile = "/Users/matthias/alice/Master/Makros/Rootfiles/DataHe3_HQU.root";
-        tofBinsHe3[0] = {25, 25, 25, 25, 25, 25, 25, 35, 25}; // TRD H3 TRD
-        tofBinsHe3[1] = {25, 25, 25, 25, 25, 25, 25, 35, 25}; // TRD Anti H3
+        tofBinsHe3[0] = {25, 25, 25, 25, 25, 25, 25, 35, 25}; // TRD He3 TRD
+        tofBinsHe3[1] = {25, 25, 25, 25, 25, 25, 25, 35, 25}; // TRD Anti He3
         tofBinsHe3[2] = {25, 25, 25, 25, 25, 25, 25, 35, 25}; // Both
         ptBins = {1.3, 1.8, 2.3, 2.8}; // HNU
-        cutConf = {0.15,  0.15,  2.0,    120,    2,     1,      1,       0,        0,       0};
+        cutConf = {0.15,  0.15,  3.0,    120,    2,     1,      1,       0,        0,       0};
     } else if (trigger == "HNU&HQU") {
         rootfile = "/Users/matthias/alice/Master/Makros/Rootfiles/DataHe3_HNUHQU.root";
-        tofBinsHe3[0] = {25, 25, 25, 25, 25, 25, 25, 35, 25}; // TRD H3 TRD
-        tofBinsHe3[1] = {25, 25, 25, 25, 25, 25, 25, 35, 25}; // TRD Anti H3
+        tofBinsHe3[0] = {25, 25, 25, 25, 25, 25, 25, 35, 25}; // TRD He3 TRD
+        tofBinsHe3[1] = {25, 25, 25, 25, 25, 25, 25, 35, 25}; // TRD Anti He3
         tofBinsHe3[2] = {25, 25, 25, 25, 25, 25, 25, 35, 25}; // Both
         ptBins = {1.3, 1.8, 2.3, 2.8}; // HNU
-        cutConf = {0.15,  0.15,  2.0,    120,    2,     1,      1,       0,        0,       0};
+        cutConf = {0.15,  0.15,  3.0,    120,    2,     1,      1,       0,        0,       0};
     }   
 	else {
         rootfile = "/Users/matthias/alice/Master/Makros/Rootfiles/DataHe3.root";

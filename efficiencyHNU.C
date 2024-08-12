@@ -29,6 +29,7 @@ TString resultfileHNUHQU = "/Users/matthias/alice/Master/Makros/result/correctio
 TString resultfileHNU = "/Users/matthias/alice/Master/Makros/result/correction/correction_HNU.root";
 TString resultfileHQU = "/Users/matthias/alice/Master/Makros/result/correction/correction_HQU.root";
 TString trigger = "HNUHQU" // HNUHQU HNU HQU
+TString correction = "yes" // "yes" "no"
 //_________________________________________________________________________________________________________
 void efficiencyHNU(){
     HeTriEffHNU();
@@ -288,20 +289,42 @@ Int_t nEntriesRec = (Int_t)fTreeDataH3->GetEntries();
 
 		if (TMath::Abs(tY) > cutYTri)	continue;	// set rapidity range
 		
-		if (!tTrigMB) continue;
-		if (tCharge < 0) tTRDPid *= (64/101.82);
-		else tTRDPid *= (63.32/88.81);
-
-		//bool isHNU = (tTRDnTracklets > 4 && tTRDPid >= 235) || (tTRDnTracklets == 4 && tTRDPid >= 255);
-		//if (!isHNU) continue;
-		//cout << "PID:" << tTRDPid << std::endl; 
-		
-		bool isHQU = (tTRDPid >= 130 && tTRDnTracklets >= 5 && tPt > 2 && tTRDLayerMask & 1);
-		if (!isHQU && !tTrigHNU) continue;
-		//if (!tTrigHNU) continue;	//Nuclei Trigger
-		//if (!tTrigHQU) continue;
-		//if (!tTrigHNU && !tTrigHQU) continue;	//Nuclei Trigger	
-
+		if (correction == "yes")
+		{
+			if (!tTrigMB) continue;
+			if (tCharge < 0) tTRDPid *= (64/101.82);
+			else tTRDPid *= (63.32/88.81);
+			bool isHQU = (tTRDPid >= 130 && tTRDnTracklets >= 5 && tPt > 2 && tTRDLayerMask & 1);
+			//bool isHNU = (tTRDnTracklets > 4 && tTRDPid >= 235) || (tTRDnTracklets == 4 && tTRDPid >= 255);
+			//if (!isHNU) continue; 
+			if (trigger == "HNUHQU")
+			{
+				if (!isHQU && !tTrigHNU) continue;
+			}
+			if (trigger == "HNU")
+			{
+				if (!tTrigHNU) continue;
+			}
+			if (trigger == "HQU")
+			{
+				if (!isHQU) continue;
+			}
+		}
+		else if (trigger =="no")
+		{
+			if (trigger == "HNUHQU")
+			{
+				if (!tTrigHQU && !tTrigHNU) continue;
+			}
+			if (trigger == "HNU")
+			{
+				if (!tTrigHNU) continue;
+			}
+			if (trigger == "HQU")
+			{
+				if (!tTrigHQU) continue;
+			}
+		}	
 		int particle = 0;
 		if (tChargeTri < 0) particle = 1;
         if (tTOFSignalTri > 7.5 && tTOFSignalTri < 8.5 && tMCtrue > 0 && tTRDnTracklets > 0){
@@ -341,7 +364,18 @@ legend1->SetFillStyle(0);
 //legend1->AddEntry(yieldCombined[2], "#frac{{}^{3}H}{{}^{3}He}", "lep");
 legend1->AddEntry((TObject*)0, "ALICE #it{work in progress}", "");
 legend1->AddEntry((TObject*)0, "Particle: {}^{3}H", "");
-legend1->AddEntry((TObject*)0, "Trigger: HQU", "");
+if (trigger == "HNU")
+{
+	legend1->AddEntry((TObject*)0, "Trigger: HNU", "");
+}
+else if (trigger == "HQU")
+{
+	legend1->AddEntry((TObject*)0, "Trigger: HQU", "");
+}
+else if (trigger == "HNUHQU")
+{
+	legend1->AddEntry((TObject*)0, "Trigger: HNU & HQU", "");
+}
 legend1->SetEntrySeparation(0.1);
 legend1->SetTextFont(43);
 legend1->SetTextSize(16);
@@ -352,8 +386,22 @@ hRec->Draw();
 cHNU->cd(3);
 gPad->SetLeftMargin(0.18);
 hEff->Draw();
-cHNU->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeffH3_HQU.pdf");
-cHNU->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeffH3_HQU.root");
+if (trigger == "HNU")
+{
+	cHNU->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/HNU/accxeffH3_HNU.pdf");
+	cHNU->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/HNU/accxeffH3_HNU.root");
+}
+else if (trigger == "HQU")
+{
+	cHNU->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/HQU/accxeffH3_HQU.pdf");
+	cHNU->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/HQU/accxeffH3_HQU.root");
+}
+else if (trigger == "HNUHQU")
+{
+	cHNU->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/HNUHQU/accxeffH3_HNUHQU.pdf");
+	cHNU->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/HNUHQU/accxeffH3_HNUHQU.root");
+}
+
 TCanvas *c12 = new TCanvas("c12", "H3", 1600, 1600);
 c12->cd();
 c12->SetLeftMargin(0.15);
@@ -399,18 +447,18 @@ legend12->SetTextSize(0.042);
 legend12->Draw();
 if (trigger == "HNUHQU")
 {
-	c12->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeff/accxeffH3_HNUHQU.root");
-	c12->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeff/accxeffH3_HNUHQU.pdf");
+	c12->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/HNUHQU/accxeffH3_HNUHQU.root");
+	c12->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/HNUHQU/accxeffH3_HNUHQU.pdf");
 }
 else if (trigger == "HNU")
 {
-	c12->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeff/accxeffH3_HNU.pdf");
-	c12->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeff/accxeffH3_HNU.root");
+	c12->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/HNU/accxeffH3_HNU.pdf");
+	c12->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/HNU/accxeffH3_HNU.root");
 }
 else if (trigger == "HQU")
 {
-	c12->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeff/accxeffH3_HQU.root");
-	c12->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeff/accxeffH3_HQU.pdf");
+	c12->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/HQU/accxeffH3_HQU.root");
+	c12->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/HQU/accxeffH3_HQU.pdf");
 }
 
 TCanvas *c2HNU = new TCanvas("c2HNU", "Anti-H3", 1920, 1080);
@@ -425,7 +473,18 @@ legend2->SetFillStyle(0);
 //legend2->AddEntry(yieldCombined[2], "#frac{{}^{3}H}{{}^{3}He}", "lep");
 legend2->AddEntry((TObject*)0, "ALICE #it{work in progress}", "");
 legend2->AddEntry((TObject*)0, "Particle: {}^{3}#bar{H}", "");
-legend2->AddEntry((TObject*)0, "Trigger: HQU", "");
+if (trigger == "HNUHQU")
+{
+	legend2->AddEntry((TObject*)0, "Trigger: HNU & HQU", "");
+}
+else if (trigger == "HNU")
+{
+	legend2->AddEntry((TObject*)0, "Trigger: HNU", "");
+}
+else if (trigger == "HQU")
+{
+	legend2->AddEntry((TObject*)0, "Trigger: HQU", "");
+}
 legend2->SetTextFont(43);
 legend2->SetTextSize(16);
 legend2->Draw();
@@ -435,8 +494,22 @@ hRecAnti->Draw();
 c2HNU->cd(3);
 gPad->SetLeftMargin(0.18);
 hEffAnti->Draw();
-c2HNU->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeffH3_Anti_HQU.pdf");
-c2HNU->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeffH3_Anti_HQU.root");
+if (trigger == "HNUHQU")
+{
+	c2HNU->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/HNUHQU/accxeffH3_Anti_HNUHQU.pdf");
+	c2HNU->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/HNUHQU/accxeffH3_Anti_HNUHQU.root");
+}
+else if (trigger == "HNU")
+{
+	c2HNU->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/HNU/accxeffH3_Anti_HNU.pdf");
+	c2HNU->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/HNU/accxeffH3_Anti_HNU.root");
+}
+else if (trigger == "HQU")
+{
+	c2HNU->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/HQU/accxeffH3_Anti_HQU.pdf");
+	c2HNU->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/HQU/accxeffH3_Anti_HQU.root");
+}
+
 TCanvas *c22 = new TCanvas("c22", "Anti-H3", 1600, 1600);
 c22->cd();
 c22->SetLeftMargin(0.15);
@@ -485,18 +558,18 @@ legend22->SetTextSize(0.042);
 legend22->Draw();
 if (trigger == "HNUHQU")
 {
-	c22->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeff/accxeffH3_Anti_HNUHQU.root");
-	c22->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeff/accxeffH3_Anti_HNUHQU.pdf");
+	c22->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeff/HNUHQU/accxeffH3_Anti_HNUHQU.root");
+	c22->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeff/HNUHQU/accxeffH3_Anti_HNUHQU.pdf");
 }
 else if (trigger == "HNU")
 {
-	c22->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeff/accxeffH3_Anti_HNU.pdf");
-	c22->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeff/accxeffH3_Anti_HNU.root");
+	c22->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeff/HNU/accxeffH3_Anti_HNU.pdf");
+	c22->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeff/HNU/accxeffH3_Anti_HNU.root");
 }
 else if (trigger == "HQU")
 {
-	c22->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeff/accxeffH3_Anti_HQU.root");
-	c22->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeff/accxeffH3_Anti_HQU.pdf");
+	c22->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeff/HQU/accxeffH3_Anti_HQU.root");
+	c22->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeff/HQU/accxeffH3_Anti_HQU.pdf");
 }
 
 //___________________________________________________________________________________________________________
@@ -581,19 +654,42 @@ Int_t nEntriesRecHe = (Int_t)fTreeDataHe->GetEntries();
 
 		if (TMath::Abs(tY) > cutYTri)	continue;	// set rapidity range
 		
-		if (!tTrigMB) continue;
-
-		if (tCharge < 0) tTRDPid *= (243.85/228.58);
-		else tTRDPid *= (243.70/223.34);
-
-		//bool isHNU = (tTRDnTracklets > 4 && tTRDPid >= 235) || (tTRDnTracklets == 4 && tTRDPid >= 255);
-		//if (!isHNU) continue;
-		
-		bool isHQU = (tTRDPid >= 130 && tTRDnTracklets >= 5 && tPt > 2 && tTRDLayerMask & 1);
-		if (!isHQU && !tTrigHNU) continue;
-		//if (!tTrigHNU) continue;	//Nuclei Trigger
-		//if (!tTrigHQU) continue;
-		//if (!tTrigHNU && !tTrigHQU) continue;	//Nuclei Trigger	
+		if (correction == "yes")
+		{
+			if (!tTrigMB) continue;
+			if (tCharge < 0) tTRDPid *= (243.85/228.58);
+			else tTRDPid *= (243.70/223.34);
+			bool isHQU = (tTRDPid >= 130 && tTRDnTracklets >= 5 && tPt > 2 && tTRDLayerMask & 1);
+			//bool isHNU = (tTRDnTracklets > 4 && tTRDPid >= 235) || (tTRDnTracklets == 4 && tTRDPid >= 255);
+			//if (!isHNU) continue; 
+			if (trigger == "HNUHQU")
+			{
+				if (!isHQU && !tTrigHNU) continue;
+			}
+			if (trigger == "HNU")
+			{
+				if (!tTrigHNU) continue;
+			}
+			if (trigger == "HQU")
+			{
+				if (!isHQU) continue;
+			}
+		}
+		else if (trigger == "no")
+		{
+			if (trigger == "HNUHQU")
+			{
+				if (!tTrigHQU && !tTrigHNU) continue;
+			}
+			if (trigger == "HNU")
+			{
+				if (!tTrigHNU) continue;
+			}
+			if (trigger == "HQU")
+			{
+				if (!tTrigHQU) continue;
+			}
+		}
 
 		int particle = 0;
 		if (tCharge < 0) particle = 1;
@@ -635,7 +731,18 @@ legend3->SetFillStyle(0);
 //legend2->AddEntry(yieldCombined[2], "#frac{{}^{3}H}{{}^{3}He}", "lep");
 legend3->AddEntry((TObject*)0, "ALICE #it{work in progress}", "");
 legend3->AddEntry((TObject*)0, "Particle: {}^{3}He", "");
-legend3->AddEntry((TObject*)0, "Trigger: HQU", "");
+if (trigger == "HNUHQU")
+{
+	legend3->AddEntry((TObject*)0, "Trigger: HNU & HQU", "");
+}
+else if (trigger == "HNU")
+{
+	legend3->AddEntry((TObject*)0, "Trigger: HNU", "");
+}
+else if (trigger == "HQU")
+{
+	legend3->AddEntry((TObject*)0, "Trigger: HQU", "");
+}
 legend3->SetTextFont(43);
 legend3->SetTextSize(16);
 legend3->Draw();
@@ -645,8 +752,21 @@ hRecHe->Draw();
 c3HNU->cd(3);
 gPad->SetLeftMargin(0.18);
 hEffHe->Draw();
-c3HNU->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeffHe_HQU.pdf");
-c3HNU->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeffHe_HQU.root");
+if (trigger == "HNUHQU")
+{
+	c3HNU->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/HNUHQU/accxeffHe_HQU.pdf");
+	c3HNU->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/HNUHQU/accxeffHe_HQU.root");
+}
+else if (trigger == "HNU")
+{
+	c3HNU->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/HNU/accxeffHe_HQU.pdf");
+	c3HNU->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/HNU/accxeffHe_HQU.root");
+}
+else if (trigger == "HQU")
+{
+	c3HNU->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/HQU/accxeffHe_HQU.pdf");
+	c3HNU->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/HQU/accxeffHe_HQU.root");
+}
 TCanvas *c32 = new TCanvas("c32", "He", 1600, 1600);
 c32->cd();
 c32->SetLeftMargin(0.15);
@@ -691,18 +811,18 @@ legend32->SetTextSize(0.042);
 legend32->Draw();
 if (trigger == "HNUHQU")
 {
-	c32->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeff/accxeffHe_HNUHQU.root");
-	c32->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeff/accxeffHe_HNUHQU.pdf");
+	c32->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/HNUHQU/accxeffHe_HNUHQU.root");
+	c32->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/HNUHQU/accxeffHe_HNUHQU.pdf");
 }
 else if (trigger == "HNU")
 {
-	c32->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeff/accxeffHe_HNU.root");
-	c32->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeff/accxeffHe_HNU.pdf");
+	c32->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/HNU/accxeffHe_HNU.root");
+	c32->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/HNU/accxeffHe_HNU.pdf");
 }
 else if (trigger == "HQU")
 {
-	c32->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeff/accxeffHe_HQU.root");
-	c32->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeff/accxeffHe_HQU.pdf");
+	c32->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/HQU/accxeffHe_HQU.root");
+	c32->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/HQU/accxeffHe_HQU.pdf");
 }
 TCanvas *c4HNU = new TCanvas("c4HNU", "Anti-He", 1920, 1080);
 c4HNU->Divide(3);
@@ -726,8 +846,21 @@ hRecHeAnti->Draw();
 c4HNU->cd(3);
 gPad->SetLeftMargin(0.18);
 hEffHeAnti->Draw();
-c4HNU->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeffHeAnti_HQU.pdf");
-c4HNU->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeffHeAnti_HQU.root");
+if (trigger == "HNUHQU")
+{
+	c4HNU->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/HNUHQU/accxeffHeAnti_HNUHQU.pdf");
+	c4HNU->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/HNUHQU/accxeffHeAnti_HNUHQU.root");
+}
+else if (trigger == "HNU")
+{
+	c4HNU->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/HNU/accxeffHeAnti_HNU.pdf");
+	c4HNU->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/HNU/accxeffHeAnti_HNU.root");
+}
+else if (trigger == "HQU")
+{
+	c4HNU->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/HQU/accxeffHeAnti_HQU.pdf");
+	c4HNU->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/HQU/accxeffHeAnti_HQU.root");
+}
 TCanvas *c42 = new TCanvas("c42", "Anti-He", 1600, 1600);
 c42->cd();
 c42->SetLeftMargin(0.15);
@@ -773,18 +906,18 @@ legend42->SetTextSize(0.042);
 legend42->Draw();
 if (trigger == "HNUHQU")
 {
-	c42->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeff/accxeffHe_Anti_HNUHQU.root");
-	c42->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeff/accxeffHe_Anti_HNUHQU.pdf");
+	c42->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/HNUHQU/accxeffHe_Anti_HNUHQU.root");
+	c42->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/HNUHQU/accxeffHe_Anti_HNUHQU.pdf");
 }
 else if (trigger == "HNU")
 {
-	c42->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeff/accxeffHe_Anti_HNU.root");
-	c42->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeff/accxeffHe_Anti_HNU.pdf");
+	c42->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/HNU/accxeffHe_Anti_HNU.root");
+	c42->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/HNU/accxeffHe_Anti_HNU.pdf");
 }
 else if (trigger == "HQU")
 {
-	c42->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeff/accxeffHe_Anti_HQU.root");
-	c42->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeff/accxeffHe_Anti_HQU.pdf");
+	c42->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/HQU/accxeffHe_Anti_HQU.root");
+	c42->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/HQU/accxeffHe_Anti_HQU.pdf");
 }
 
 }
