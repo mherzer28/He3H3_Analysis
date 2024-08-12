@@ -507,7 +507,7 @@ Int_t nEntriesRecHe = (Int_t)fTreeDataHe->GetEntries();
 
 		int particle = 0;
 		if (tCharge < 0) particle = 1;
-        if (tTOFSignalHe > 1.75 && tTOFSignalHe < 2.39 && tMCtrue > 0 && tPrimary > 0){
+        if (tTOFSignalHe > 1.72 && tTOFSignalHe < 2.50 && tMCtrue > 0 && tPrimary > 0){
 		    if (Cut(modeHe)) {
                 hRecHeComb->Fill(tPt);
 			    if (particle == 0){

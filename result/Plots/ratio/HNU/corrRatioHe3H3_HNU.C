@@ -4,7 +4,7 @@
 void corrRatioHe3H3_HNU()
 {
 //=========Macro generated from canvas: ratioPlot/
-//=========  (Mon Jul  8 14:29:28 2024) by ROOT version 6.30/01
+//=========  (Mon Aug  5 13:07:07 2024) by ROOT version 6.30/01
    TCanvas *ratioPlot = new TCanvas("ratioPlot", "",0,53,1440,847);
    ratioPlot->SetHighLightColor(2);
    ratioPlot->Range(1.1125,-0.25,2.9875,2.25);
@@ -16,15 +16,15 @@ void corrRatioHe3H3_HNU()
    Double_t xAxis14[4] = {1.3, 1.8, 2.3, 2.8}; 
    
    TH1D *histRatio02__14 = new TH1D("histRatio02__14"," ",3, xAxis14);
-   histRatio02__14->SetBinContent(1,0.8991304);
-   histRatio02__14->SetBinContent(2,1.424136);
-   histRatio02__14->SetBinContent(3,2.83636);
-   histRatio02__14->SetBinError(1,0.2529214);
-   histRatio02__14->SetBinError(2,0.1511619);
-   histRatio02__14->SetBinError(3,0.4570496);
+   histRatio02__14->SetBinContent(1,4.088572);
+   histRatio02__14->SetBinContent(2,21.47548);
+   histRatio02__14->SetBinContent(3,92.48298);
+   histRatio02__14->SetBinError(1,1.483148);
+   histRatio02__14->SetBinError(2,3.46479);
+   histRatio02__14->SetBinError(3,20.94049);
    histRatio02__14->SetMinimum(0);
    histRatio02__14->SetMaximum(2);
-   histRatio02__14->SetEntries(90.02546);
+   histRatio02__14->SetEntries(30.78162);
    histRatio02__14->SetStats(0);
 
    Int_t ci;      // for color index setting

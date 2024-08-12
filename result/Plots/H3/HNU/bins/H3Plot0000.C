@@ -4,7 +4,7 @@
 void H3Plot0000()
 {
 //=========Macro generated from canvas: pt00/pt00
-//=========  (Mon Jun 17 17:42:28 2024) by ROOT version 6.30/01
+//=========  (Mon Jul 22 15:37:54 2024) by ROOT version 6.30/01
    TCanvas *pt00 = new TCanvas("pt00", "pt00",0,53,1400,847);
    gStyle->SetOptFit(1);
    pt00->SetHighLightColor(2);
@@ -83,14 +83,14 @@ void H3Plot0000()
    histTOFfit0000__1->SetLineWidth(5);
    histTOFfit0000__1->SetMarkerStyle(20);
    histTOFfit0000__1->SetMarkerSize(2);
-   histTOFfit0000__1->GetXaxis()->SetTitle("m^{2}/z^{2} (GeV^{2}/c^{4})");
+   histTOFfit0000__1->GetXaxis()->SetTitle("m^{2}/z^{2} (GeV^{2}/#it{c}^{4})");
    histTOFfit0000__1->GetXaxis()->SetRange(1,25);
    histTOFfit0000__1->GetXaxis()->SetLabelFont(42);
    histTOFfit0000__1->GetXaxis()->SetLabelSize(0.05);
    histTOFfit0000__1->GetXaxis()->SetTitleSize(0.05);
    histTOFfit0000__1->GetXaxis()->SetTitleOffset(1);
    histTOFfit0000__1->GetXaxis()->SetTitleFont(42);
-   histTOFfit0000__1->GetYaxis()->SetTitle("Counts / (240 MeV^{2}/c^{4})");
+   histTOFfit0000__1->GetYaxis()->SetTitle("Counts / (240 MeV^{2}/#it{c}^{4})");
    histTOFfit0000__1->GetYaxis()->SetLabelFont(42);
    histTOFfit0000__1->GetYaxis()->SetLabelSize(0.05);
    histTOFfit0000__1->GetYaxis()->SetTitleSize(0.05);

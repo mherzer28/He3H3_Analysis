@@ -4,7 +4,7 @@
 void corrRatioAntiPartHe3H3()
 {
 //=========Macro generated from canvas: ratioPlot3/
-//=========  (Mon Jul  8 14:31:47 2024) by ROOT version 6.30/01
+//=========  (Mon Jul 22 20:39:45 2024) by ROOT version 6.30/01
    TCanvas *ratioPlot3 = new TCanvas("ratioPlot3", "",0,53,1440,847);
    ratioPlot3->SetHighLightColor(2);
    ratioPlot3->Range(1.25,-0.25,2.75,2.25);
@@ -13,36 +13,36 @@ void corrRatioAntiPartHe3H3()
    ratioPlot3->SetBorderSize(2);
    ratioPlot3->SetFrameBorderMode(0);
    ratioPlot3->SetFrameBorderMode(0);
-   Double_t xAxis16[4] = {1.4, 1.8, 2.2, 2.6}; 
+   Double_t xAxis3[4] = {1.4, 1.8, 2.2, 2.6}; 
    
-   TH1D *histRatio01__16 = new TH1D("histRatio01__16"," ",3, xAxis16);
-   histRatio01__16->SetBinContent(1,0.7244162);
-   histRatio01__16->SetBinContent(2,1.191041);
-   histRatio01__16->SetBinContent(3,0.9595193);
-   histRatio01__16->SetBinError(1,0.1207752);
-   histRatio01__16->SetBinError(2,0.1911559);
-   histRatio01__16->SetBinError(3,0.233041);
-   histRatio01__16->SetMinimum(0);
-   histRatio01__16->SetMaximum(2);
-   histRatio01__16->SetEntries(78.39391);
-   histRatio01__16->SetStats(0);
+   TH1D *histRatio01__3 = new TH1D("histRatio01__3"," ",3, xAxis3);
+   histRatio01__3->SetBinContent(1,0.7244162);
+   histRatio01__3->SetBinContent(2,1.191041);
+   histRatio01__3->SetBinContent(3,0.9595193);
+   histRatio01__3->SetBinError(1,0.1207752);
+   histRatio01__3->SetBinError(2,0.1911559);
+   histRatio01__3->SetBinError(3,0.233041);
+   histRatio01__3->SetMinimum(0);
+   histRatio01__3->SetMaximum(2);
+   histRatio01__3->SetEntries(78.39391);
+   histRatio01__3->SetStats(0);
 
    Int_t ci;      // for color index setting
    TColor *color; // for color definition with alpha
    ci = TColor::GetColor("#0000ff");
-   histRatio01__16->SetLineColor(ci);
-   histRatio01__16->SetMarkerStyle(8);
-   histRatio01__16->GetXaxis()->SetTitle("#it{p}_{T} (GeV/#it{c})");
-   histRatio01__16->GetXaxis()->SetLabelFont(42);
-   histRatio01__16->GetXaxis()->SetTitleOffset(1);
-   histRatio01__16->GetXaxis()->SetTitleFont(42);
-   histRatio01__16->GetYaxis()->SetTitle("#frac{{}^{3}#bar{H}}{{}^{3}#bar{He}}");
-   histRatio01__16->GetYaxis()->SetLabelFont(42);
-   histRatio01__16->GetYaxis()->SetTitleFont(42);
-   histRatio01__16->GetZaxis()->SetLabelFont(42);
-   histRatio01__16->GetZaxis()->SetTitleOffset(1);
-   histRatio01__16->GetZaxis()->SetTitleFont(42);
-   histRatio01__16->Draw("");
+   histRatio01__3->SetLineColor(ci);
+   histRatio01__3->SetMarkerStyle(8);
+   histRatio01__3->GetXaxis()->SetTitle("#it{p}_{T} (GeV/#it{c})");
+   histRatio01__3->GetXaxis()->SetLabelFont(42);
+   histRatio01__3->GetXaxis()->SetTitleOffset(1);
+   histRatio01__3->GetXaxis()->SetTitleFont(42);
+   histRatio01__3->GetYaxis()->SetTitle("#frac{{}^{3}#bar{H}}{{}^{3}#bar{He}}");
+   histRatio01__3->GetYaxis()->SetLabelFont(42);
+   histRatio01__3->GetYaxis()->SetTitleFont(42);
+   histRatio01__3->GetZaxis()->SetLabelFont(42);
+   histRatio01__3->GetZaxis()->SetTitleOffset(1);
+   histRatio01__3->GetZaxis()->SetTitleFont(42);
+   histRatio01__3->Draw("");
    TLine *line = new TLine(1.4,1,2.6,1);
 
    ci = TColor::GetColor("#666666");

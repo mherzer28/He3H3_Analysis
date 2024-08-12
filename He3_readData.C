@@ -19,8 +19,8 @@
 #include "TLine.h"
 #include "He3_readData.h"
 
-TString trigger = "HM"; // "HNU" or "HM"
-//TString resultPath = "/Users/matthias/alice/root_results/H3";
+TString trigger = "HNU"; // "HNU" or "HM" or "HNU&HQU" or "HQU"
+//TString resultPath = "/Users/matthias/alice/root_results/He3";
 TString resultPath = "/Volumes/MyPassport/pass2/HeTri_pass2";
 const Int_t nPtBins = 3;
 TString periods16 = "deghijklop";
@@ -113,12 +113,27 @@ void setTreeBranch(TTree *fTree) {
 void readDataHe3(){
 	if (trigger == "HNU") {
         rootfile = "/Users/matthias/alice/Master/Makros/Rootfiles/DataHe3_HNU.root";
-        tofBinsHe3[0] = {25, 25, 25, 25, 25, 25, 25, 35, 25}; // TRD He3 TRD
-        tofBinsHe3[1] = {25, 25, 25, 25, 25, 25, 25, 35, 25}; // TRD Anti He3
+        tofBinsHe3[0] = {25, 25, 25, 25, 25, 25, 25, 35, 25}; // TRD H3 TRD
+        tofBinsHe3[1] = {25, 25, 25, 25, 25, 25, 25, 35, 25}; // TRD Anti H3
         tofBinsHe3[2] = {25, 25, 25, 25, 25, 25, 25, 35, 25}; // Both
         ptBins = {1.3, 1.8, 2.3, 2.8}; // HNU
-        cutConf = {0.15,  0.15,  3.0,    120,    2,     1,      1,       0,        0,       0};
-    } else {
+        cutConf = {0.15,  0.15,  2.0,    120,    2,     1,      1,       0,        0,       0};
+    } else if (trigger == "HQU") {
+        rootfile = "/Users/matthias/alice/Master/Makros/Rootfiles/DataHe3_HQU.root";
+        tofBinsHe3[0] = {25, 25, 25, 25, 25, 25, 25, 35, 25}; // TRD H3 TRD
+        tofBinsHe3[1] = {25, 25, 25, 25, 25, 25, 25, 35, 25}; // TRD Anti H3
+        tofBinsHe3[2] = {25, 25, 25, 25, 25, 25, 25, 35, 25}; // Both
+        ptBins = {1.3, 1.8, 2.3, 2.8}; // HNU
+        cutConf = {0.15,  0.15,  2.0,    120,    2,     1,      1,       0,        0,       0};
+    } else if (trigger == "HNU&HQU") {
+        rootfile = "/Users/matthias/alice/Master/Makros/Rootfiles/DataHe3_HNUHQU.root";
+        tofBinsHe3[0] = {25, 25, 25, 25, 25, 25, 25, 35, 25}; // TRD H3 TRD
+        tofBinsHe3[1] = {25, 25, 25, 25, 25, 25, 25, 35, 25}; // TRD Anti H3
+        tofBinsHe3[2] = {25, 25, 25, 25, 25, 25, 25, 35, 25}; // Both
+        ptBins = {1.3, 1.8, 2.3, 2.8}; // HNU
+        cutConf = {0.15,  0.15,  2.0,    120,    2,     1,      1,       0,        0,       0};
+    }   
+	else {
         rootfile = "/Users/matthias/alice/Master/Makros/Rootfiles/DataHe3.root";
         tofBinsHe3[0] = {30, 30, 30, 30, 30, 40, 25, 35, 25}; // TRD He3 HM
         tofBinsHe3[1] = {30, 30, 30, 30, 30, 40, 25, 35, 25}; // TRD Anti He3
@@ -140,6 +155,7 @@ void readDataHe3(){
 	for (Int_t i = 0; i < periods18.Length(); i++){
 		fTreeData->Add(resultPath+ "/Data/LHC18"  + periods18(i,1)+ "/AnalysisResults.root");
 		}
+	
 	setTreeBranch(fTreeData);
 	
 	// create pt bin histograms
@@ -171,8 +187,17 @@ void readDataHe3(){
 		if (trigger == "HM"){
 			if (!tTrigHMV0 && !tTrigHMSPD) continue;  // use high multiplicity triggers (w/o multiplicity cut!)
 		}
-		if (trigger == "HNU"){
+		if (trigger == "HNU&HQU")
+		{
 			if (!tTrigHNU && !tTrigHQU) continue;	//Nuclei Trigger
+		}
+		if (trigger == "HNU")
+		{
+			if (!tTrigHNU) continue;	//Nuclei Trigger
+		}
+		if (trigger == "HQU")
+		{
+			if (!tTrigHQU) continue;	//Nuclei Trigger
 		}
 		
 		int particle = 0;

@@ -86,6 +86,7 @@ void createDir();
 void readDataH316();
 void readDataH317();
 void readDataH318();
+void readDataH318_2();
 void merge();
 bool Cut();
 void hadd();

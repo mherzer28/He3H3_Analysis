@@ -4,7 +4,7 @@
 void He3Plot0200()
 {
 //=========Macro generated from canvas: pt20/pt20
-//=========  (Tue Jun 18 15:21:45 2024) by ROOT version 6.30/01
+//=========  (Mon Jul 22 14:05:06 2024) by ROOT version 6.30/01
    TCanvas *pt20 = new TCanvas("pt20", "pt20",0,53,1400,847);
    gStyle->SetOptFit(1);
    pt20->SetHighLightColor(2);
@@ -53,27 +53,27 @@ void He3Plot0200()
    histTOFfit000200__7->SetDirectory(nullptr);
    histTOFfit000200__7->SetStats(0);
    
-   TF1 *fitfunc7 = new TF1("fitfunc","gaus(0)",1.4,3.2, TF1::EAddToList::kNo);
+   TF1 *fitfunc7 = new TF1("fitfunc","gaus(0)",1.5,2.5, TF1::EAddToList::kNo);
    fitfunc7->SetFillColor(19);
    fitfunc7->SetFillStyle(0);
    fitfunc7->SetLineColor(2);
    fitfunc7->SetLineWidth(5);
-   fitfunc7->SetChisquare(13.7013);
-   fitfunc7->SetNDF(10);
+   fitfunc7->SetChisquare(10.70908);
+   fitfunc7->SetNDF(9);
    fitfunc7->GetXaxis()->SetLabelFont(42);
    fitfunc7->GetXaxis()->SetTitleOffset(1);
    fitfunc7->GetXaxis()->SetTitleFont(42);
    fitfunc7->GetYaxis()->SetLabelFont(42);
    fitfunc7->GetYaxis()->SetTitleFont(42);
-   fitfunc7->SetParameter(0,33.8268);
-   fitfunc7->SetParError(0,3.76706);
+   fitfunc7->SetParameter(0,33.84048);
+   fitfunc7->SetParError(0,3.76127);
    fitfunc7->SetParLimits(0,0,0);
-   fitfunc7->SetParameter(1,2.112675);
-   fitfunc7->SetParError(1,0.009705605);
+   fitfunc7->SetParameter(1,2.11264);
+   fitfunc7->SetParError(1,0.009689136);
    fitfunc7->SetParLimits(1,0,0);
-   fitfunc7->SetParameter(2,0.1073981);
-   fitfunc7->SetParError(2,0.008372896);
-   fitfunc7->SetParLimits(2,0,0);
+   fitfunc7->SetParameter(2,0.10735);
+   fitfunc7->SetParError(2,0.008337262);
+   fitfunc7->SetParLimits(2,0,1.233283);
    fitfunc7->SetParent(histTOFfit000200__7);
    histTOFfit000200__7->GetListOfFunctions()->Add(fitfunc7);
    histTOFfit000200__7->SetLineWidth(5);

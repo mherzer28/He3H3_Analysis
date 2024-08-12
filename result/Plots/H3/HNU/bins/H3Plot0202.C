@@ -4,7 +4,7 @@
 void H3Plot0202()
 {
 //=========Macro generated from canvas: pt22/pt22
-//=========  (Mon Jun 17 17:42:29 2024) by ROOT version 6.30/01
+//=========  (Mon Jul 22 15:37:55 2024) by ROOT version 6.30/01
    TCanvas *pt22 = new TCanvas("pt22", "pt22",0,53,1400,847);
    gStyle->SetOptFit(1);
    pt22->SetHighLightColor(2);
@@ -37,7 +37,7 @@ void H3Plot0202()
    histTOFfit0202__9->SetBinContent(15,59);
    histTOFfit0202__9->SetBinContent(16,54);
    histTOFfit0202__9->SetBinContent(17,55);
-   histTOFfit0202__9->SetBinContent(18,30);
+   histTOFfit0202__9->SetBinContent(18,31);
    histTOFfit0202__9->SetBinContent(19,45);
    histTOFfit0202__9->SetBinContent(20,41);
    histTOFfit0202__9->SetBinContent(21,39);
@@ -45,7 +45,7 @@ void H3Plot0202()
    histTOFfit0202__9->SetBinContent(23,49);
    histTOFfit0202__9->SetBinContent(24,38);
    histTOFfit0202__9->SetBinContent(25,52);
-   histTOFfit0202__9->SetBinContent(26,114);
+   histTOFfit0202__9->SetBinContent(26,115);
    histTOFfit0202__9->SetBinError(0,24.08319);
    histTOFfit0202__9->SetBinError(1,11.31371);
    histTOFfit0202__9->SetBinError(2,9.643651);
@@ -64,7 +64,7 @@ void H3Plot0202()
    histTOFfit0202__9->SetBinError(15,7.681146);
    histTOFfit0202__9->SetBinError(16,7.348469);
    histTOFfit0202__9->SetBinError(17,7.416198);
-   histTOFfit0202__9->SetBinError(18,5.477226);
+   histTOFfit0202__9->SetBinError(18,5.567764);
    histTOFfit0202__9->SetBinError(19,6.708204);
    histTOFfit0202__9->SetBinError(20,6.403124);
    histTOFfit0202__9->SetBinError(21,6.244998);
@@ -72,8 +72,8 @@ void H3Plot0202()
    histTOFfit0202__9->SetBinError(23,7);
    histTOFfit0202__9->SetBinError(24,6.164414);
    histTOFfit0202__9->SetBinError(25,7.211103);
-   histTOFfit0202__9->SetBinError(26,10.67708);
-   histTOFfit0202__9->SetEntries(2432);
+   histTOFfit0202__9->SetBinError(26,10.72381);
+   histTOFfit0202__9->SetEntries(2434);
    histTOFfit0202__9->SetDirectory(nullptr);
    histTOFfit0202__9->SetStats(0);
    
@@ -82,41 +82,41 @@ void H3Plot0202()
    fitfunc9->SetFillStyle(0);
    fitfunc9->SetLineColor(2);
    fitfunc9->SetLineWidth(5);
-   fitfunc9->SetChisquare(55.57849);
+   fitfunc9->SetChisquare(54.53974);
    fitfunc9->SetNDF(20);
    fitfunc9->GetXaxis()->SetLabelFont(42);
    fitfunc9->GetXaxis()->SetTitleOffset(1);
    fitfunc9->GetXaxis()->SetTitleFont(42);
    fitfunc9->GetYaxis()->SetLabelFont(42);
    fitfunc9->GetYaxis()->SetTitleFont(42);
-   fitfunc9->SetParameter(0,41.45065);
-   fitfunc9->SetParError(0,7.858376);
+   fitfunc9->SetParameter(0,41.34569);
+   fitfunc9->SetParError(0,7.883219);
    fitfunc9->SetParLimits(0,0,0);
-   fitfunc9->SetParameter(1,7.789626);
-   fitfunc9->SetParError(1,0.06573324);
+   fitfunc9->SetParameter(1,7.789404);
+   fitfunc9->SetParError(1,0.06581845);
    fitfunc9->SetParLimits(1,0,0);
-   fitfunc9->SetParameter(2,0.3332101);
-   fitfunc9->SetParError(2,0.07119985);
+   fitfunc9->SetParameter(2,0.3314252);
+   fitfunc9->SetParError(2,0.07123702);
    fitfunc9->SetParLimits(2,0,0);
-   fitfunc9->SetParameter(3,5.85751);
-   fitfunc9->SetParError(3,0.1226773);
+   fitfunc9->SetParameter(3,5.851232);
+   fitfunc9->SetParError(3,0.1223965);
    fitfunc9->SetParLimits(3,0,0);
-   fitfunc9->SetParameter(4,-0.2267349);
-   fitfunc9->SetParError(4,0.01657293);
+   fitfunc9->SetParameter(4,-0.2255977);
+   fitfunc9->SetParError(4,0.01652078);
    fitfunc9->SetParLimits(4,0,0);
    fitfunc9->SetParent(histTOFfit0202__9);
    histTOFfit0202__9->GetListOfFunctions()->Add(fitfunc9);
    histTOFfit0202__9->SetLineWidth(5);
    histTOFfit0202__9->SetMarkerStyle(20);
    histTOFfit0202__9->SetMarkerSize(2);
-   histTOFfit0202__9->GetXaxis()->SetTitle("m^{2}/z^{2} (GeV^{2}/c^{4})");
+   histTOFfit0202__9->GetXaxis()->SetTitle("m^{2}/z^{2} (GeV^{2}/#it{c}^{4})");
    histTOFfit0202__9->GetXaxis()->SetRange(1,25);
    histTOFfit0202__9->GetXaxis()->SetLabelFont(42);
    histTOFfit0202__9->GetXaxis()->SetLabelSize(0.05);
    histTOFfit0202__9->GetXaxis()->SetTitleSize(0.05);
    histTOFfit0202__9->GetXaxis()->SetTitleOffset(1);
    histTOFfit0202__9->GetXaxis()->SetTitleFont(42);
-   histTOFfit0202__9->GetYaxis()->SetTitle("Counts / (240 MeV^{2}/c^{4})");
+   histTOFfit0202__9->GetYaxis()->SetTitle("Counts / (240 MeV^{2}/#it{c}^{4})");
    histTOFfit0202__9->GetYaxis()->SetLabelFont(42);
    histTOFfit0202__9->GetYaxis()->SetLabelSize(0.05);
    histTOFfit0202__9->GetYaxis()->SetTitleSize(0.05);

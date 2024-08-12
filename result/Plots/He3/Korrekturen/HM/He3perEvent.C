@@ -4,7 +4,7 @@
 void He3perEvent()
 {
 //=========Macro generated from canvas: ratioPlot52/
-//=========  (Mon Jul  8 14:31:47 2024) by ROOT version 6.30/01
+//=========  (Mon Jul 22 20:39:46 2024) by ROOT version 6.30/01
    TCanvas *ratioPlot52 = new TCanvas("ratioPlot52", "",0,53,1440,847);
    ratioPlot52->SetHighLightColor(2);
    ratioPlot52->Range(0,0,1,1);
@@ -13,40 +13,40 @@ void He3perEvent()
    ratioPlot52->SetBorderSize(2);
    ratioPlot52->SetLogy();
    ratioPlot52->SetFrameBorderMode(0);
-   Double_t xAxis24[4] = {1.4, 1.8, 2.2, 2.6}; 
+   Double_t xAxis11[4] = {1.4, 1.8, 2.2, 2.6}; 
    
-   TH1D *yieldCombinedPerEventHe__24 = new TH1D("yieldCombinedPerEventHe__24","",3, xAxis24);
-   yieldCombinedPerEventHe__24->SetBinContent(1,1.81989e-06);
-   yieldCombinedPerEventHe__24->SetBinContent(2,9.22378e-07);
-   yieldCombinedPerEventHe__24->SetBinContent(3,6.718704e-07);
-   yieldCombinedPerEventHe__24->SetBinError(1,1.440378e-07);
-   yieldCombinedPerEventHe__24->SetBinError(2,5.893153e-08);
-   yieldCombinedPerEventHe__24->SetBinError(3,4.544394e-08);
-   yieldCombinedPerEventHe__24->SetEntries(443.7895);
-   yieldCombinedPerEventHe__24->SetStats(0);
+   TH1D *yieldCombinedPerEventHe__11 = new TH1D("yieldCombinedPerEventHe__11","",3, xAxis11);
+   yieldCombinedPerEventHe__11->SetBinContent(1,1.81989e-06);
+   yieldCombinedPerEventHe__11->SetBinContent(2,9.22378e-07);
+   yieldCombinedPerEventHe__11->SetBinContent(3,6.718704e-07);
+   yieldCombinedPerEventHe__11->SetBinError(1,1.440378e-07);
+   yieldCombinedPerEventHe__11->SetBinError(2,5.893153e-08);
+   yieldCombinedPerEventHe__11->SetBinError(3,4.544394e-08);
+   yieldCombinedPerEventHe__11->SetEntries(443.7895);
+   yieldCombinedPerEventHe__11->SetStats(0);
 
    Int_t ci;      // for color index setting
    TColor *color; // for color definition with alpha
    ci = TColor::GetColor("#990099");
-   yieldCombinedPerEventHe__24->SetLineColor(ci);
-   yieldCombinedPerEventHe__24->SetLineWidth(2);
+   yieldCombinedPerEventHe__11->SetLineColor(ci);
+   yieldCombinedPerEventHe__11->SetLineWidth(2);
 
    ci = TColor::GetColor("#990099");
-   yieldCombinedPerEventHe__24->SetMarkerColor(ci);
-   yieldCombinedPerEventHe__24->SetMarkerStyle(8);
-   yieldCombinedPerEventHe__24->SetMarkerSize(1.5);
-   yieldCombinedPerEventHe__24->GetXaxis()->SetTitle("#it{p}_{T} (GeV/#it{c})");
-   yieldCombinedPerEventHe__24->GetXaxis()->SetRange(1,3);
-   yieldCombinedPerEventHe__24->GetXaxis()->SetLabelFont(42);
-   yieldCombinedPerEventHe__24->GetXaxis()->SetTitleOffset(1);
-   yieldCombinedPerEventHe__24->GetXaxis()->SetTitleFont(42);
-   yieldCombinedPerEventHe__24->GetYaxis()->SetTitle("1/N_{evt} d^{2}N/(dy d#it{p}_{t}) (GeV/#it{c})^{-1}");
-   yieldCombinedPerEventHe__24->GetYaxis()->SetLabelFont(42);
-   yieldCombinedPerEventHe__24->GetYaxis()->SetTitleFont(42);
-   yieldCombinedPerEventHe__24->GetZaxis()->SetLabelFont(42);
-   yieldCombinedPerEventHe__24->GetZaxis()->SetTitleOffset(1);
-   yieldCombinedPerEventHe__24->GetZaxis()->SetTitleFont(42);
-   yieldCombinedPerEventHe__24->Draw("");
+   yieldCombinedPerEventHe__11->SetMarkerColor(ci);
+   yieldCombinedPerEventHe__11->SetMarkerStyle(8);
+   yieldCombinedPerEventHe__11->SetMarkerSize(1.5);
+   yieldCombinedPerEventHe__11->GetXaxis()->SetTitle("#it{p}_{T} (GeV/#it{c})");
+   yieldCombinedPerEventHe__11->GetXaxis()->SetRange(1,3);
+   yieldCombinedPerEventHe__11->GetXaxis()->SetLabelFont(42);
+   yieldCombinedPerEventHe__11->GetXaxis()->SetTitleOffset(1);
+   yieldCombinedPerEventHe__11->GetXaxis()->SetTitleFont(42);
+   yieldCombinedPerEventHe__11->GetYaxis()->SetTitle("1/N_{evt} d^{2}N/(dy d#it{p}_{t}) (GeV/#it{c})^{-1}");
+   yieldCombinedPerEventHe__11->GetYaxis()->SetLabelFont(42);
+   yieldCombinedPerEventHe__11->GetYaxis()->SetTitleFont(42);
+   yieldCombinedPerEventHe__11->GetZaxis()->SetLabelFont(42);
+   yieldCombinedPerEventHe__11->GetZaxis()->SetTitleOffset(1);
+   yieldCombinedPerEventHe__11->GetZaxis()->SetTitleFont(42);
+   yieldCombinedPerEventHe__11->Draw("");
    
    TLegend *leg = new TLegend(0,0,0,0,NULL,"brNDC");
    leg->SetBorderSize(0);

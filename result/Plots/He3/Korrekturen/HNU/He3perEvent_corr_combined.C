@@ -4,25 +4,26 @@
 void He3perEvent_corr_combined()
 {
 //=========Macro generated from canvas: combinedCanvasCorr/
-//=========  (Mon Jul  8 14:29:29 2024) by ROOT version 6.30/01
+//=========  (Mon Aug  5 13:07:08 2024) by ROOT version 6.30/01
    TCanvas *combinedCanvasCorr = new TCanvas("combinedCanvasCorr", "",0,53,1440,847);
    combinedCanvasCorr->SetHighLightColor(2);
-   combinedCanvasCorr->Range(1.1125,-4.393019e-07,2.9875,7.833332e-06);
+   combinedCanvasCorr->Range(1.1125,-6.697092,2.9875,-4.643993);
    combinedCanvasCorr->SetFillColor(0);
    combinedCanvasCorr->SetBorderMode(0);
    combinedCanvasCorr->SetBorderSize(2);
+   combinedCanvasCorr->SetLogy();
    combinedCanvasCorr->SetFrameBorderMode(0);
    combinedCanvasCorr->SetFrameBorderMode(0);
    Double_t xAxis25[4] = {1.3, 1.8, 2.3, 2.8}; 
    
    TH1D *yieldCombinedPerEventHe__25 = new TH1D("yieldCombinedPerEventHe__25","",3, xAxis25);
-   yieldCombinedPerEventHe__25->SetBinContent(1,5.948055e-06);
-   yieldCombinedPerEventHe__25->SetBinContent(2,1.737952e-06);
-   yieldCombinedPerEventHe__25->SetBinContent(3,7.718188e-07);
-   yieldCombinedPerEventHe__25->SetBinError(1,7.428659e-07);
-   yieldCombinedPerEventHe__25->SetBinError(2,1.300487e-07);
-   yieldCombinedPerEventHe__25->SetBinError(3,8.371639e-08);
-   yieldCombinedPerEventHe__25->SetEntries(124.2418);
+   yieldCombinedPerEventHe__25->SetBinContent(1,6.631923e-06);
+   yieldCombinedPerEventHe__25->SetBinContent(2,1.792297e-06);
+   yieldCombinedPerEventHe__25->SetBinContent(3,7.228928e-07);
+   yieldCombinedPerEventHe__25->SetBinError(1,8.351039e-07);
+   yieldCombinedPerEventHe__25->SetBinError(2,1.342132e-07);
+   yieldCombinedPerEventHe__25->SetBinError(3,7.835631e-08);
+   yieldCombinedPerEventHe__25->SetEntries(115.958);
    yieldCombinedPerEventHe__25->SetStats(0);
 
    Int_t ci;      // for color index setting
@@ -50,13 +51,13 @@ void He3perEvent_corr_combined()
    Double_t xAxis26[4] = {1.3, 1.8, 2.3, 2.8}; 
    
    TH1D *yieldCombinedPerEventHe__26 = new TH1D("yieldCombinedPerEventHe__26","",3, xAxis26);
-   yieldCombinedPerEventHe__26->SetBinContent(1,3.488279e-06);
-   yieldCombinedPerEventHe__26->SetBinContent(2,1.285405e-06);
-   yieldCombinedPerEventHe__26->SetBinContent(3,5.468001e-07);
-   yieldCombinedPerEventHe__26->SetBinError(1,4.763117e-07);
-   yieldCombinedPerEventHe__26->SetBinError(2,9.156471e-08);
-   yieldCombinedPerEventHe__26->SetBinError(3,4.95394e-08);
-   yieldCombinedPerEventHe__26->SetEntries(119.0839);
+   yieldCombinedPerEventHe__26->SetBinContent(1,3.840512e-06);
+   yieldCombinedPerEventHe__26->SetBinContent(2,1.187268e-06);
+   yieldCombinedPerEventHe__26->SetBinContent(3,4.379476e-07);
+   yieldCombinedPerEventHe__26->SetBinError(1,5.267838e-07);
+   yieldCombinedPerEventHe__26->SetBinError(2,8.4461e-08);
+   yieldCombinedPerEventHe__26->SetBinError(3,3.961736e-08);
+   yieldCombinedPerEventHe__26->SetEntries(104.3806);
    yieldCombinedPerEventHe__26->SetStats(0);
 
    ci = TColor::GetColor("#ff0000");
@@ -80,7 +81,7 @@ void He3perEvent_corr_combined()
    yieldCombinedPerEventHe__26->GetZaxis()->SetTitleFont(42);
    yieldCombinedPerEventHe__26->Draw("same");
    
-   TLegend *leg = new TLegend(0.5,0.75,0.9,0.9,NULL,"brNDC");
+   TLegend *leg = new TLegend(0.397079,0.726277,0.79694,0.875912,NULL,"brNDC");
    leg->SetBorderSize(0);
    leg->SetLineColor(1);
    leg->SetLineStyle(1);
@@ -110,6 +111,39 @@ void He3perEvent_corr_combined()
    entry->SetMarkerColor(ci);
    entry->SetMarkerStyle(8);
    entry->SetMarkerSize(1.5);
+   entry->SetTextFont(42);
+   leg->Draw();
+   
+   leg = new TLegend(0.527121,0.681265,0.896384,0.879562,NULL,"brNDC");
+   leg->SetBorderSize(0);
+   leg->SetLineColor(1);
+   leg->SetLineStyle(1);
+   leg->SetLineWidth(1);
+   leg->SetFillColor(0);
+   leg->SetFillStyle(0);
+   entry=leg->AddEntry("NULL","Corrected","");
+   entry->SetLineColor(1);
+   entry->SetLineStyle(1);
+   entry->SetLineWidth(1);
+   entry->SetMarkerColor(1);
+   entry->SetMarkerStyle(21);
+   entry->SetMarkerSize(1);
+   entry->SetTextFont(42);
+   entry=leg->AddEntry("NULL","ALICE pp #sqrt{s} = 13 TeV, |y| < 0.5","");
+   entry->SetLineColor(1);
+   entry->SetLineStyle(1);
+   entry->SetLineWidth(1);
+   entry->SetMarkerColor(1);
+   entry->SetMarkerStyle(21);
+   entry->SetMarkerSize(1);
+   entry->SetTextFont(42);
+   entry=leg->AddEntry("NULL","TRD trigger","");
+   entry->SetLineColor(1);
+   entry->SetLineStyle(1);
+   entry->SetLineWidth(1);
+   entry->SetMarkerColor(1);
+   entry->SetMarkerStyle(21);
+   entry->SetMarkerSize(1);
    entry->SetTextFont(42);
    leg->Draw();
    combinedCanvasCorr->Modified();

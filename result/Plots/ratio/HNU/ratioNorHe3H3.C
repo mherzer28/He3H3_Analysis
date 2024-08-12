@@ -4,7 +4,7 @@
 void ratioNorHe3H3()
 {
 //=========Macro generated from canvas: ratioPlot0/
-//=========  (Mon Jul  8 14:29:27 2024) by ROOT version 6.30/01
+//=========  (Mon Aug  5 13:07:06 2024) by ROOT version 6.30/01
    TCanvas *ratioPlot0 = new TCanvas("ratioPlot0", "",0,53,1440,847);
    ratioPlot0->SetHighLightColor(2);
    ratioPlot0->Range(1.1125,-0.25,2.9875,2.25);
@@ -17,14 +17,14 @@ void ratioNorHe3H3()
    
    TH1D *histRatio00__3 = new TH1D("histRatio00__3"," ",3, xAxis3);
    histRatio00__3->SetBinContent(1,0.2245379);
-   histRatio00__3->SetBinContent(2,0.3263336);
-   histRatio00__3->SetBinContent(3,0.8863835);
+   histRatio00__3->SetBinContent(2,0.3263338);
+   histRatio00__3->SetBinContent(3,0.8864235);
    histRatio00__3->SetBinError(1,0.06900086);
    histRatio00__3->SetBinError(2,0.05074725);
-   histRatio00__3->SetBinError(3,0.2024927);
+   histRatio00__3->SetBinError(3,0.2024947);
    histRatio00__3->SetMinimum(0);
    histRatio00__3->SetMaximum(2);
-   histRatio00__3->SetEntries(42.73305);
+   histRatio00__3->SetEntries(42.73472);
    histRatio00__3->SetStats(0);
 
    Int_t ci;      // for color index setting

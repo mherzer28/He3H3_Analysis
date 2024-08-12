@@ -19,7 +19,7 @@
 #include "TLine.h"
 #include "He3_tofHisto.h"
 
-TString trigger = "HM"; // "HNU" or "HM" 
+TString trigger = "HM"; // "HNU" "HQU" "HNUHQU" or "HM" 
 const Int_t nParticles = 3;	
 const Int_t nPtBins = 3;
 const TString particleNames[] = {"{}^{3}He", "{}^{3}#bar{He}","{}^{3}He+{}^{3}#bar{He}"};
@@ -39,11 +39,26 @@ void He3_tofHisto(){
 void fit(){
 	if (trigger == "HNU") {
         rootfile = "/Users/matthias/alice/Master/Makros/Rootfiles/DataHe3_HNU.root";
-        tofBinsH3[0] = {25, 25, 25, 25, 25, 25, 25, 35, 25}; // TRD H3 TRD
-        tofBinsH3[1] = {25, 25, 25, 25, 25, 25, 25, 35, 25}; // TRD Anti H3
-        tofBinsH3[2] = {25, 25, 25, 25, 25, 25, 25, 35, 25}; // Both
+        tofBinsHe3[0] = {25, 25, 25, 25, 25, 25, 25, 35, 25}; // TRD H3 TRD
+        tofBinsHe3[1] = {25, 25, 25, 25, 25, 25, 25, 35, 25}; // TRD Anti H3
+        tofBinsHe3[2] = {25, 25, 25, 25, 25, 25, 25, 35, 25}; // Both
         ptBins = {1.3, 1.8, 2.3, 2.8}; // HNU
-    } else {
+        cutConf = {0.15,  0.15,  2.0,    120,    2,     1,      1,       0,        0,       0};
+    } else if (trigger == "HQU") {
+        rootfile = "/Users/matthias/alice/Master/Makros/Rootfiles/DataHe3_HQU.root";
+        tofBinsHe3[0] = {25, 25, 25, 25, 25, 25, 25, 35, 25}; // TRD H3 TRD
+        tofBinsHe3[1] = {25, 25, 25, 25, 25, 25, 25, 35, 25}; // TRD Anti H3
+        tofBinsHe3[2] = {25, 25, 25, 25, 25, 25, 25, 35, 25}; // Both
+        ptBins = {1.3, 1.8, 2.3, 2.8}; // HNU
+        cutConf = {0.15,  0.15,  2.0,    120,    2,     1,      1,       0,        0,       0};
+    } else if (trigger == "HNU&HQU") {
+        rootfile = "/Users/matthias/alice/Master/Makros/Rootfiles/DataHe3_HNUHQU.root";
+        tofBinsHe3[0] = {25, 25, 25, 25, 25, 25, 25, 35, 25}; // TRD H3 TRD
+        tofBinsHe3[1] = {25, 25, 25, 25, 25, 25, 25, 35, 25}; // TRD Anti H3
+        tofBinsHe3[2] = {25, 25, 25, 25, 25, 25, 25, 35, 25}; // Both
+        ptBins = {1.3, 1.8, 2.3, 2.8}; // HNU
+        cutConf = {0.15,  0.15,  2.0,    120,    2,     1,      1,       0,        0,       0};
+    }  else {
         rootfile = "/Users/matthias/alice/Master/Makros/Rootfiles/DataHe3.root";
         tofBinsH3[0] = {30, 30, 30, 30, 30, 40, 25, 35, 25}; // TRD H3 HM
         tofBinsH3[1] = {30, 30, 30, 30, 30, 40, 25, 35, 25}; // TRD Anti H3
@@ -69,57 +84,54 @@ void fit(){
 			TF1 *fit = new TF1("fitfunc", "gaus(0)", 1.5, 2.5); // use "crystalball" instead of "gaus" if there is a tail  
 			fit->SetParNames("Constant", "Mean", "Sigma");
 			fit->SetParameters(20,1.96,0.2);
-			if (trigger == "HNU")
-			{
-				if (particle == 0){
-				if (pt == 0){
-					fit->FixParameter(0, 24.3842);
-					fit->FixParameter(1, 2.0938);
-					fit->FixParameter(2, 0.0821775);
-					}	
-				}
-				if (particle == 1){
-				if (pt == 0){
-					fit->FixParameter(0, 13);
-					fit->FixParameter(1, 2.11);
-					fit->FixParameter(2, 0.121189);
-					}	
-				if (pt == 1){
-					fit->FixParameter(0, 101);
-					fit->FixParameter(1, 2.01018);
-					fit->FixParameter(2, 0.0594477);
-					}	
-				if (pt == 2){
-					fit->FixParameter(0, 56.4487);
-					fit->FixParameter(1, 1.9747);
-					fit->FixParameter(2, 0.0597807);
-					}	
-				}
-			}
-			if (trigger == "HM")
-			{
-				if (particle == 0){
-				if (pt == 0){
-					fit->FixParameter(2, 0.0927816);
-					}	
-				}
-			}
-			
-			//TFitResultPtr fp = histTOFfit[particle][pt]->Fit("fitfunc","S");
-			histTOFfit[particle][pt]->Fit(fit, "B");
+			if (trigger == "HNU&HQU") {
+            if (particle == 0 && pt == 0) {
+                fit->FixParameter(0, 24.3842);
+                fit->FixParameter(1, 2.0938);
+                fit->FixParameter(2, 0.0821775);
+            } else if (particle == 1 && pt == 0) {
+                fit->FixParameter(0, 13);
+                fit->FixParameter(1, 2.11);
+                fit->FixParameter(2, 0.121189);
+            } else if (particle == 1 && pt == 1) {
+                fit->FixParameter(0, 101);
+                fit->FixParameter(1, 2.01018);
+                fit->FixParameter(2, 0.0594477);
+            } else if (particle == 1 && pt == 2) {
+                fit->FixParameter(0, 56.4487);
+                fit->FixParameter(1, 1.9747);
+                fit->FixParameter(2, 0.0597807);
+            }
+        } else if (trigger == "HM") {
+            if (particle == 0 && pt == 0) {
+                fit->FixParameter(2, 0.0927816);
+            } else if (particle == 0 && pt == 1) {
+                fit->FixParameter(0, 65.);
+                fit->FixParameter(2, 0.062112);
+            } else if (particle == 1 && pt == 0) {
+                fit->FixParameter(0, 12);
+            }
+        }
+
+			TFitResultPtr fp = histTOFfit[particle][pt]->Fit("fitfunc","RS");
+			//histTOFfit[particle][pt]->Fit(fit, "B");
 			// fit histo and get parameter
-			Double_t integral = 0, intError = 0, fitInt = 0;
+			Double_t integral = 0, intError = 0, fitInt = 0, fitIntError = 0;
 			if (fit){
 				Double_t *fitParams = fit->GetParameters();				
 				// raw yield
 				Double_t lo = fitParams[1] - 3*fitParams[2];
 				Double_t hi = fitParams[1] + 3*fitParams[2];
+				TMatrixDSym covMatrix = fp->GetCovarianceMatrix();
 				integral = histTOFfit[particle][pt]->IntegralAndError(histTOFfit[particle][pt]->FindBin(lo), histTOFfit[particle][pt]->FindBin(hi), intError);
 				histRawYield[particle]->SetBinContent(pt+1, integral);
 				histRawYield[particle]->SetBinError(pt+1, intError);
 				fitInt = fit->Integral(lo, hi) / histTOFfit[particle][pt]->GetBinWidth(1);
+				fitIntError = fit->IntegralError(lo, hi, fp->GetParams(), fp->GetCovarianceMatrix().GetMatrixArray());
 			    histRawYieldFit[particle]->SetBinContent(pt+1, fitInt);
+				histRawYieldFit[particle]->SetBinError(pt + 1, fitIntError);
 				cout << "Bin Counting " << integral << ", Funktion " << fitInt << endl;
+				cout << "Bin Counting error " << intError << ", Funktion " << fitIntError << endl;
                 cout << "Param High " << hi << ", Low " << lo << endl;
 
 			}
@@ -175,9 +187,17 @@ void histoHe3(){
 	{
 		infoLabel->AddText("Trigger: HM");
 	}
-	if (trigger == "HNU")
+	if (trigger == "HNU&HQU")
 	{
 		infoLabel->AddText("Trigger: HNU HQU");
+	}
+	if (trigger == "HNU")
+	{
+		infoLabel->AddText("Trigger: HNU");
+	}
+	if (trigger == "HQU")
+	{
+		infoLabel->AddText("Trigger: HQU");
 	}
 	infoLabel->AddText("work in progress"); 
 	canPtBinsHe3[particle]->cd(3 * rows - 1);
@@ -190,11 +210,23 @@ void histoHe3(){
 		canPtBinsHe3[particle]->SaveAs(Folder + Form("/Plots/He3/HM/%02dBinsHe3%02d.png", nPtBins, particle));
 		canPtBinsHe3[particle]->SaveAs(Folder + Form("/Plots/He3/HM/%02dBinsHe3%02d.root", nPtBins, particle));	
 	}
+	if (trigger == "HNU&HQU")
+	{
+		canPtBinsHe3[particle]->SaveAs(Folder + Form("/Plots/He3/HNUHQU/%02dBinsHe3%02d.pdf", nPtBins, particle));
+		canPtBinsHe3[particle]->SaveAs(Folder + Form("/Plots/He3/HNUHQU/%02dBinsHe3%02d.png", nPtBins, particle));
+		canPtBinsHe3[particle]->SaveAs(Folder + Form("/Plots/He3/HNUHQU/%02dBinsHe3%02d.root", nPtBins, particle));	
+	}
 	if (trigger == "HNU")
 	{
 		canPtBinsHe3[particle]->SaveAs(Folder + Form("/Plots/He3/HNU/%02dBinsHe3%02d.pdf", nPtBins, particle));
 		canPtBinsHe3[particle]->SaveAs(Folder + Form("/Plots/He3/HNU/%02dBinsHe3%02d.png", nPtBins, particle));
 		canPtBinsHe3[particle]->SaveAs(Folder + Form("/Plots/He3/HNU/%02dBinsHe3%02d.root", nPtBins, particle));	
+	}
+	if (trigger == "HNU")
+	{
+		canPtBinsHe3[particle]->SaveAs(Folder + Form("/Plots/He3/HQU/%02dBinsHe3%02d.pdf", nPtBins, particle));
+		canPtBinsHe3[particle]->SaveAs(Folder + Form("/Plots/He3/HQU/%02dBinsHe3%02d.png", nPtBins, particle));
+		canPtBinsHe3[particle]->SaveAs(Folder + Form("/Plots/He3/HQU/%02dBinsHe3%02d.root", nPtBins, particle));	
 	}
 	
     }
@@ -249,9 +281,17 @@ void histoHe3(){
 			{
 				legendtof[particle][pt]->AddEntry((TObject*)0, "High-multiplicity trigger", "");
 			}
+			if (trigger == "HNU&HQU")
+			{
+				legendtof[particle][pt]->AddEntry((TObject*)0, "TRD HNU & HQU trigger", "");
+			}
 			if (trigger == "HNU")
 			{
-				legendtof[particle][pt]->AddEntry((TObject*)0, "TRD trigger", "");
+				legendtof[particle][pt]->AddEntry((TObject*)0, "TRD HNU trigger", "");
+			}
+			if (trigger == "HQU")
+			{
+				legendtof[particle][pt]->AddEntry((TObject*)0, "TRD HQU trigger", "");
 			}
 			legendtof[particle][pt]->SetBorderSize(0);
 			legendtof[particle][pt]->Draw("same");
@@ -270,13 +310,24 @@ void histoHe3(){
 				canTOF[particle][pt]->SaveAs(Folder + Form("/Plots/He3/HM/bins/He3Plot%02d%02d.root", particle, pt));
 				canTOF[particle][pt]->SaveAs(Folder + Form("/Plots/He3/HM/bins/He3Plot%02d%02d.C", particle, pt));
 			}
+			if (trigger == "HNU&HQU")
+			{
+				canTOF[particle][pt]->SaveAs(Folder + Form("/Plots/He3/HNUHQU/bins/He3Plot%02d%02d.pdf", particle, pt));
+				canTOF[particle][pt]->SaveAs(Folder + Form("/Plots/He3/HNUHQU/bins/He3Plot%02d%02d.root", particle, pt));
+				canTOF[particle][pt]->SaveAs(Folder + Form("/Plots/He3/HNUHQU/bins/He3Plot%02d%02d.C", particle, pt));
+			}
 			if (trigger == "HNU")
 			{
 				canTOF[particle][pt]->SaveAs(Folder + Form("/Plots/He3/HNU/bins/He3Plot%02d%02d.pdf", particle, pt));
 				canTOF[particle][pt]->SaveAs(Folder + Form("/Plots/He3/HNU/bins/He3Plot%02d%02d.root", particle, pt));
 				canTOF[particle][pt]->SaveAs(Folder + Form("/Plots/He3/HNU/bins/He3Plot%02d%02d.C", particle, pt));
 			}
-			
+			if (trigger == "HQU")
+			{
+				canTOF[particle][pt]->SaveAs(Folder + Form("/Plots/He3/HQU/bins/He3Plot%02d%02d.pdf", particle, pt));
+				canTOF[particle][pt]->SaveAs(Folder + Form("/Plots/He3/HQU/bins/He3Plot%02d%02d.root", particle, pt));
+				canTOF[particle][pt]->SaveAs(Folder + Form("/Plots/He3/HQU/bins/He3Plot%02d%02d.C", particle, pt));
+			}
 		}
 	}
 	// raw yield
@@ -302,10 +353,20 @@ void histoHe3(){
 		canRaw->SaveAs(Folder + "/Plots/He3/HM/rawYieldHe3Bin.pdf");
 		canRaw->SaveAs(Folder + "/Plots/He3/HM/rawYieldHe3Bin.C");
 	}
+	if (trigger == "HNU&HQU")
+	{
+		canRaw->SaveAs(Folder + "/Plots/He3/HNUHQU/rawYieldHe3Bin.pdf");
+		canRaw->SaveAs(Folder + "/Plots/He3/HNUHQU/rawYieldHe3Bin.C");
+	}
 	if (trigger == "HNU")
 	{
 		canRaw->SaveAs(Folder + "/Plots/He3/HNU/rawYieldHe3Bin.pdf");
 		canRaw->SaveAs(Folder + "/Plots/He3/HNU/rawYieldHe3Bin.C");
+	}
+	if (trigger == "HQU")
+	{
+		canRaw->SaveAs(Folder + "/Plots/He3/HQU/rawYieldHe3Bin.pdf");
+		canRaw->SaveAs(Folder + "/Plots/He3/HQU/rawYieldHe3Bin.C");
 	}
 	
 	canRaw->Write(0, TObject::kOverwrite);
@@ -322,9 +383,17 @@ void histoHe3(){
 	{
 		canRawFit->SaveAs(Folder + Form("/Plots/He3/HM/rawYieldHe3FitFunc.pdf"));
 	}
+	if (trigger == "HNU&HQU")
+	{
+		canRawFit->SaveAs(Folder + Form("/Plots/He3/HNUHQU/rawYieldHe3FitFunc.pdf"));
+	}
 	if (trigger == "HNU")
 	{
 		canRawFit->SaveAs(Folder + Form("/Plots/He3/HNU/rawYieldHe3FitFunc.pdf"));
+	}
+	if (trigger == "HQU")
+	{
+		canRawFit->SaveAs(Folder + Form("/Plots/He3/HQU/rawYieldHe3FitFunc.pdf"));
 	}
     canRawFit->Write(0, TObject::kOverwrite);
 

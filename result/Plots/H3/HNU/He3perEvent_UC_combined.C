@@ -4,13 +4,14 @@
 void He3perEvent_UC_combined()
 {
 //=========Macro generated from canvas: combinedCanvas/
-//=========  (Mon Jul  8 14:29:28 2024) by ROOT version 6.30/01
+//=========  (Mon Jul 15 11:07:11 2024) by ROOT version 6.30/01
    TCanvas *combinedCanvas = new TCanvas("combinedCanvas", "",0,53,1440,847);
    combinedCanvas->SetHighLightColor(2);
-   combinedCanvas->Range(1.1125,1.351075e-08,2.9875,7.511491e-08);
+   combinedCanvas->Range(1.1125,-8.093154,2.9875,-6.766235);
    combinedCanvas->SetFillColor(0);
    combinedCanvas->SetBorderMode(0);
    combinedCanvas->SetBorderSize(2);
+   combinedCanvas->SetLogy();
    combinedCanvas->SetFrameBorderMode(0);
    combinedCanvas->SetFrameBorderMode(0);
    Double_t xAxis12[4] = {1.3, 1.8, 2.3, 2.8}; 
@@ -108,6 +109,39 @@ void He3perEvent_UC_combined()
    entry->SetMarkerColor(ci);
    entry->SetMarkerStyle(8);
    entry->SetMarkerSize(1.5);
+   entry->SetTextFont(42);
+   leg->Draw();
+   
+   leg = new TLegend(0.535466,0.150852,0.904729,0.349148,NULL,"brNDC");
+   leg->SetBorderSize(0);
+   leg->SetLineColor(1);
+   leg->SetLineStyle(1);
+   leg->SetLineWidth(1);
+   leg->SetFillColor(0);
+   leg->SetFillStyle(0);
+   entry=leg->AddEntry("NULL","Uncorrected","");
+   entry->SetLineColor(1);
+   entry->SetLineStyle(1);
+   entry->SetLineWidth(1);
+   entry->SetMarkerColor(1);
+   entry->SetMarkerStyle(21);
+   entry->SetMarkerSize(1);
+   entry->SetTextFont(42);
+   entry=leg->AddEntry("NULL","ALICE pp #sqrt{s} = 13 TeV, |y| < 0.5","");
+   entry->SetLineColor(1);
+   entry->SetLineStyle(1);
+   entry->SetLineWidth(1);
+   entry->SetMarkerColor(1);
+   entry->SetMarkerStyle(21);
+   entry->SetMarkerSize(1);
+   entry->SetTextFont(42);
+   entry=leg->AddEntry("NULL","TRD trigger","");
+   entry->SetLineColor(1);
+   entry->SetLineStyle(1);
+   entry->SetLineWidth(1);
+   entry->SetMarkerColor(1);
+   entry->SetMarkerStyle(21);
+   entry->SetMarkerSize(1);
    entry->SetTextFont(42);
    leg->Draw();
    combinedCanvas->Modified();

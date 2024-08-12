@@ -4,7 +4,7 @@
 void rawYieldH3BinCounting()
 {
 //=========Macro generated from canvas: rawBin/raw yield bin counting
-//=========  (Tue Jun 18 16:00:44 2024) by ROOT version 6.30/01
+//=========  (Sun Jul 14 13:16:41 2024) by ROOT version 6.30/01
    TCanvas *rawBin = new TCanvas("rawBin", "raw yield bin counting",0,53,1200,847);
    gStyle->SetOptFit(1);
    rawBin->SetHighLightColor(2);

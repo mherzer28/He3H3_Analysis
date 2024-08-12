@@ -4,7 +4,7 @@
 void H3Plot0102()
 {
 //=========Macro generated from canvas: pt12/pt12
-//=========  (Mon Jun 17 17:42:28 2024) by ROOT version 6.30/01
+//=========  (Mon Jul 22 15:37:55 2024) by ROOT version 6.30/01
    TCanvas *pt12 = new TCanvas("pt12", "pt12",0,53,1400,847);
    gStyle->SetOptFit(1);
    pt12->SetHighLightColor(2);
@@ -37,7 +37,7 @@ void H3Plot0102()
    histTOFfit0102__6->SetBinContent(15,33);
    histTOFfit0102__6->SetBinContent(16,30);
    histTOFfit0102__6->SetBinContent(17,32);
-   histTOFfit0102__6->SetBinContent(18,15);
+   histTOFfit0102__6->SetBinContent(18,16);
    histTOFfit0102__6->SetBinContent(19,24);
    histTOFfit0102__6->SetBinContent(20,24);
    histTOFfit0102__6->SetBinContent(21,18);
@@ -64,7 +64,7 @@ void H3Plot0102()
    histTOFfit0102__6->SetBinError(15,5.744563);
    histTOFfit0102__6->SetBinError(16,5.477226);
    histTOFfit0102__6->SetBinError(17,5.656854);
-   histTOFfit0102__6->SetBinError(18,3.872983);
+   histTOFfit0102__6->SetBinError(18,4);
    histTOFfit0102__6->SetBinError(19,4.898979);
    histTOFfit0102__6->SetBinError(20,4.898979);
    histTOFfit0102__6->SetBinError(21,4.242641);
@@ -73,7 +73,7 @@ void H3Plot0102()
    histTOFfit0102__6->SetBinError(24,4.795832);
    histTOFfit0102__6->SetBinError(25,5.291503);
    histTOFfit0102__6->SetBinError(26,7.937254);
-   histTOFfit0102__6->SetEntries(1337);
+   histTOFfit0102__6->SetEntries(1338);
    histTOFfit0102__6->SetDirectory(nullptr);
    histTOFfit0102__6->SetStats(0);
    
@@ -82,41 +82,41 @@ void H3Plot0102()
    fitfunc6->SetFillStyle(0);
    fitfunc6->SetLineColor(2);
    fitfunc6->SetLineWidth(5);
-   fitfunc6->SetChisquare(29.37983);
+   fitfunc6->SetChisquare(28.09413);
    fitfunc6->SetNDF(20);
    fitfunc6->GetXaxis()->SetLabelFont(42);
    fitfunc6->GetXaxis()->SetTitleOffset(1);
    fitfunc6->GetXaxis()->SetTitleFont(42);
    fitfunc6->GetYaxis()->SetLabelFont(42);
    fitfunc6->GetYaxis()->SetTitleFont(42);
-   fitfunc6->SetParameter(0,22.66488);
-   fitfunc6->SetParError(0,5.135007);
+   fitfunc6->SetParameter(0,22.49426);
+   fitfunc6->SetParError(0,5.180801);
    fitfunc6->SetParLimits(0,0,0);
-   fitfunc6->SetParameter(1,7.806518);
-   fitfunc6->SetParError(1,0.1028594);
+   fitfunc6->SetParameter(1,7.806553);
+   fitfunc6->SetParError(1,0.1032798);
    fitfunc6->SetParLimits(1,0,0);
-   fitfunc6->SetParameter(2,0.4247101);
-   fitfunc6->SetParError(2,0.1107572);
+   fitfunc6->SetParameter(2,0.4215812);
+   fitfunc6->SetParError(2,0.1133571);
    fitfunc6->SetParLimits(2,0,0);
-   fitfunc6->SetParameter(3,5.343452);
-   fitfunc6->SetParError(3,0.1649488);
+   fitfunc6->SetParameter(3,5.330953);
+   fitfunc6->SetParError(3,0.1641223);
    fitfunc6->SetParLimits(3,0,0);
-   fitfunc6->SetParameter(4,-0.2389668);
-   fitfunc6->SetParError(4,0.02252775);
+   fitfunc6->SetParameter(4,-0.2366452);
+   fitfunc6->SetParError(4,0.02238333);
    fitfunc6->SetParLimits(4,0,0);
    fitfunc6->SetParent(histTOFfit0102__6);
    histTOFfit0102__6->GetListOfFunctions()->Add(fitfunc6);
    histTOFfit0102__6->SetLineWidth(5);
    histTOFfit0102__6->SetMarkerStyle(20);
    histTOFfit0102__6->SetMarkerSize(2);
-   histTOFfit0102__6->GetXaxis()->SetTitle("m^{2}/z^{2} (GeV^{2}/c^{4})");
+   histTOFfit0102__6->GetXaxis()->SetTitle("m^{2}/z^{2} (GeV^{2}/#it{c}^{4})");
    histTOFfit0102__6->GetXaxis()->SetRange(1,25);
    histTOFfit0102__6->GetXaxis()->SetLabelFont(42);
    histTOFfit0102__6->GetXaxis()->SetLabelSize(0.05);
    histTOFfit0102__6->GetXaxis()->SetTitleSize(0.05);
    histTOFfit0102__6->GetXaxis()->SetTitleOffset(1);
    histTOFfit0102__6->GetXaxis()->SetTitleFont(42);
-   histTOFfit0102__6->GetYaxis()->SetTitle("Counts / (240 MeV^{2}/c^{4})");
+   histTOFfit0102__6->GetYaxis()->SetTitle("Counts / (240 MeV^{2}/#it{c}^{4})");
    histTOFfit0102__6->GetYaxis()->SetLabelFont(42);
    histTOFfit0102__6->GetYaxis()->SetLabelSize(0.05);
    histTOFfit0102__6->GetYaxis()->SetTitleSize(0.05);

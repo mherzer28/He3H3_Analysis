@@ -19,7 +19,7 @@
 #include "TLine.h"
 #include "H3He3_ratioHisto.h"
 
-const TString trigger = "HM"; //HM or HNU
+const TString trigger = "HNU"; //HM or HNU
 TString Folder = "result";
 TString rootfile = "/Users/matthias/alice/Master/Makros/Rootfiles/DataH3.root";
 TString rootfileHe3 = "/Users/matthias/alice/Master/Makros/Rootfiles/DataHe3.root";
@@ -31,8 +31,8 @@ TString	rootfileYield_HNU = "/Users/matthias/alice/Master/Makros/Rootfiles/DataY
 TString rootfileYield_corr = "/Users/matthias/alice/Master/Makros/result/correction/DataYield_corr.root";
 TString rootfileYield_corr_HNU = "/Users/matthias/alice/Master/Makros/result/correction/DataYield_corr_HNU.root";
 const Int_t nParticles = 3;	
-double eventnumber = 6.79038e+08 + 2.98214e+08; //HM
-double eventnumberHM = 1.6013576e+09 + 3.2440317e+08; // HMV0 + HMSPD
+double eventnumber = 6.79038e+08 + 2.98214e+08; //HM 9.77252×10^8
+double eventnumberHM = 1.6013576e+09 + 3.2440317e+08; // HMV0 + HMSPD 1.92576×10^9
 double eventnumberMB = 3.0283497e+09;
 double eventnumberHNUHQU = 58430772 + 1.5739238e+08; // HNU + HQU
 //____________________________________________________________________________________________
@@ -65,6 +65,8 @@ void histRatio(){
 	TH1D * yieldCombinedPerEventHe3_uncorrected[nParticles] = {0};
 	TLegend *legendratioH3_uncorrected[nParticles] = {0};
 	TLegend *legendratioHe3_uncorrected[nParticles] = {0};
+	TLegend *combinedLegendH3_uncorrected = {0};
+	TLegend *combinedLegendHe3_uncorrected = {0};
 	TLine * l[nParticles] = {0};
 	for (int particle = 0; particle < nParticles; particle++){
 		yieldH3[particle] = (TH1D*) fH3->Get(Form("histRaw%02d", particle));
@@ -187,7 +189,7 @@ void histRatio(){
 		yieldCombinedPerEventH3_uncorrected[i] = (TH1D*)yieldH3[i]->Clone(Form("yieldCombinedPerEventH3_uncorrected%i", i));
 		if (trigger == "HM")
 		{
-			yieldCombinedPerEventH3_uncorrected[i]->Scale(1./eventnumber);
+			yieldCombinedPerEventH3_uncorrected[i]->Scale(1./eventnumberHM);
 		}
 		if (trigger == "HNU")
 		{
@@ -247,33 +249,50 @@ void histRatio(){
 		}
 	}
 	TCanvas* combinedCanvasH3 = new TCanvas("combinedCanvasH3", "", 2000, 2000);
+	gPad->SetLogy();
 	yieldCombinedPerEventH3_uncorrected[0]->Draw();
 	yieldCombinedPerEventH3_uncorrected[1]->Draw("same");
-	TLegend* combinedLegendH3 = new TLegend(0.5, 0.75, 0.9, 0.9);
+	TLegend* combinedLegendH3 = new TLegend(0.397079, 0.726277, 0.79694, 0.875912,NULL,"brNDC");
 	combinedLegendH3->SetEntrySeparation(.4);
 	combinedLegendH3->SetBorderSize(0);
 	combinedLegendH3->SetFillStyle(0);
-	combinedLegendH3->AddEntry(yieldCombinedPerEventH3_uncorrected[0], "{}^{3}He", "lep");
-	combinedLegendH3->AddEntry(yieldCombinedPerEventH3_uncorrected[1], "{}^{3}#bar{He}", "lep");
+	combinedLegendH3->AddEntry(yieldCombinedPerEventH3_uncorrected[0], "{}^{3}H", "lep");
+	combinedLegendH3->AddEntry(yieldCombinedPerEventH3_uncorrected[1], "{}^{3}#bar{H}", "lep");
 	combinedLegendH3->Draw();
+	combinedLegendH3_uncorrected = new TLegend(0.514604,0.681265,0.883866,0.879562,NULL,"brNDC");
+	combinedLegendH3_uncorrected->SetEntrySeparation(.4);
+	combinedLegendH3_uncorrected->SetBorderSize(0);
+	combinedLegendH3_uncorrected->SetFillStyle(0);
+	combinedLegendH3_uncorrected->AddEntry((TObject*)0, "Uncorrected", "");
+	combinedLegendH3_uncorrected->AddEntry((TObject*)0, "ALICE pp #sqrt{s} = 13 TeV, |y| < 0.5", "");
 	if (trigger == "HM")
 	{
-		combinedCanvasH3->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/He3/HM/He3perEvent_UC_combined.pdf");
-		combinedCanvasH3->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/He3/HM/He3perEvent_UC_combined.C");
-		combinedCanvasH3->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/He3/HM/He3perEvent_UC_combined.root");
+		combinedLegendH3_uncorrected->AddEntry((TObject*)0, "High Multiplicity trigger", "");
 	}
 	if (trigger == "HNU")
 	{
-		combinedCanvasH3->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/He3/HNU/He3perEvent_UC_combined.pdf");
-		combinedCanvasH3->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/He3/HNU/He3perEvent_UC_combined.C");
-		combinedCanvasH3->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/He3/HNU/He3perEvent_UC_combined.root");
+		combinedLegendH3_uncorrected->AddEntry((TObject*)0, "TRD trigger", "");
+	}
+	//yieldCombinedPerEvent->GetXaxis()->SetRange(1.,6.);
+	combinedLegendH3_uncorrected->Draw();
+	if (trigger == "HM")
+	{
+		combinedCanvasH3->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/H3/HM/H3perEvent_UC_combined.pdf");
+		combinedCanvasH3->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/H3/HM/H3perEvent_UC_combined.C");
+		combinedCanvasH3->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/H3/HM/H3perEvent_UC_combined.root");
+	}
+	if (trigger == "HNU")
+	{
+		combinedCanvasH3->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/H3/HNU/H3perEvent_UC_combined.pdf");
+		combinedCanvasH3->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/H3/HNU/H3perEvent_UC_combined.C");
+		combinedCanvasH3->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/H3/HNU/H3perEvent_UC_combined.root");
 	}
 	for (int i = 0; i < nParticles; i++)
 	{
 		yieldCombinedPerEventHe3_uncorrected[i] = (TH1D*)yieldHe3[i]->Clone(Form("yieldCombinedPerEventHe3_uncorrected%i", i));
 		if (trigger == "HM")
 		{
-			yieldCombinedPerEventHe3_uncorrected[i]->Scale(1./eventnumber);
+			yieldCombinedPerEventHe3_uncorrected[i]->Scale(1./eventnumberHM);
 		}
 		if (trigger == "HNU")
 		{
@@ -334,26 +353,43 @@ void histRatio(){
 		}
 	}
 	TCanvas* combinedCanvas = new TCanvas("combinedCanvas", "", 2000, 2000);
+	gPad->SetLogy();
 	yieldCombinedPerEventHe3_uncorrected[0]->Draw();
 	yieldCombinedPerEventHe3_uncorrected[1]->Draw("same");
-	TLegend* combinedLegend = new TLegend(0.5, 0.75, 0.9, 0.9);
+	TLegend* combinedLegend = new TLegend(0.397079, 0.726277, 0.79694, 0.875912,NULL,"brNDC");
 	combinedLegend->SetEntrySeparation(.4);
 	combinedLegend->SetBorderSize(0);
 	combinedLegend->SetFillStyle(0);
 	combinedLegend->AddEntry(yieldCombinedPerEventHe3_uncorrected[0], "{}^{3}He", "lep");
 	combinedLegend->AddEntry(yieldCombinedPerEventHe3_uncorrected[1], "{}^{3}#bar{He}", "lep");
 	combinedLegend->Draw();
+	combinedLegendHe3_uncorrected = new TLegend(0.514604,0.681265,0.883866,0.879562,NULL,"brNDC"); //0.520167,0.220195,0.88943,0.419708
+	combinedLegendHe3_uncorrected->SetEntrySeparation(.4);
+	combinedLegendHe3_uncorrected->SetBorderSize(0);
+	combinedLegendHe3_uncorrected->SetFillStyle(0);
+	combinedLegendHe3_uncorrected->AddEntry((TObject*)0, "Uncorrected", "");
+	combinedLegendHe3_uncorrected->AddEntry((TObject*)0, "ALICE pp #sqrt{s} = 13 TeV, |y| < 0.5", "");
 	if (trigger == "HM")
 	{
-		combinedCanvas->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/H3/HM/He3perEvent_UC_combined.pdf");
-		combinedCanvas->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/H3/HM/He3perEvent_UC_combined.C");
-		combinedCanvas->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/H3/HM/He3perEvent_UC_combined.root");
+		combinedLegendHe3_uncorrected->AddEntry((TObject*)0, "High Multiplicity trigger", "");
 	}
 	if (trigger == "HNU")
 	{
-		combinedCanvas->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/H3/HNU/He3perEvent_UC_combined.pdf");
-		combinedCanvas->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/H3/HNU/He3perEvent_UC_combined.C");
-		combinedCanvas->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/H3/HNU/He3perEvent_UC_combined.root");
+		combinedLegendHe3_uncorrected->AddEntry((TObject*)0, "TRD trigger", "");
+	}
+	//yieldCombinedPerEvent->GetXaxis()->SetRange(1.,6.);
+	combinedLegendHe3_uncorrected->Draw();
+	if (trigger == "HM")
+	{
+		combinedCanvas->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/He3/HM/He3perEvent_UC_combined.pdf");
+		combinedCanvas->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/He3/HM/He3perEvent_UC_combined.C");
+		combinedCanvas->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/He3/HM/He3perEvent_UC_combined.root");
+	}
+	if (trigger == "HNU")
+	{
+		combinedCanvas->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/He3/HNU/He3perEvent_UC_combined.pdf");
+		combinedCanvas->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/He3/HNU/He3perEvent_UC_combined.C");
+		combinedCanvas->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/He3/HNU/He3perEvent_UC_combined.root");
 	}
 }
 void histRatioCorrected(){
@@ -379,6 +415,8 @@ void histRatioCorrected(){
 	TLegend *legendratioHe3[nParticles] = {0};
 	TLegend *legendratio4[nParticles] = {0};
 	TLegend *legendratio5[nParticles] = {0};
+	TLegend *combinedLegendH3_corrected = {0};
+	TLegend *combinedLegendHe3_corrected = {0};
 	TCanvas *ratioPlot = {0};
 	TCanvas *ratioPlot22 = {0};
 	TCanvas *ratioPlot3 = {0};
@@ -610,7 +648,7 @@ void histRatioCorrected(){
             yieldCombinedPerEvent[i]->SetLineColor(kMagenta+2);
         }
 		yieldCombinedPerEvent[i]->Draw();
-		legendratio4[i] = new TLegend(0.5344418,0.6865854,0.9041964,0.8865854,NULL,"brNDC");
+		legendratio4[i] = new TLegend(0.432545, 0.729927, 0.832406, 0.879562,NULL,"brNDC");
 		legendratio4[i]->SetEntrySeparation(.4);
 		legendratio4[i]->SetBorderSize(0);
 		legendratio4[i]->SetFillStyle(0);
@@ -641,15 +679,32 @@ void histRatioCorrected(){
 		}
 	}
 	TCanvas* combinedCanvascorrH3 = new TCanvas("combinedCanvasCorrH3", "", 2000, 2000);
+	gPad->SetLogy();
 	yieldCombinedPerEvent[0]->Draw();
 	yieldCombinedPerEvent[1]->Draw("same");
-	TLegend* combinedLegendcorrH3 = new TLegend(0.5, 0.75, 0.9, 0.9);
+	TLegend* combinedLegendcorrH3 = new TLegend(0.397079, 0.726277, 0.79694, 0.875912,NULL,"brNDC");
 	combinedLegendcorrH3->SetEntrySeparation(.4);
 	combinedLegendcorrH3->SetBorderSize(0);
 	combinedLegendcorrH3->SetFillStyle(0);
 	combinedLegendcorrH3->AddEntry(yieldCombinedPerEvent[0], "{}^{3}H", "lep");
 	combinedLegendcorrH3->AddEntry(yieldCombinedPerEvent[1], "{}^{3}#bar{H}", "lep");
 	combinedLegendcorrH3->Draw();
+	combinedLegendH3_corrected = new TLegend(0.514604,0.681265,0.883866,0.879562,NULL,"brNDC");
+	combinedLegendH3_corrected->SetEntrySeparation(.4);
+	combinedLegendH3_corrected->SetBorderSize(0);
+	combinedLegendH3_corrected->SetFillStyle(0);
+	combinedLegendH3_corrected->AddEntry((TObject*)0, "Corrected", "");
+	combinedLegendH3_corrected->AddEntry((TObject*)0, "ALICE pp #sqrt{s} = 13 TeV, |y| < 0.5", "");
+	if (trigger == "HM")
+	{
+		combinedLegendH3_corrected->AddEntry((TObject*)0, "High Multiplicity trigger", "");
+	}
+	if (trigger == "HNU")
+	{
+		combinedLegendH3_corrected->AddEntry((TObject*)0, "TRD trigger", "");
+	}
+	//yieldCombinedPerEvent->GetXaxis()->SetRange(1.,6.);
+	combinedLegendH3_corrected->Draw();
 	if (trigger == "HM")
 	{
 		combinedCanvascorrH3->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/H3/Korrekturen/HM/H3perEvent_corr_combined.pdf");
@@ -731,13 +786,30 @@ void histRatioCorrected(){
 	TCanvas* combinedCanvascorrHe = new TCanvas("combinedCanvasCorr", "", 2000, 2000);
 	yieldCombinedPerEventHe[0]->Draw();
 	yieldCombinedPerEventHe[1]->Draw("same");
-	TLegend* combinedLegendcorrHe = new TLegend(0.5, 0.75, 0.9, 0.9);
+	gPad->SetLogy();
+	TLegend* combinedLegendcorrHe = new TLegend(0.397079, 0.726277, 0.79694, 0.875912, NULL,"brNDC");
 	combinedLegendcorrHe->SetEntrySeparation(.4);
 	combinedLegendcorrHe->SetBorderSize(0);
 	combinedLegendcorrHe->SetFillStyle(0);
 	combinedLegendcorrHe->AddEntry(yieldCombinedPerEventHe[0], "{}^{3}He", "lep");
 	combinedLegendcorrHe->AddEntry(yieldCombinedPerEventHe[1], "{}^{3}#bar{He}", "lep");
 	combinedLegendcorrHe->Draw();
+	combinedLegendHe3_corrected = new TLegend(0.527121,0.681265,0.896384,0.879562,NULL,"brNDC");
+	combinedLegendHe3_corrected->SetEntrySeparation(.4);
+	combinedLegendHe3_corrected->SetBorderSize(0);
+	combinedLegendHe3_corrected->SetFillStyle(0);
+	combinedLegendHe3_corrected->AddEntry((TObject*)0, "Corrected", "");
+	combinedLegendHe3_corrected->AddEntry((TObject*)0, "ALICE pp #sqrt{s} = 13 TeV, |y| < 0.5", "");
+	if (trigger == "HM")
+	{
+		combinedLegendHe3_corrected->AddEntry((TObject*)0, "High Multiplicity trigger", "");
+	}
+	if (trigger == "HNU")
+	{
+		combinedLegendHe3_corrected->AddEntry((TObject*)0, "TRD trigger", "");
+	}
+	//yieldCombinedPerEvent->GetXaxis()->SetRange(1.,6.);
+	combinedLegendHe3_corrected->Draw();
 	if (trigger == "HM")
 	{
 		combinedCanvascorrHe->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/He3/Korrekturen/HM/He3perEvent_corr_combined.pdf");

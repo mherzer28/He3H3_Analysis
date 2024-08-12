@@ -25,7 +25,10 @@ TString periods16 = "deghijklop";
 TString periods17 = "cefghijklmor";
 TString periods18 = "bdefghilmnop";
 TString resultPath = "/Users/matthias/alice/root_results/MC";
+TString resultfileHNUHQU = "/Users/matthias/alice/Master/Makros/result/correction/correction_HNUHQU.root";
 TString resultfileHNU = "/Users/matthias/alice/Master/Makros/result/correction/correction_HNU.root";
+TString resultfileHQU = "/Users/matthias/alice/Master/Makros/result/correction/correction_HQU.root";
+TString trigger = "HNUHQU" // HNUHQU HNU HQU
 //_________________________________________________________________________________________________________
 void efficiencyHNU(){
     HeTriEffHNU();
@@ -193,7 +196,19 @@ void setTreeBranchGenHe(TTree *fTree){
 }
 //___________________________________________________________________________
 void HeTriEffHNU(){
-TFile * f = new TFile(resultfileHNU,"recreate");
+if (trigger == "HNUHQU")
+{
+	TFile * f = new TFile(resultfileHNUHQU,"recreate");
+}
+else if (trigger == "HNU")
+{
+	TFile * f = new TFile(resultfileHNU,"recreate");
+}
+else if (trigger == "HQU")
+{
+	TFile * f = new TFile(resultfileHQU,"recreate");
+}
+
 TChain *fTreeDataGenH3= new TChain("He3TriTree/treeGenTri");
 for (Int_t i = 0; i < periods16.Length(); i++){
   fTreeDataGenH3->Add(resultPath+ "/LHC16"  + periods16(i,1)+ "/AnalysisResults.root");
@@ -220,7 +235,6 @@ Int_t nEntries = (Int_t)fTreeDataGenH3->GetEntries();
 		if (i % (nEntries/2000) == 0) 
 			cout << Form("\rreading data tree: %1.2f %%", 100. * i / (double) nEntries) << flush; 
 		fTreeDataGenH3->GetEntry(i);
-		
 
 		if (TMath::Abs(tGenY) > cutYTri)	continue;	// set rapidity range
 
@@ -271,13 +285,22 @@ Int_t nEntriesRec = (Int_t)fTreeDataH3->GetEntries();
 		if (i % (nEntriesRec/2000) == 0) 
 			cout << Form("\rreading data tree: %1.2f %%", 100. * i / (double) nEntriesRec) << flush; 
 		fTreeDataH3->GetEntry(i);
-		
 
 		if (TMath::Abs(tY) > cutYTri)	continue;	// set rapidity range
+		
+		if (!tTrigMB) continue;
+		if (tCharge < 0) tTRDPid *= (64/101.82);
+		else tTRDPid *= (63.32/88.81);
 
+		//bool isHNU = (tTRDnTracklets > 4 && tTRDPid >= 235) || (tTRDnTracklets == 4 && tTRDPid >= 255);
+		//if (!isHNU) continue;
+		//cout << "PID:" << tTRDPid << std::endl; 
+		
+		bool isHQU = (tTRDPid >= 130 && tTRDnTracklets >= 5 && tPt > 2 && tTRDLayerMask & 1);
+		if (!isHQU && !tTrigHNU) continue;
 		//if (!tTrigHNU) continue;	//Nuclei Trigger
 		//if (!tTrigHQU) continue;
-		if (!tTrigHNU && !tTrigHQU) continue;	//Nuclei Trigger	
+		//if (!tTrigHNU && !tTrigHQU) continue;	//Nuclei Trigger	
 
 		int particle = 0;
 		if (tChargeTri < 0) particle = 1;
@@ -313,16 +336,16 @@ cHNU->cd(1);
 gPad->SetLeftMargin(0.18);
 hGen->Draw();
 TLegend *legend1 = new TLegend(0.311578,0.221123,0.684307,0.304657,NULL,"brNDC");
-	legend1->SetBorderSize(0);
-	legend1->SetFillStyle(0);
-	//legend1->AddEntry(yieldCombined[2], "#frac{{}^{3}H}{{}^{3}He}", "lep");
-	legend1->AddEntry((TObject*)0, "ALICE #it{work in progress}", "");
-	legend1->AddEntry((TObject*)0, "Particle: {}^{3}H", "");
-	legend1->AddEntry((TObject*)0, "Trigger: HQU", "");
-	legend1->SetEntrySeparation(0.1);
-	legend1->SetTextFont(43);
-	legend1->SetTextSize(16);
-	legend1->Draw();
+legend1->SetBorderSize(0);
+legend1->SetFillStyle(0);
+//legend1->AddEntry(yieldCombined[2], "#frac{{}^{3}H}{{}^{3}He}", "lep");
+legend1->AddEntry((TObject*)0, "ALICE #it{work in progress}", "");
+legend1->AddEntry((TObject*)0, "Particle: {}^{3}H", "");
+legend1->AddEntry((TObject*)0, "Trigger: HQU", "");
+legend1->SetEntrySeparation(0.1);
+legend1->SetTextFont(43);
+legend1->SetTextSize(16);
+legend1->Draw();
 cHNU->cd(2);
 gPad->SetLeftMargin(0.18);
 hRec->Draw();
@@ -357,14 +380,38 @@ legend12->SetFillStyle(0);
 legend12->AddEntry((TObject*)0, "This work ", "");
 legend12->AddEntry((TObject*)0, "ALICE pp #sqrt{s} = 13 TeV ", "");
 legend12->AddEntry((TObject*)0, "Particle: {}^{3}H", "");
-legend12->AddEntry((TObject*)0, "HNU & HQU trigger", "");
+if (trigger == "HNUHQU")
+{
+	legend12->AddEntry((TObject*)0, "TRD HNU & HQU trigger", "");
+}
+else if (trigger == "HNU")
+{
+	legend12->AddEntry((TObject*)0, "TRD HNU trigger", "");
+}
+else if (trigger == "HQU")
+{
+	legend12->AddEntry((TObject*)0, "TRD HQU trigger", "");
+}
 legend12->SetEntrySeparation(.1);
 legend12->SetFillStyle(0);
 legend12->SetTextFont(42);
 legend12->SetTextSize(0.042);
 legend12->Draw();
-c12->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeffH3_HNUHQU.root");
-c12->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeffH3_HNUHQU.pdf");
+if (trigger == "HNUHQU")
+{
+	c12->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeff/accxeffH3_HNUHQU.root");
+	c12->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeff/accxeffH3_HNUHQU.pdf");
+}
+else if (trigger == "HNU")
+{
+	c12->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeff/accxeffH3_HNU.pdf");
+	c12->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeff/accxeffH3_HNU.root");
+}
+else if (trigger == "HQU")
+{
+	c12->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeff/accxeffH3_HQU.root");
+	c12->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeff/accxeffH3_HQU.pdf");
+}
 
 TCanvas *c2HNU = new TCanvas("c2HNU", "Anti-H3", 1920, 1080);
 c2HNU->Divide(3);
@@ -372,16 +419,16 @@ c2HNU->cd(1);
 gPad->SetLeftMargin(0.18);
 hGenAnti->Draw();
 TLegend *legend2 = new TLegend(0.352345,0.769881,0.725074,0.852131,NULL,"brNDC");
-	legend2->SetEntrySeparation(.1);
-	legend2->SetBorderSize(0);
-	legend2->SetFillStyle(0);
-	//legend2->AddEntry(yieldCombined[2], "#frac{{}^{3}H}{{}^{3}He}", "lep");
-	legend2->AddEntry((TObject*)0, "ALICE #it{work in progress}", "");
-	legend2->AddEntry((TObject*)0, "Particle: {}^{3}#bar{H}", "");
-	legend2->AddEntry((TObject*)0, "Trigger: HQU", "");
-	legend2->SetTextFont(43);
-	legend2->SetTextSize(16);
-	legend2->Draw();
+legend2->SetEntrySeparation(.1);
+legend2->SetBorderSize(0);
+legend2->SetFillStyle(0);
+//legend2->AddEntry(yieldCombined[2], "#frac{{}^{3}H}{{}^{3}He}", "lep");
+legend2->AddEntry((TObject*)0, "ALICE #it{work in progress}", "");
+legend2->AddEntry((TObject*)0, "Particle: {}^{3}#bar{H}", "");
+legend2->AddEntry((TObject*)0, "Trigger: HQU", "");
+legend2->SetTextFont(43);
+legend2->SetTextSize(16);
+legend2->Draw();
 c2HNU->cd(2);
 gPad->SetLeftMargin(0.18);
 hRecAnti->Draw();
@@ -417,14 +464,41 @@ legend22->SetFillStyle(0);
 legend22->AddEntry((TObject*)0, "This work ", "");
 legend22->AddEntry((TObject*)0, "ALICE pp #sqrt{s} = 13 TeV ", "");
 legend22->AddEntry((TObject*)0, "Particle: {}^{3}#bar{H}", "");
-legend22->AddEntry((TObject*)0, "HNU & HQU trigger", "");
+if (trigger == "HNUHQU")
+{
+	legend22->AddEntry((TObject*)0, "TRD HNU & HQU trigger", "");
+}
+else if (trigger == "HNU")
+{
+	legend22->AddEntry((TObject*)0, "TRD HNU trigger", "");
+}
+else if (trigger == "HQU")
+{
+	legend22->AddEntry((TObject*)0, "TRD HQU trigger", "");
+}
+
+
 legend22->SetEntrySeparation(.1);
 legend22->SetFillStyle(0);
 legend22->SetTextFont(42);
 legend22->SetTextSize(0.042);
 legend22->Draw();
-c22->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeffH3_Anti_HNUHQU.root");
-c22->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeffH3_Anti_HNUHQU.pdf");
+if (trigger == "HNUHQU")
+{
+	c22->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeff/accxeffH3_Anti_HNUHQU.root");
+	c22->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeff/accxeffH3_Anti_HNUHQU.pdf");
+}
+else if (trigger == "HNU")
+{
+	c22->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeff/accxeffH3_Anti_HNU.pdf");
+	c22->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeff/accxeffH3_Anti_HNU.root");
+}
+else if (trigger == "HQU")
+{
+	c22->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeff/accxeffH3_Anti_HQU.root");
+	c22->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeff/accxeffH3_Anti_HQU.pdf");
+}
+
 //___________________________________________________________________________________________________________
 //Helium 3:
 TChain *fTreeDataGenHe= new TChain("He3TriTree/treeGenHe");
@@ -504,13 +578,22 @@ Int_t nEntriesRecHe = (Int_t)fTreeDataHe->GetEntries();
 		if (i % (nEntriesRecHe/2000) == 0) 
 			cout << Form("\rreading data tree: %1.2f %%", 100. * i / (double) nEntriesRecHe) << flush; 
 		fTreeDataHe->GetEntry(i);
-		
 
 		if (TMath::Abs(tY) > cutYTri)	continue;	// set rapidity range
+		
+		if (!tTrigMB) continue;
 
+		if (tCharge < 0) tTRDPid *= (243.85/228.58);
+		else tTRDPid *= (243.70/223.34);
+
+		//bool isHNU = (tTRDnTracklets > 4 && tTRDPid >= 235) || (tTRDnTracklets == 4 && tTRDPid >= 255);
+		//if (!isHNU) continue;
+		
+		bool isHQU = (tTRDPid >= 130 && tTRDnTracklets >= 5 && tPt > 2 && tTRDLayerMask & 1);
+		if (!isHQU && !tTrigHNU) continue;
 		//if (!tTrigHNU) continue;	//Nuclei Trigger
 		//if (!tTrigHQU) continue;
-		if (!tTrigHNU && !tTrigHQU) continue;	//Nuclei Trigger	
+		//if (!tTrigHNU && !tTrigHQU) continue;	//Nuclei Trigger	
 
 		int particle = 0;
 		if (tCharge < 0) particle = 1;
@@ -546,16 +629,16 @@ c3HNU->cd(1);
 gPad->SetLeftMargin(0.18);
 hGenHe->Draw();
 TLegend *legend3 = new TLegend(0.142802,0.812291,0.512618,0.890685,NULL,"brNDC");
-	legend3->SetEntrySeparation(.1);
-	legend3->SetBorderSize(0);
-	legend3->SetFillStyle(0);
-	//legend2->AddEntry(yieldCombined[2], "#frac{{}^{3}H}{{}^{3}He}", "lep");
-	legend3->AddEntry((TObject*)0, "ALICE #it{work in progress}", "");
-	legend3->AddEntry((TObject*)0, "Particle: {}^{3}He", "");
-	legend3->AddEntry((TObject*)0, "Trigger: HQU", "");
-	legend3->SetTextFont(43);
-	legend3->SetTextSize(16);
-	legend3->Draw();
+legend3->SetEntrySeparation(.1);
+legend3->SetBorderSize(0);
+legend3->SetFillStyle(0);
+//legend2->AddEntry(yieldCombined[2], "#frac{{}^{3}H}{{}^{3}He}", "lep");
+legend3->AddEntry((TObject*)0, "ALICE #it{work in progress}", "");
+legend3->AddEntry((TObject*)0, "Particle: {}^{3}He", "");
+legend3->AddEntry((TObject*)0, "Trigger: HQU", "");
+legend3->SetTextFont(43);
+legend3->SetTextSize(16);
+legend3->Draw();
 c3HNU->cd(2);
 gPad->SetLeftMargin(0.18);
 hRecHe->Draw();
@@ -584,35 +667,59 @@ hEffHe->GetXaxis()->SetTitle("#it{p}_{T} (GeV/#it{c})");
 hEffHe->SetTitle("");
 hEffHe->Draw();
 TLegend *legend32 = new TLegend(0.521625,0.664271,0.901048,0.873717,NULL,"brNDC");
-	legend32->SetEntrySeparation(.1);
-	legend32->SetBorderSize(0);
-	legend32->SetFillStyle(0);
-	//legend2->AddEntry(yieldCombined[2], "#frac{{}^{3}H}{{}^{3}He}", "lep");
-	legend32->AddEntry((TObject*)0, "This work ", "");
-	legend32->AddEntry((TObject*)0, "ALICE pp #sqrt{s} = 13 TeV", "");
-	legend32->AddEntry((TObject*)0, "Particle: {}^{3}He", "");
-	legend32->AddEntry((TObject*)0, "HNU & HQU trigger", "");
-	legend32->SetTextFont(42);
-	legend32->SetTextSize(0.042);
-	legend32->Draw();
-c32->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeffHe_HNUHQU.root");
-c32->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeffHe_HNUHQU.pdf");
+legend32->SetEntrySeparation(.1);
+legend32->SetBorderSize(0);
+legend32->SetFillStyle(0);
+//legend2->AddEntry(yieldCombined[2], "#frac{{}^{3}H}{{}^{3}He}", "lep");
+legend32->AddEntry((TObject*)0, "This work ", "");
+legend32->AddEntry((TObject*)0, "ALICE pp #sqrt{s} = 13 TeV", "");
+legend32->AddEntry((TObject*)0, "Particle: {}^{3}He", "");
+if (trigger == "HNUHQU")
+{
+	legend32->AddEntry((TObject*)0, "TRD HNU & HQU trigger", "");
+}
+else if (trigger == "HNU")
+{
+	legend32->AddEntry((TObject*)0, "TRD HNU trigger", "");
+}
+else if (trigger == "HQU")
+{
+	legend32->AddEntry((TObject*)0, "TRD HQU trigger", "");
+}
+legend32->SetTextFont(42);
+legend32->SetTextSize(0.042);
+legend32->Draw();
+if (trigger == "HNUHQU")
+{
+	c32->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeff/accxeffHe_HNUHQU.root");
+	c32->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeff/accxeffHe_HNUHQU.pdf");
+}
+else if (trigger == "HNU")
+{
+	c32->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeff/accxeffHe_HNU.root");
+	c32->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeff/accxeffHe_HNU.pdf");
+}
+else if (trigger == "HQU")
+{
+	c32->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeff/accxeffHe_HQU.root");
+	c32->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeff/accxeffHe_HQU.pdf");
+}
 TCanvas *c4HNU = new TCanvas("c4HNU", "Anti-He", 1920, 1080);
 c4HNU->Divide(3);
 c4HNU->cd(1);
 gPad->SetLeftMargin(0.18);
 hGenHeAnti->Draw();
 TLegend *legend4 = new TLegend(0.142802,0.812291,0.512618,0.890685,NULL,"brNDC");
-	legend4->SetEntrySeparation(.1);
-	legend4->SetBorderSize(0);
-	legend4->SetFillStyle(0);
-	//legend2->AddEntry(yieldCombined[2], "#frac{{}^{3}H}{{}^{3}He}", "lep");
-	legend4->AddEntry((TObject*)0, "ALICE #it{work in progress}", "");
-	legend4->AddEntry((TObject*)0, "Particle: {}^{3}#bar{He}", "");
-	legend4->AddEntry((TObject*)0, "Trigger: HQU", "");
-	legend4->SetTextFont(43);
-	legend4->SetTextSize(16);
-	legend4->Draw();
+legend4->SetEntrySeparation(.1);
+legend4->SetBorderSize(0);
+legend4->SetFillStyle(0);
+//legend2->AddEntry(yieldCombined[2], "#frac{{}^{3}H}{{}^{3}He}", "lep");
+legend4->AddEntry((TObject*)0, "ALICE #it{work in progress}", "");
+legend4->AddEntry((TObject*)0, "Particle: {}^{3}#bar{He}", "");
+legend4->AddEntry((TObject*)0, "Trigger: HQU", "");
+legend4->SetTextFont(43);
+legend4->SetTextSize(16);
+legend4->Draw();
 c4HNU->cd(2);
 gPad->SetLeftMargin(0.18);
 hRecHeAnti->Draw();
@@ -641,17 +748,43 @@ hEffHeAnti->GetXaxis()->SetTitleSize(0.05);
 hEffHeAnti->GetXaxis()->SetTitle("#it{p}_{T} (GeV/#it{c})");
 hEffHeAnti->SetTitle("");
 TLegend *legend42 = new TLegend(0.521625,0.664271,0.901048,0.873717,NULL,"brNDC");
-	legend42->SetEntrySeparation(.1);
-	legend42->SetBorderSize(0);
-	legend42->SetFillStyle(0);
-	//legend2->AddEntry(yieldCombined[2], "#frac{{}^{3}H}{{}^{3}He}", "lep");
-	legend42->AddEntry((TObject*)0, "This work", "");
-	legend42->AddEntry((TObject*)0, "ALICE pp #sqrt{s} = 13 TeV ", "");
-	legend42->AddEntry((TObject*)0, "Particle: {}^{3}#bar{He}", "");
-	legend42->AddEntry((TObject*)0, "HNU & HQU trigger", "");
-	legend42->SetTextFont(42);
-	legend42->SetTextSize(0.042);
-	legend42->Draw();
-c42->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeffHeAnti_HNUHQU_2.root");
-c42->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeffHeAnti_HNUHQU_2.pdf");
+legend42->SetEntrySeparation(.1);
+legend42->SetBorderSize(0);
+legend42->SetFillStyle(0);
+//legend2->AddEntry(yieldCombined[2], "#frac{{}^{3}H}{{}^{3}He}", "lep");
+legend42->AddEntry((TObject*)0, "This work", "");
+legend42->AddEntry((TObject*)0, "ALICE pp #sqrt{s} = 13 TeV ", "");
+legend42->AddEntry((TObject*)0, "Particle: {}^{3}#bar{He}", "");
+if (trigger == "HNUHQU")
+{
+	legend42->AddEntry((TObject*)0, "TRD HNU & HQU trigger", "");
+}
+else if (trigger == "HNU")
+{
+	legend42->AddEntry((TObject*)0, "TRD HNU trigger", "");
+}
+else if (trigger == "HQU")
+{
+	legend42->AddEntry((TObject*)0, "TRD HQU trigger", "");
+}
+
+legend42->SetTextFont(42);
+legend42->SetTextSize(0.042);
+legend42->Draw();
+if (trigger == "HNUHQU")
+{
+	c42->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeff/accxeffHe_Anti_HNUHQU.root");
+	c42->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeff/accxeffHe_Anti_HNUHQU.pdf");
+}
+else if (trigger == "HNU")
+{
+	c42->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeff/accxeffHe_Anti_HNU.root");
+	c42->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeff/accxeffHe_Anti_HNU.pdf");
+}
+else if (trigger == "HQU")
+{
+	c42->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeff/accxeffHe_Anti_HQU.root");
+	c42->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeff/accxeffHe_Anti_HQU.pdf");
+}
+
 }

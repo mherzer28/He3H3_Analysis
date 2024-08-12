@@ -4,7 +4,7 @@
 void H3perEvent2()
 {
 //=========Macro generated from canvas: ratioPlot_event12/
-//=========  (Mon Jul  8 14:29:27 2024) by ROOT version 6.30/01
+//=========  (Mon Aug  5 13:07:06 2024) by ROOT version 6.30/01
    TCanvas *ratioPlot_event12 = new TCanvas("ratioPlot_event12", "",0,53,1440,847);
    ratioPlot_event12->SetHighLightColor(2);
    ratioPlot_event12->Range(0,0,1,1);
@@ -16,11 +16,11 @@ void H3perEvent2()
    Double_t xAxis6[4] = {1.3, 1.8, 2.3, 2.8}; 
    
    TH1D *yieldCombinedPerEventH3_uncorrected2__6 = new TH1D("yieldCombinedPerEventH3_uncorrected2__6","",3, xAxis6);
-   yieldCombinedPerEventH3_uncorrected2__6->SetBinContent(1,9.080435e-09);
-   yieldCombinedPerEventH3_uncorrected2__6->SetBinContent(2,7.040277e-08);
-   yieldCombinedPerEventH3_uncorrected2__6->SetBinContent(3,6.254632e-08);
+   yieldCombinedPerEventH3_uncorrected2__6->SetBinContent(1,9.080492e-09);
+   yieldCombinedPerEventH3_uncorrected2__6->SetBinContent(2,7.074301e-08);
+   yieldCombinedPerEventH3_uncorrected2__6->SetBinContent(3,6.302951e-08);
    yieldCombinedPerEventH3_uncorrected2__6->SetBinError(1,1.896928e-09);
-   yieldCombinedPerEventH3_uncorrected2__6->SetBinError(2,5.051285e-09);
+   yieldCombinedPerEventH3_uncorrected2__6->SetBinError(2,5.062067e-09);
    yieldCombinedPerEventH3_uncorrected2__6->SetBinError(3,8.686544e-09);
    yieldCombinedPerEventH3_uncorrected2__6->SetEntries(3);
    yieldCombinedPerEventH3_uncorrected2__6->SetStats(0);

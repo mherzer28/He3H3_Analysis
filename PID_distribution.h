@@ -81,4 +81,9 @@ Int_t          pdgCode;
 
 void setTreeBranchHe3(TTree *fTree);
 void PID_MC();
+void PID_Data();
 void plot();
+void plot_Data();
+double crystalball_function(double x, double alpha, double n, double sigma, double mean);
+double crystalball_function(const double *x, const double *p);
+bool Cut(int mode);

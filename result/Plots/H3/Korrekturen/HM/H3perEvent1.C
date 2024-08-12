@@ -4,7 +4,7 @@
 void H3perEvent1()
 {
 //=========Macro generated from canvas: ratioPlot_event_corr11/
-//=========  (Mon Jul  8 14:31:47 2024) by ROOT version 6.30/01
+//=========  (Mon Jul 22 20:39:45 2024) by ROOT version 6.30/01
    TCanvas *ratioPlot_event_corr11 = new TCanvas("ratioPlot_event_corr11", "",0,53,1440,847);
    ratioPlot_event_corr11->SetHighLightColor(2);
    ratioPlot_event_corr11->Range(0,0,1,1);
@@ -13,39 +13,39 @@ void H3perEvent1()
    ratioPlot_event_corr11->SetBorderSize(2);
    ratioPlot_event_corr11->SetLogy();
    ratioPlot_event_corr11->SetFrameBorderMode(0);
-   Double_t xAxis18[4] = {1.4, 1.8, 2.2, 2.6}; 
+   Double_t xAxis5[4] = {1.4, 1.8, 2.2, 2.6}; 
    
-   TH1D *yieldCombinedPerEvent1__18 = new TH1D("yieldCombinedPerEvent1__18","",3, xAxis18);
-   yieldCombinedPerEvent1__18->SetBinContent(1,5.938013e-07);
-   yieldCombinedPerEvent1__18->SetBinContent(2,4.751127e-07);
-   yieldCombinedPerEvent1__18->SetBinContent(3,3.305449e-07);
-   yieldCombinedPerEvent1__18->SetBinError(1,6.956605e-08);
-   yieldCombinedPerEvent1__18->SetBinError(2,5.781662e-08);
-   yieldCombinedPerEvent1__18->SetBinError(3,7.310901e-08);
-   yieldCombinedPerEvent1__18->SetEntries(144.7821);
-   yieldCombinedPerEvent1__18->SetStats(0);
+   TH1D *yieldCombinedPerEvent1__5 = new TH1D("yieldCombinedPerEvent1__5","",3, xAxis5);
+   yieldCombinedPerEvent1__5->SetBinContent(1,5.938013e-07);
+   yieldCombinedPerEvent1__5->SetBinContent(2,4.751127e-07);
+   yieldCombinedPerEvent1__5->SetBinContent(3,3.305449e-07);
+   yieldCombinedPerEvent1__5->SetBinError(1,6.956605e-08);
+   yieldCombinedPerEvent1__5->SetBinError(2,5.781662e-08);
+   yieldCombinedPerEvent1__5->SetBinError(3,7.310901e-08);
+   yieldCombinedPerEvent1__5->SetEntries(144.7821);
+   yieldCombinedPerEvent1__5->SetStats(0);
 
    Int_t ci;      // for color index setting
    TColor *color; // for color definition with alpha
    ci = TColor::GetColor("#ff0000");
-   yieldCombinedPerEvent1__18->SetLineColor(ci);
-   yieldCombinedPerEvent1__18->SetLineWidth(2);
+   yieldCombinedPerEvent1__5->SetLineColor(ci);
+   yieldCombinedPerEvent1__5->SetLineWidth(2);
 
    ci = TColor::GetColor("#ff0000");
-   yieldCombinedPerEvent1__18->SetMarkerColor(ci);
-   yieldCombinedPerEvent1__18->SetMarkerStyle(8);
-   yieldCombinedPerEvent1__18->SetMarkerSize(1.5);
-   yieldCombinedPerEvent1__18->GetXaxis()->SetTitle("#it{p}_{T} (GeV/#it{c})");
-   yieldCombinedPerEvent1__18->GetXaxis()->SetLabelFont(42);
-   yieldCombinedPerEvent1__18->GetXaxis()->SetTitleOffset(1);
-   yieldCombinedPerEvent1__18->GetXaxis()->SetTitleFont(42);
-   yieldCombinedPerEvent1__18->GetYaxis()->SetTitle("1/N_{evt} d^{2}N/(dy d#it{p}_{t}) (GeV/#it{c})^{-1}");
-   yieldCombinedPerEvent1__18->GetYaxis()->SetLabelFont(42);
-   yieldCombinedPerEvent1__18->GetYaxis()->SetTitleFont(42);
-   yieldCombinedPerEvent1__18->GetZaxis()->SetLabelFont(42);
-   yieldCombinedPerEvent1__18->GetZaxis()->SetTitleOffset(1);
-   yieldCombinedPerEvent1__18->GetZaxis()->SetTitleFont(42);
-   yieldCombinedPerEvent1__18->Draw("");
+   yieldCombinedPerEvent1__5->SetMarkerColor(ci);
+   yieldCombinedPerEvent1__5->SetMarkerStyle(8);
+   yieldCombinedPerEvent1__5->SetMarkerSize(1.5);
+   yieldCombinedPerEvent1__5->GetXaxis()->SetTitle("#it{p}_{T} (GeV/#it{c})");
+   yieldCombinedPerEvent1__5->GetXaxis()->SetLabelFont(42);
+   yieldCombinedPerEvent1__5->GetXaxis()->SetTitleOffset(1);
+   yieldCombinedPerEvent1__5->GetXaxis()->SetTitleFont(42);
+   yieldCombinedPerEvent1__5->GetYaxis()->SetTitle("1/N_{evt} d^{2}N/(dy d#it{p}_{t}) (GeV/#it{c})^{-1}");
+   yieldCombinedPerEvent1__5->GetYaxis()->SetLabelFont(42);
+   yieldCombinedPerEvent1__5->GetYaxis()->SetTitleFont(42);
+   yieldCombinedPerEvent1__5->GetZaxis()->SetLabelFont(42);
+   yieldCombinedPerEvent1__5->GetZaxis()->SetTitleOffset(1);
+   yieldCombinedPerEvent1__5->GetZaxis()->SetTitleFont(42);
+   yieldCombinedPerEvent1__5->Draw("");
    
    TLegend *leg = new TLegend(0,0,0,0,NULL,"brNDC");
    leg->SetBorderSize(0);

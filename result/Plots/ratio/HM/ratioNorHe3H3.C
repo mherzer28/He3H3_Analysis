@@ -4,7 +4,7 @@
 void ratioNorHe3H3()
 {
 //=========Macro generated from canvas: ratioPlot0/
-//=========  (Mon Jul  8 14:31:46 2024) by ROOT version 6.30/01
+//=========  (Mon Jul 22 09:57:28 2024) by ROOT version 6.30/01
    TCanvas *ratioPlot0 = new TCanvas("ratioPlot0", "",0,53,1440,847);
    ratioPlot0->SetHighLightColor(2);
    ratioPlot0->Range(1.25,-0.25,2.75,2.25);
