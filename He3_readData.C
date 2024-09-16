@@ -19,7 +19,7 @@
 #include "TLine.h"
 #include "He3_readData.h"
 
-TString trigger = "HQU"; // "HNU" or "HM" or "HNU&HQU" or "HQU"
+TString trigger = "HNU&HQU"; // "HNU" or "HM" or "HNU&HQU" or "HQU"
 //TString resultPath = "/Users/matthias/alice/root_results/He3";
 TString resultPath = "/Volumes/MyPassport/pass2/HeTri_pass2";
 const Int_t nPtBins = 3;
@@ -158,7 +158,7 @@ void readDataHe3(){
 	
 	setTreeBranch(fTreeData);
 	
-	// create pt bin histograms
+	//create pt bin histograms
 	gStyle->SetOptFit(111);
 	gStyle->SetOptStat("ne");
 	TH1D * histPtHe3[nParticles][nPtBins] = {0};

@@ -4,11 +4,11 @@
 void He3Plot0200()
 {
 //=========Macro generated from canvas: pt20/pt20
-//=========  (Mon Jun 17 17:36:11 2024) by ROOT version 6.30/01
+//=========  (Fri Aug 23 16:17:39 2024) by ROOT version 6.30/01
    TCanvas *pt20 = new TCanvas("pt20", "pt20",0,53,1400,847);
    gStyle->SetOptFit(1);
    pt20->SetHighLightColor(2);
-   pt20->Range(1.04,-7.539481,3.44,48.97328);
+   pt20->Range(1.04,-7.349997,3.44,47.74248);
    pt20->SetFillColor(0);
    pt20->SetBorderMode(0);
    pt20->SetBorderSize(2);
@@ -19,55 +19,55 @@ void He3Plot0200()
    pt20->SetFrameBorderMode(0);
    
    TH1D *histTOFfit000200__7 = new TH1D("histTOFfit000200__7","",25,1.4,3.2);
-   histTOFfit000200__7->SetBinContent(0,2);
+   histTOFfit000200__7->SetBinContent(0,1);
    histTOFfit000200__7->SetBinContent(7,4);
-   histTOFfit000200__7->SetBinContent(8,4);
-   histTOFfit000200__7->SetBinContent(9,30);
-   histTOFfit000200__7->SetBinContent(10,37);
-   histTOFfit000200__7->SetBinContent(11,30);
-   histTOFfit000200__7->SetBinContent(12,12);
-   histTOFfit000200__7->SetBinContent(13,9);
+   histTOFfit000200__7->SetBinContent(8,3);
+   histTOFfit000200__7->SetBinContent(9,29);
+   histTOFfit000200__7->SetBinContent(10,36);
+   histTOFfit000200__7->SetBinContent(11,29);
+   histTOFfit000200__7->SetBinContent(12,11);
+   histTOFfit000200__7->SetBinContent(13,8);
    histTOFfit000200__7->SetBinContent(14,4);
    histTOFfit000200__7->SetBinContent(15,4);
    histTOFfit000200__7->SetBinContent(19,1);
    histTOFfit000200__7->SetBinContent(24,1);
-   histTOFfit000200__7->SetBinError(0,1.414214);
+   histTOFfit000200__7->SetBinError(0,1);
    histTOFfit000200__7->SetBinError(7,2);
-   histTOFfit000200__7->SetBinError(8,2);
-   histTOFfit000200__7->SetBinError(9,5.477226);
-   histTOFfit000200__7->SetBinError(10,6.082763);
-   histTOFfit000200__7->SetBinError(11,5.477226);
-   histTOFfit000200__7->SetBinError(12,3.464102);
-   histTOFfit000200__7->SetBinError(13,3);
+   histTOFfit000200__7->SetBinError(8,1.732051);
+   histTOFfit000200__7->SetBinError(9,5.385165);
+   histTOFfit000200__7->SetBinError(10,6);
+   histTOFfit000200__7->SetBinError(11,5.385165);
+   histTOFfit000200__7->SetBinError(12,3.316625);
+   histTOFfit000200__7->SetBinError(13,2.828427);
    histTOFfit000200__7->SetBinError(14,2);
    histTOFfit000200__7->SetBinError(15,2);
    histTOFfit000200__7->SetBinError(19,1);
    histTOFfit000200__7->SetBinError(24,1);
-   histTOFfit000200__7->SetEntries(138);
+   histTOFfit000200__7->SetEntries(131);
    histTOFfit000200__7->SetDirectory(nullptr);
    histTOFfit000200__7->SetStats(0);
    
-   TF1 *fitfunc7 = new TF1("fitfunc","gaus(0)",1.4,3.2, TF1::EAddToList::kNo);
+   TF1 *fitfunc7 = new TF1("fitfunc","gaus(0)",1.5,2.5, TF1::EAddToList::kNo);
    fitfunc7->SetFillColor(19);
    fitfunc7->SetFillStyle(0);
    fitfunc7->SetLineColor(2);
    fitfunc7->SetLineWidth(5);
-   fitfunc7->SetChisquare(19.2781);
-   fitfunc7->SetNDF(8);
+   fitfunc7->SetChisquare(18.97278);
+   fitfunc7->SetNDF(6);
    fitfunc7->GetXaxis()->SetLabelFont(42);
    fitfunc7->GetXaxis()->SetTitleOffset(1);
    fitfunc7->GetXaxis()->SetTitleFont(42);
    fitfunc7->GetYaxis()->SetLabelFont(42);
    fitfunc7->GetYaxis()->SetTitleFont(42);
-   fitfunc7->SetParameter(0,35.59855);
-   fitfunc7->SetParError(0,5.434122);
+   fitfunc7->SetParameter(0,36.31737);
+   fitfunc7->SetParError(0,5.319404);
    fitfunc7->SetParLimits(0,0,0);
-   fitfunc7->SetParameter(1,2.108566);
-   fitfunc7->SetParError(1,0.01092677);
+   fitfunc7->SetParameter(1,2.10693);
+   fitfunc7->SetParError(1,0.01018589);
    fitfunc7->SetParLimits(1,0,0);
-   fitfunc7->SetParameter(2,0.09430124);
-   fitfunc7->SetParError(2,0.01158022);
-   fitfunc7->SetParLimits(2,0,0);
+   fitfunc7->SetParameter(2,0.08627226);
+   fitfunc7->SetParError(2,0.009603963);
+   fitfunc7->SetParLimits(2,0,1.197372);
    fitfunc7->SetParent(histTOFfit000200__7);
    histTOFfit000200__7->GetListOfFunctions()->Add(fitfunc7);
    histTOFfit000200__7->SetLineWidth(5);
@@ -130,7 +130,7 @@ void He3Plot0200()
    entry->SetMarkerStyle(21);
    entry->SetMarkerSize(1);
    entry->SetTextFont(42);
-   entry=leg->AddEntry("NULL","TRD trigger","");
+   entry=leg->AddEntry("NULL","TRD HNU trigger","");
    entry->SetLineColor(1);
    entry->SetLineStyle(1);
    entry->SetLineWidth(1);

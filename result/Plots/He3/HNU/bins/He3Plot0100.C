@@ -4,7 +4,7 @@
 void He3Plot0100()
 {
 //=========Macro generated from canvas: pt10/pt10
-//=========  (Mon Jun 17 17:36:10 2024) by ROOT version 6.30/01
+//=========  (Fri Aug 23 16:17:38 2024) by ROOT version 6.30/01
    TCanvas *pt10 = new TCanvas("pt10", "pt10",0,53,1400,847);
    gStyle->SetOptFit(1);
    pt10->SetHighLightColor(2);
@@ -45,27 +45,27 @@ void He3Plot0100()
    histTOFfit000100__4->SetDirectory(nullptr);
    histTOFfit000100__4->SetStats(0);
    
-   TF1 *fitfunc4 = new TF1("fitfunc","gaus(0)",1.4,3.2, TF1::EAddToList::kNo);
+   TF1 *fitfunc4 = new TF1("fitfunc","gaus(0)",1.5,2.5, TF1::EAddToList::kNo);
    fitfunc4->SetFillColor(19);
    fitfunc4->SetFillStyle(0);
    fitfunc4->SetLineColor(2);
    fitfunc4->SetLineWidth(5);
-   fitfunc4->SetChisquare(22.96306);
-   fitfunc4->SetNDF(11);
+   fitfunc4->SetChisquare(11.82869);
+   fitfunc4->SetNDF(8);
    fitfunc4->GetXaxis()->SetLabelFont(42);
    fitfunc4->GetXaxis()->SetTitleOffset(1);
    fitfunc4->GetXaxis()->SetTitleFont(42);
    fitfunc4->GetYaxis()->SetLabelFont(42);
    fitfunc4->GetYaxis()->SetTitleFont(42);
-   fitfunc4->SetParameter(0,13);
+   fitfunc4->SetParameter(0,12.55464);
    fitfunc4->SetParError(0,0);
    fitfunc4->SetParLimits(0,13,13);
-   fitfunc4->SetParameter(1,2.11);
+   fitfunc4->SetParameter(1,2.146237);
    fitfunc4->SetParError(1,0);
    fitfunc4->SetParLimits(1,2.11,2.11);
-   fitfunc4->SetParameter(2,0.121189);
-   fitfunc4->SetParError(2,0);
-   fitfunc4->SetParLimits(2,0.121189,0.121189);
+   fitfunc4->SetParameter(2,0.113356);
+   fitfunc4->SetParError(2,0.01122739);
+   fitfunc4->SetParLimits(2,0,1.399511);
    fitfunc4->SetParent(histTOFfit000100__4);
    histTOFfit000100__4->GetListOfFunctions()->Add(fitfunc4);
    histTOFfit000100__4->SetLineWidth(5);
@@ -128,7 +128,7 @@ void He3Plot0100()
    entry->SetMarkerStyle(21);
    entry->SetMarkerSize(1);
    entry->SetTextFont(42);
-   entry=leg->AddEntry("NULL","TRD trigger","");
+   entry=leg->AddEntry("NULL","TRD HNU trigger","");
    entry->SetLineColor(1);
    entry->SetLineStyle(1);
    entry->SetLineWidth(1);

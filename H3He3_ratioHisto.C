@@ -19,17 +19,27 @@
 #include "TLine.h"
 #include "H3He3_ratioHisto.h"
 
-const TString trigger = "HNU"; //HM or HNU
+const TString trigger = "HNUHQU"; //HM or HNU
 TString Folder = "result";
 TString rootfile = "/Users/matthias/alice/Master/Makros/Rootfiles/DataH3.root";
 TString rootfileHe3 = "/Users/matthias/alice/Master/Makros/Rootfiles/DataHe3.root";
 TString	rootfileYield = "/Users/matthias/alice/Master/Makros/Rootfiles/DataYield.root";
 TString rootfile_HNU = "/Users/matthias/alice/Master/Makros/Rootfiles/DataH3_HNU.root";
+TString rootfile_HQU = "/Users/matthias/alice/Master/Makros/Rootfiles/DataH3_HQU.root";
+TString rootfile_HNUHQU = "/Users/matthias/alice/Master/Makros/Rootfiles/DataH3_HNUHQU.root";
 TString rootfileHe3_HNU = "/Users/matthias/alice/Master/Makros/Rootfiles/DataHe3_HNU.root";
+TString rootfileHe3_HQU = "/Users/matthias/alice/Master/Makros/Rootfiles/DataHe3_HQU.root";
+TString rootfileHe3_HNUHQU = "/Users/matthias/alice/Master/Makros/Rootfiles/DataHe3_HNUHQU.root";
 TString	rootfileYield_HNU = "/Users/matthias/alice/Master/Makros/Rootfiles/DataYield_HNU.root";
+TString	rootfileYield_HQU = "/Users/matthias/alice/Master/Makros/Rootfiles/DataYield_HQU.root";
+TString	rootfileYield_HNUHQU = "/Users/matthias/alice/Master/Makros/Rootfiles/DataYield_HNUHQU.root";
+
 //Correction root files:
 TString rootfileYield_corr = "/Users/matthias/alice/Master/Makros/result/correction/DataYield_corr.root";
 TString rootfileYield_corr_HNU = "/Users/matthias/alice/Master/Makros/result/correction/DataYield_corr_HNU.root";
+TString rootfileYield_corr_HQU = "/Users/matthias/alice/Master/Makros/result/correction/DataYield_corr_HQU.root";
+TString rootfileYield_corr_HNUHQU = "/Users/matthias/alice/Master/Makros/result/correction/DataYield_corr_HNUHQU.root";
+
 const Int_t nParticles = 3;	
 double eventnumber = 6.79038e+08 + 2.98214e+08; //HM 9.77252×10^8
 double eventnumberHM = 1.6013576e+09 + 3.2440317e+08; // HMV0 + HMSPD 1.92576×10^9
@@ -52,6 +62,14 @@ void histRatio(){
 	if (trigger == "HNU")
 	{
 		fH3 = TFile::Open(rootfile_HNU, "UPDATE");
+	}
+	if (trigger == "HQU")
+	{
+		fH3 = TFile::Open(rootfile_HQU, "UPDATE");
+	}
+	if (trigger == "HNUHQU")
+	{
+		fH3 = TFile::Open(rootfile_HNUHQU, "UPDATE");
 	}
 	TH1D * yieldH3[nParticles] = {0};
     TH1D * yieldHe3[nParticles] = {0};
@@ -82,6 +100,14 @@ void histRatio(){
 	{
 		fHe = TFile::Open(rootfileHe3_HNU, "UPDATE");
 	}
+	if (trigger == "HQU")
+	{
+		fHe = TFile::Open(rootfileHe3_HQU, "UPDATE");
+	}
+	if (trigger == "HNUHQU")
+	{
+		fHe = TFile::Open(rootfileHe3_HNUHQU, "UPDATE");
+	}
 	for (int particle = 0; particle < nParticles; particle++){
         yieldHe3[particle] = (TH1D*) fHe->Get(Form("histRaw%02d%02d",0, particle));
 		yieldHe3[particle]->SetName(Form("histYieldHe3%02d",particle));
@@ -93,7 +119,15 @@ void histRatio(){
 	if (trigger == "HNU")
 	{
 		fYield = new TFile(rootfileYield_HNU,"recreate");
+	}
+	if (trigger == "HQU")
+	{
+		fYield = new TFile(rootfileYield_HQU,"recreate");
 	}	
+	if (trigger == "HNUHQU")
+	{
+		fYield = new TFile(rootfileYield_HNUHQU,"recreate");
+	}		
 	for (int particle = 0; particle < nParticles; particle++){
 		yieldH3[particle]->SetMarkerStyle(42);
 		yieldHe3[particle]->SetMarkerStyle(43);
@@ -155,7 +189,15 @@ void histRatio(){
 		}
 		if (trigger == "HNU")
 		{
-			legendratio[particle]->AddEntry((TObject*)0, "TRD trigger", "");
+			legendratio[particle]->AddEntry((TObject*)0, "TRD HNU trigger", "");
+		}
+		if (trigger == "HQU")
+		{
+			legendratio[particle]->AddEntry((TObject*)0, "TRD HQU trigger", "");
+		}
+		if (trigger == "HNUHQU")
+		{
+			legendratio[particle]->AddEntry((TObject*)0, "TRD HNU & HQU trigger", "");
 		}
 		legendratio[particle]->Draw();
 		}
@@ -182,7 +224,31 @@ void histRatio(){
 			ratioPlot[0]->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HNU/ratioNorHe3H3.pdf");
 			ratioPlot[0]->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HNU/ratioNorHe3H3.root");
 			ratioPlot[0]->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HNU/ratioNorHe3H3.C");
-	}
+		}
+		if (trigger == "HQU")
+		{
+			ratioPlot[2]->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HQU/ratioHe3H3.pdf");
+			ratioPlot[2]->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HQU/ratioHe3H3.root");
+			ratioPlot[2]->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HQU/ratioHe3H3.C");
+			ratioPlot[1]->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HQU/ratioAntiHe3H3.pdf");
+			ratioPlot[1]->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HQU/ratioAntiHe3H3.root");
+			ratioPlot[1]->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HQU/ratioAntiHe3H3.C");
+			ratioPlot[0]->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HQU/ratioNorHe3H3.pdf");
+			ratioPlot[0]->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HQU/ratioNorHe3H3.root");
+			ratioPlot[0]->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HQU/ratioNorHe3H3.C");
+		}
+		if (trigger == "HNUHQU")
+		{
+			ratioPlot[2]->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HNUHQU/ratioHe3H3.pdf");
+			ratioPlot[2]->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HNUHQU/ratioHe3H3.root");
+			ratioPlot[2]->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HNUHQU/ratioHe3H3.C");
+			ratioPlot[1]->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HNUHQU/ratioAntiHe3H3.pdf");
+			ratioPlot[1]->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HNUHQU/ratioAntiHe3H3.root");
+			ratioPlot[1]->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HNUHQU/ratioAntiHe3H3.C");
+			ratioPlot[0]->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HNUHQU/ratioNorHe3H3.pdf");
+			ratioPlot[0]->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HNUHQU/ratioNorHe3H3.root");
+			ratioPlot[0]->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HNUHQU/ratioNorHe3H3.C");
+		}
 	//Per Event:
 	for (int i = 0; i < nParticles; i++)
 	{
@@ -191,7 +257,7 @@ void histRatio(){
 		{
 			yieldCombinedPerEventH3_uncorrected[i]->Scale(1./eventnumberHM);
 		}
-		if (trigger == "HNU")
+		if (trigger == "HNU" || trigger == "HQU" || trigger == "HNUHQU")
 		{
 			yieldCombinedPerEventH3_uncorrected[i]->Scale(1./eventnumberMB);
 		}
@@ -231,7 +297,15 @@ void histRatio(){
 		}
 		if (trigger == "HNU")
 		{
-			legendratioH3_uncorrected[i]->AddEntry((TObject*)0, "TRD trigger", "");
+			legendratioH3_uncorrected[i]->AddEntry((TObject*)0, "TRD HNU trigger", "");
+		}
+		if (trigger == "HQU")
+		{
+			legendratioH3_uncorrected[i]->AddEntry((TObject*)0, "TRD HQU trigger", "");
+		}
+		if (trigger == "HNUHQU")
+		{
+			legendratioH3_uncorrected[i]->AddEntry((TObject*)0, "TRD HNU & HQU trigger", "");
 		}
 		//yieldCombinedPerEvent->GetXaxis()->SetRange(1.,6.);
 		legendratioH3_uncorrected[i]->Draw();
@@ -246,6 +320,18 @@ void histRatio(){
 			ratioPlot_event1[i]->SaveAs(Form("/Users/matthias/alice/Master/Makros/result/Plots/H3/HNU/H3perEvent%i.C", i));
 			ratioPlot_event1[i]->SaveAs(Form("/Users/matthias/alice/Master/Makros/result/Plots/H3/HNU/H3perEvent%i.pdf", i));
 			ratioPlot_event1[i]->SaveAs(Form("/Users/matthias/alice/Master/Makros/result/Plots/H3/HNU/H3perEvent%i.root", i));
+		}
+		if (trigger == "HQU")
+		{	
+			ratioPlot_event1[i]->SaveAs(Form("/Users/matthias/alice/Master/Makros/result/Plots/H3/HQU/H3perEvent%i.C", i));
+			ratioPlot_event1[i]->SaveAs(Form("/Users/matthias/alice/Master/Makros/result/Plots/H3/HQU/H3perEvent%i.pdf", i));
+			ratioPlot_event1[i]->SaveAs(Form("/Users/matthias/alice/Master/Makros/result/Plots/H3/HQU/H3perEvent%i.root", i));
+		}
+		if (trigger == "HNUHQU")
+		{	
+			ratioPlot_event1[i]->SaveAs(Form("/Users/matthias/alice/Master/Makros/result/Plots/H3/HNUHQU/H3perEvent%i.C", i));
+			ratioPlot_event1[i]->SaveAs(Form("/Users/matthias/alice/Master/Makros/result/Plots/H3/HNUHQU/H3perEvent%i.pdf", i));
+			ratioPlot_event1[i]->SaveAs(Form("/Users/matthias/alice/Master/Makros/result/Plots/H3/HNUHQU/H3perEvent%i.root", i));
 		}
 	}
 	TCanvas* combinedCanvasH3 = new TCanvas("combinedCanvasH3", "", 2000, 2000);
@@ -271,7 +357,15 @@ void histRatio(){
 	}
 	if (trigger == "HNU")
 	{
-		combinedLegendH3_uncorrected->AddEntry((TObject*)0, "TRD trigger", "");
+		combinedLegendH3_uncorrected->AddEntry((TObject*)0, "TRD HNU trigger", "");
+	}
+	if (trigger == "HQU")
+	{
+		combinedLegendH3_uncorrected->AddEntry((TObject*)0, "TRD HQU trigger", "");
+	}
+	if (trigger == "HNUHQU")
+	{
+		combinedLegendH3_uncorrected->AddEntry((TObject*)0, "TRD HNU & HQU trigger", "");
 	}
 	//yieldCombinedPerEvent->GetXaxis()->SetRange(1.,6.);
 	combinedLegendH3_uncorrected->Draw();
@@ -287,6 +381,18 @@ void histRatio(){
 		combinedCanvasH3->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/H3/HNU/H3perEvent_UC_combined.C");
 		combinedCanvasH3->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/H3/HNU/H3perEvent_UC_combined.root");
 	}
+	if (trigger == "HQU")
+	{
+		combinedCanvasH3->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/H3/HQU/H3perEvent_UC_combined.pdf");
+		combinedCanvasH3->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/H3/HQU/H3perEvent_UC_combined.C");
+		combinedCanvasH3->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/H3/HQU/H3perEvent_UC_combined.root");
+	}
+	if (trigger == "HNUHQU")
+	{
+		combinedCanvasH3->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/H3/HNUHQU/H3perEvent_UC_combined.pdf");
+		combinedCanvasH3->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/H3/HNUHQU/H3perEvent_UC_combined.C");
+		combinedCanvasH3->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/H3/HNUHQU/H3perEvent_UC_combined.root");
+	}
 	for (int i = 0; i < nParticles; i++)
 	{
 		yieldCombinedPerEventHe3_uncorrected[i] = (TH1D*)yieldHe3[i]->Clone(Form("yieldCombinedPerEventHe3_uncorrected%i", i));
@@ -294,7 +400,7 @@ void histRatio(){
 		{
 			yieldCombinedPerEventHe3_uncorrected[i]->Scale(1./eventnumberHM);
 		}
-		if (trigger == "HNU")
+		if (trigger == "HNU" || trigger == "HQU" || trigger == "HNUHQU")
 		{
 			yieldCombinedPerEventHe3_uncorrected[i]->Scale(1./eventnumberMB);
 		}
@@ -335,7 +441,15 @@ void histRatio(){
 		}
 		if (trigger == "HNU")
 		{
-			legendratioHe3_uncorrected[i]->AddEntry((TObject*)0, "TRD trigger", "");
+			legendratioHe3_uncorrected[i]->AddEntry((TObject*)0, "TRD HNU trigger", "");
+		}
+		if (trigger == "HQU")
+		{
+			legendratioHe3_uncorrected[i]->AddEntry((TObject*)0, "TRD HQU trigger", "");
+		}
+		if (trigger == "HNUHQU")
+		{
+			legendratioHe3_uncorrected[i]->AddEntry((TObject*)0, "TRD HNU & HQU trigger", "");
 		}
 		//yieldCombinedPerEvent->GetXaxis()->SetRange(1.,6.);
 		legendratioHe3_uncorrected[i]->Draw();
@@ -350,6 +464,18 @@ void histRatio(){
 			ratioPlot_event2[i]->SaveAs(Form("/Users/matthias/alice/Master/Makros/result/Plots/He3/HNU/He3perEvent_UC%i.C", i));
 			ratioPlot_event2[i]->SaveAs(Form("/Users/matthias/alice/Master/Makros/result/Plots/He3/HNU/He3perEvent_UC%i.pdf", i));
 			ratioPlot_event2[i]->SaveAs(Form("/Users/matthias/alice/Master/Makros/result/Plots/He3/HNU/He3perEvent_UC%i.root", i));;
+		}
+		if (trigger == "HQU")
+		{
+			ratioPlot_event2[i]->SaveAs(Form("/Users/matthias/alice/Master/Makros/result/Plots/He3/HQU/He3perEvent_UC%i.C", i));
+			ratioPlot_event2[i]->SaveAs(Form("/Users/matthias/alice/Master/Makros/result/Plots/He3/HQU/He3perEvent_UC%i.pdf", i));
+			ratioPlot_event2[i]->SaveAs(Form("/Users/matthias/alice/Master/Makros/result/Plots/He3/HQU/He3perEvent_UC%i.root", i));;
+		}
+		if (trigger == "HNUHQU")
+		{
+			ratioPlot_event2[i]->SaveAs(Form("/Users/matthias/alice/Master/Makros/result/Plots/He3/HNUHQU/He3perEvent_UC%i.C", i));
+			ratioPlot_event2[i]->SaveAs(Form("/Users/matthias/alice/Master/Makros/result/Plots/He3/HNUHQU/He3perEvent_UC%i.pdf", i));
+			ratioPlot_event2[i]->SaveAs(Form("/Users/matthias/alice/Master/Makros/result/Plots/He3/HNUHQU/He3perEvent_UC%i.root", i));;
 		}
 	}
 	TCanvas* combinedCanvas = new TCanvas("combinedCanvas", "", 2000, 2000);
@@ -375,7 +501,15 @@ void histRatio(){
 	}
 	if (trigger == "HNU")
 	{
-		combinedLegendHe3_uncorrected->AddEntry((TObject*)0, "TRD trigger", "");
+		combinedLegendHe3_uncorrected->AddEntry((TObject*)0, "TRD HNU trigger", "");
+	}
+	if (trigger == "HQU")
+	{
+		combinedLegendHe3_uncorrected->AddEntry((TObject*)0, "TRD HQU trigger", "");
+	}
+	if (trigger == "HNUHQU")
+	{
+		combinedLegendHe3_uncorrected->AddEntry((TObject*)0, "TRD HNU & HQU trigger", "");
 	}
 	//yieldCombinedPerEvent->GetXaxis()->SetRange(1.,6.);
 	combinedLegendHe3_uncorrected->Draw();
@@ -391,6 +525,18 @@ void histRatio(){
 		combinedCanvas->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/He3/HNU/He3perEvent_UC_combined.C");
 		combinedCanvas->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/He3/HNU/He3perEvent_UC_combined.root");
 	}
+	if (trigger == "HNU")
+	{
+		combinedCanvas->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/He3/HQU/He3perEvent_UC_combined.pdf");
+		combinedCanvas->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/He3/HQU/He3perEvent_UC_combined.C");
+		combinedCanvas->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/He3/HQU/He3perEvent_UC_combined.root");
+	}
+	if (trigger == "HNU")
+	{
+		combinedCanvas->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/He3/HNUHQU/He3perEvent_UC_combined.pdf");
+		combinedCanvas->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/He3/HNUHQU/He3perEvent_UC_combined.C");
+		combinedCanvas->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/He3/HNUHQU/He3perEvent_UC_combined.root");
+	}
 }
 void histRatioCorrected(){
 	TFile *fH3_corr;
@@ -404,6 +550,14 @@ void histRatioCorrected(){
 	if (trigger == "HNU")
 	{
 		fH3_corr = TFile::Open("/Users/matthias/alice/Master/Makros/result/correction/correctionresult_HNU.root", "UPDATE");
+	}
+	if (trigger == "HQU")
+	{
+		fH3_corr = TFile::Open("/Users/matthias/alice/Master/Makros/result/correction/correctionresult_HQU.root", "UPDATE");
+	}
+	if (trigger == "HNUHQU")
+	{
+		fH3_corr = TFile::Open("/Users/matthias/alice/Master/Makros/result/correction/correctionresult_HNUHQU.root", "UPDATE");
 	}
 	TH1D * yieldH3[nParticles] = {0};
     TH1D * yieldHe3[nParticles] = {0};
@@ -443,6 +597,14 @@ void histRatioCorrected(){
 	if (trigger == "HNU")
 	{
 		fYield_corr = new TFile(rootfileYield_corr_HNU,"recreate");
+	}
+	if (trigger == "HQU")
+	{
+		fYield_corr = new TFile(rootfileYield_corr_HQU,"recreate");
+	}
+	if (trigger == "HNUHQU")
+	{
+		fYield_corr = new TFile(rootfileYield_corr_HNUHQU,"recreate");
 	}
 	
 	for (int particle = 0; particle < nParticles; particle++){
@@ -499,7 +661,15 @@ void histRatioCorrected(){
 	}
 	if (trigger == "HNU")
 	{
-		legendratio->AddEntry((TObject*)0, "TRD trigger", "");
+		legendratio->AddEntry((TObject*)0, "TRD HNU trigger", "");
+	}
+	if (trigger == "HQU")
+	{
+		legendratio->AddEntry((TObject*)0, "TRD HQU trigger", "");
+	}
+	if (trigger == "HNUHQU")
+	{
+		legendratio->AddEntry((TObject*)0, "TRD HNU & HQU trigger", "");
 	}
 	legendratio->Draw();
 	if (trigger == "HM")
@@ -514,6 +684,18 @@ void histRatioCorrected(){
 		ratioPlot->SaveAs(Folder + Form("/Plots/ratio/HNU/corrRatioHe3H3_HNU.root"));
 		ratioPlot->SaveAs(Folder + Form("/Plots/ratio/HNU/corrRatioHe3H3_HNU.C"));
 	}
+	if (trigger == "HQU")
+	{
+		ratioPlot->SaveAs(Folder + Form("/Plots/ratio/HQU/corrRatioHe3H3_HQU.png"));
+		ratioPlot->SaveAs(Folder + Form("/Plots/ratio/HQU/corrRatioHe3H3_HQU.root"));
+		ratioPlot->SaveAs(Folder + Form("/Plots/ratio/HQU/corrRatioHe3H3_HQU.C"));
+	}
+	if (trigger == "HNUHQU")
+	{
+		ratioPlot->SaveAs(Folder + Form("/Plots/ratio/HNUHQU/corrRatioHe3H3_HNUHQU.png"));
+		ratioPlot->SaveAs(Folder + Form("/Plots/ratio/HNUHQU/corrRatioHe3H3_HNUHQU.root"));
+		ratioPlot->SaveAs(Folder + Form("/Plots/ratio/HNUHQU/corrRatioHe3H3_HNUHQU.C"));
+	}
 	
 	ratioPlot22 = new TCanvas(Form("ratioPlot22"), "", 2000,2000);
 	yieldCombined[0]->SetTitle(" ");
@@ -526,7 +708,15 @@ void histRatioCorrected(){
 	{
 		l2 = new TLine(1.4,1.,2.6,1.);
 	}
-	if (trigger == "HNU")
+	if (trigger == "HNU" )
+	{
+		l2 = new TLine(1.3,1.,2.8,1.);
+	}
+	if (trigger == "HQU" )
+	{
+		l2 = new TLine(1.3,1.,2.8,1.);
+	}
+	if (trigger == "HNUHQU" )
 	{
 		l2 = new TLine(1.3,1.,2.8,1.);
 	}
@@ -547,7 +737,15 @@ void histRatioCorrected(){
 	}
 	if (trigger == "HNU")
 	{
-		legendratio2->AddEntry((TObject*)0, "TRD trigger", "");
+		legendratio2->AddEntry((TObject*)0, "TRD HNU trigger", "");
+	}
+	if (trigger == "HQU")
+	{
+		legendratio2->AddEntry((TObject*)0, "TRD HQU trigger", "");
+	}
+	if (trigger == "HNUHQU")
+	{
+		legendratio2->AddEntry((TObject*)0, "TRD HNU & HQU trigger", "");
 	}
 	
 	legendratio2->Draw();
@@ -563,6 +761,18 @@ void histRatioCorrected(){
 		ratioPlot22->SaveAs(Folder + Form("/Plots/ratio/HNU/corrRatioPartHe3H3_HNU.root"));
 		ratioPlot22->SaveAs(Folder + Form("/Plots/ratio/HNU/corrRatioPartHe3H3_HNU.C"));
 	}
+	if (trigger == "HQU")
+	{
+		ratioPlot22->SaveAs(Folder + Form("/Plots/ratio/HQU/corrRatioPartHe3H3_HQU.png"));
+		ratioPlot22->SaveAs(Folder + Form("/Plots/ratio/HQU/corrRatioPartHe3H3_HQU.root"));
+		ratioPlot22->SaveAs(Folder + Form("/Plots/ratio/HQU/corrRatioPartHe3H3_HQU.C"));
+	}
+	if (trigger == "HNUHQU")
+	{
+		ratioPlot22->SaveAs(Folder + Form("/Plots/ratio/HNUHQU/corrRatioPartHe3H3_HNUHQU.png"));
+		ratioPlot22->SaveAs(Folder + Form("/Plots/ratio/HNUHQU/corrRatioPartHe3H3_HNUHQU.root"));
+		ratioPlot22->SaveAs(Folder + Form("/Plots/ratio/HNUHQU/corrRatioPartHe3H3_HNUHQU.C"));
+	}
 	
 	ratioPlot3 = new TCanvas("ratioPlot3", "", 2000,2000);
 	yieldCombined[1]->SetTitle(" ");
@@ -576,6 +786,14 @@ void histRatioCorrected(){
 		l3 = new TLine(1.4,1.,2.6,1.);
 	}
 	if (trigger == "HNU")
+	{
+		l3 = new TLine(1.3,1.,2.8,1.);
+	}
+	if (trigger == "HQU")
+	{
+		l3 = new TLine(1.3,1.,2.8,1.);
+	}
+	if (trigger == "HNUHQU")
 	{
 		l3 = new TLine(1.3,1.,2.8,1.);
 	}
@@ -596,7 +814,15 @@ void histRatioCorrected(){
 	}
 	if (trigger == "HNU")
 	{
-		legendratio3->AddEntry((TObject*)0, "TRD trigger", "");
+		legendratio3->AddEntry((TObject*)0, "TRD HNU trigger", "");
+	}
+	if (trigger == "HQU")
+	{
+		legendratio3->AddEntry((TObject*)0, "TRD HQU trigger", "");
+	}
+	if (trigger == "HNUHQU")
+	{
+		legendratio3->AddEntry((TObject*)0, "TRD HNU & HQU trigger", "");
 	}
 	
 
@@ -613,6 +839,18 @@ void histRatioCorrected(){
 		ratioPlot3->SaveAs(Folder + Form("/Plots/ratio/HNU/corrRatioAntiPartHe3H3_HNU.root"));
 		ratioPlot3->SaveAs(Folder + Form("/Plots/ratio/HNU/corrRatioAntiPartHe3H3_HNU.C"));
 	}
+	if (trigger == "HQU")
+	{
+		ratioPlot3->SaveAs(Folder + Form("/Plots/ratio/HQU/corrRatioAntiPartHe3H3_HQU.png"));
+		ratioPlot3->SaveAs(Folder + Form("/Plots/ratio/HQU/corrRatioAntiPartHe3H3_HQU.root"));
+		ratioPlot3->SaveAs(Folder + Form("/Plots/ratio/HQU/corrRatioAntiPartHe3H3_HQU.C"));
+	}
+	if (trigger == "HNUHQU")
+	{
+		ratioPlot3->SaveAs(Folder + Form("/Plots/ratio/HNUHQU/corrRatioAntiPartHe3H3_HNUHQU.png"));
+		ratioPlot3->SaveAs(Folder + Form("/Plots/ratio/HNUHQU/corrRatioAntiPartHe3H3_HNUHQU.root"));
+		ratioPlot3->SaveAs(Folder + Form("/Plots/ratio/HNUHQU/corrRatioAntiPartHe3H3_HNUHQU.C"));
+	}
 	//Per Event:
 	for (int i = 0; i < nParticles; i++)
 	{
@@ -621,7 +859,7 @@ void histRatioCorrected(){
 		{
 			yieldCombinedPerEvent[i]->Scale(1./eventnumberHM);	
 		}
-		if (trigger == "HNU")
+		if (trigger == "HNU" || trigger == "HQU" || trigger == "HNUHQU")
 		{
 			yieldCombinedPerEvent[i]->Scale(1./eventnumberMB);	
 		}
@@ -662,7 +900,15 @@ void histRatioCorrected(){
 		}
 		if (trigger == "HNU")
 		{
-			legendratio4[i]->AddEntry((TObject*)0, "TRD trigger", "");
+			legendratio4[i]->AddEntry((TObject*)0, "TRD HNU trigger", "");
+		}
+		if (trigger == "HQU")
+		{
+			legendratio4[i]->AddEntry((TObject*)0, "TRD HQU trigger", "");
+		}
+		if (trigger == "HNUHQU")
+		{
+			legendratio4[i]->AddEntry((TObject*)0, "TRD HNU & HQU trigger", "");
 		}
 		legendratio4[i]->Draw();
 		if (trigger == "HM")
@@ -676,6 +922,18 @@ void histRatioCorrected(){
 			ratioPlot_event_corr1[i]->SaveAs(Folder + Form("/Plots/H3/Korrekturen/HNU/H3perEvent_HNU%i.C",i));
 			ratioPlot_event_corr1[i]->SaveAs(Folder + Form("/Plots/H3/Korrekturen/HNU/H3perEvent_HNU%i.pdf",i));
 			ratioPlot_event_corr1[i]->SaveAs(Folder + Form("/Plots/H3/Korrekturen/HNU/H3perEvent_HNU%i.root",i));
+		}
+		if (trigger == "HQU")
+		{
+			ratioPlot_event_corr1[i]->SaveAs(Folder + Form("/Plots/H3/Korrekturen/HQU/H3perEvent_HQU%i.C",i));
+			ratioPlot_event_corr1[i]->SaveAs(Folder + Form("/Plots/H3/Korrekturen/HQU/H3perEvent_HQU%i.pdf",i));
+			ratioPlot_event_corr1[i]->SaveAs(Folder + Form("/Plots/H3/Korrekturen/HQU/H3perEvent_HQU%i.root",i));
+		}
+		if (trigger == "HNUHQU")
+		{
+			ratioPlot_event_corr1[i]->SaveAs(Folder + Form("/Plots/H3/Korrekturen/HNUHQU/H3perEvent_HNUHQU%i.C",i));
+			ratioPlot_event_corr1[i]->SaveAs(Folder + Form("/Plots/H3/Korrekturen/HNUHQU/H3perEvent_HNUHQU%i.pdf",i));
+			ratioPlot_event_corr1[i]->SaveAs(Folder + Form("/Plots/H3/Korrekturen/HNUHQU/H3perEvent_HNUHQU%i.root",i));
 		}
 	}
 	TCanvas* combinedCanvascorrH3 = new TCanvas("combinedCanvasCorrH3", "", 2000, 2000);
@@ -716,6 +974,18 @@ void histRatioCorrected(){
 		combinedCanvascorrH3->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/H3/Korrekturen/HNU/H3perEvent_corr_combined.pdf");
 		combinedCanvascorrH3->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/H3/Korrekturen/HNU/H3perEvent_corr_combined.C");
 		combinedCanvascorrH3->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/H3/Korrekturen/HNU/H3perEvent_corr_combined.root");
+	}	
+	if (trigger == "HQU")
+	{
+		combinedCanvascorrH3->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/H3/Korrekturen/HQU/H3perEvent_corr_combined.pdf");
+		combinedCanvascorrH3->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/H3/Korrekturen/HQU/H3perEvent_corr_combined.C");
+		combinedCanvascorrH3->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/H3/Korrekturen/HQU/H3perEvent_corr_combined.root");
+	}	
+	if (trigger == "HNUHQU")
+	{
+		combinedCanvascorrH3->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/H3/Korrekturen/HNUHQU/H3perEvent_corr_combined.pdf");
+		combinedCanvascorrH3->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/H3/Korrekturen/HNUHQU/H3perEvent_corr_combined.C");
+		combinedCanvascorrH3->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/H3/Korrekturen/HNUHQU/H3perEvent_corr_combined.root");
 	}	
 	for (int i = 0; i < nParticles; i++)
 	{	
@@ -766,7 +1036,15 @@ void histRatioCorrected(){
 		}
 		if (trigger == "HNU")
 		{
-			legendratio5[i]->AddEntry((TObject*)0, "TRD trigger", "");
+			legendratio5[i]->AddEntry((TObject*)0, "TRD HNU trigger", "");
+		}
+		if (trigger == "HQU")
+		{
+			legendratio5[i]->AddEntry((TObject*)0, "TRD HQU trigger", "");
+		}
+		if (trigger == "HNUHQU")
+		{
+			legendratio5[i]->AddEntry((TObject*)0, "TRD HNU & HQU trigger", "");
 		}
 		yieldCombinedPerEventHe[i]->GetXaxis()->SetRange(1.,3);
 		legendratio5[i]->Draw();
@@ -781,6 +1059,18 @@ void histRatioCorrected(){
 			ratioPlot5[i]->SaveAs(Folder + Form("/Plots/He3/Korrekturen/HNU/He3perEvent_HNU.C"));
 			ratioPlot5[i]->SaveAs(Folder + Form("/Plots/He3/Korrekturen/HNU/He3perEvent_HNU.pdf"));
 			ratioPlot5[i]->SaveAs(Folder + Form("/Plots/He3/Korrekturen/HNU/He3perEvent_HNU.root"));
+		}
+		if (trigger == "HQU")
+		{
+			ratioPlot5[i]->SaveAs(Folder + Form("/Plots/He3/Korrekturen/HQU/He3perEvent_HQU.C"));
+			ratioPlot5[i]->SaveAs(Folder + Form("/Plots/He3/Korrekturen/HQU/He3perEvent_HQU.pdf"));
+			ratioPlot5[i]->SaveAs(Folder + Form("/Plots/He3/Korrekturen/HQU/He3perEvent_HQU.root"));
+		}
+		if (trigger == "HNUHQU")
+		{
+			ratioPlot5[i]->SaveAs(Folder + Form("/Plots/He3/Korrekturen/HNUHQU/He3perEvent_HNUHQU.C"));
+			ratioPlot5[i]->SaveAs(Folder + Form("/Plots/He3/Korrekturen/HNUHQU/He3perEvent_HNUHQU.pdf"));
+			ratioPlot5[i]->SaveAs(Folder + Form("/Plots/He3/Korrekturen/HNUHQU/He3perEvent_HNUHQU.root"));
 		}
 	}
 	TCanvas* combinedCanvascorrHe = new TCanvas("combinedCanvasCorr", "", 2000, 2000);
@@ -806,7 +1096,15 @@ void histRatioCorrected(){
 	}
 	if (trigger == "HNU")
 	{
-		combinedLegendHe3_corrected->AddEntry((TObject*)0, "TRD trigger", "");
+		combinedLegendHe3_corrected->AddEntry((TObject*)0, "TRD HNU trigger", "");
+	}
+	if (trigger == "HQU")
+	{
+		combinedLegendHe3_corrected->AddEntry((TObject*)0, "TRD HQU trigger", "");
+	}
+	if (trigger == "HNUHQU")
+	{
+		combinedLegendHe3_corrected->AddEntry((TObject*)0, "TRD HNU & HQU trigger", "");
 	}
 	//yieldCombinedPerEvent->GetXaxis()->SetRange(1.,6.);
 	combinedLegendHe3_corrected->Draw();
@@ -821,6 +1119,18 @@ void histRatioCorrected(){
 		combinedCanvascorrHe->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/He3/Korrekturen/HNU/He3perEvent_corr_combined.pdf");
 		combinedCanvascorrHe->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/He3/Korrekturen/HNU/He3perEvent_corr_combined.C");
 		combinedCanvascorrHe->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/He3/Korrekturen/HNU/He3perEvent_corr_combined.root");
+	}
+	if (trigger == "HQU")
+	{
+		combinedCanvascorrHe->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/He3/Korrekturen/HQU/He3perEvent_corr_combined.pdf");
+		combinedCanvascorrHe->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/He3/Korrekturen/HQU/He3perEvent_corr_combined.C");
+		combinedCanvascorrHe->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/He3/Korrekturen/HQU/He3perEvent_corr_combined.root");
+	}
+	if (trigger == "HNUHQU")
+	{
+		combinedCanvascorrHe->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/He3/Korrekturen/HNUHQU/He3perEvent_corr_combined.pdf");
+		combinedCanvascorrHe->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/He3/Korrekturen/HNUHQU/He3perEvent_corr_combined.C");
+		combinedCanvascorrHe->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/He3/Korrekturen/HNUHQU/He3perEvent_corr_combined.root");
 	}
 	
 	/*

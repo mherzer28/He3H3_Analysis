@@ -28,8 +28,8 @@ TString resultPath = "/Users/matthias/alice/root_results/MC";
 TString resultfileHNUHQU = "/Users/matthias/alice/Master/Makros/result/correction/correction_HNUHQU.root";
 TString resultfileHNU = "/Users/matthias/alice/Master/Makros/result/correction/correction_HNU.root";
 TString resultfileHQU = "/Users/matthias/alice/Master/Makros/result/correction/correction_HQU.root";
-TString trigger = "HNUHQU" // HNUHQU HNU HQU
-TString correction = "yes" // "yes" "no"
+TString trigger = "HQU"; // HNUHQU HNU HQU
+TString correction = "yes"; // "yes" "no"
 //_________________________________________________________________________________________________________
 void efficiencyHNU(){
     HeTriEffHNU();
@@ -294,23 +294,22 @@ Int_t nEntriesRec = (Int_t)fTreeDataH3->GetEntries();
 			if (!tTrigMB) continue;
 			if (tCharge < 0) tTRDPid *= (64/101.82);
 			else tTRDPid *= (63.32/88.81);
-			bool isHQU = (tTRDPid >= 130 && tTRDnTracklets >= 5 && tPt > 2 && tTRDLayerMask & 1);
-			//bool isHNU = (tTRDnTracklets > 4 && tTRDPid >= 235) || (tTRDnTracklets == 4 && tTRDPid >= 255);
-			//if (!isHNU) continue; 
+			bool isHQU = (tTRDPid >= 130 && tTRDnTracklets >= 5 && tTRDPt >= 256 && tTRDLayerMask & 1 && tTRDSagitta < 0.2 && tTRDSagitta > -0.2 );
+			bool isHNU = (tTRDnTracklets > 4 && tTRDPid >= 235) || (tTRDnTracklets == 4 && tTRDPid >= 255);
 			if (trigger == "HNUHQU")
 			{
 				if (!isHQU && !tTrigHNU) continue;
 			}
 			if (trigger == "HNU")
 			{
-				if (!tTrigHNU) continue;
+				if (!isHNU) continue;
 			}
 			if (trigger == "HQU")
 			{
 				if (!isHQU) continue;
 			}
 		}
-		else if (trigger =="no")
+		else if (correction =="no")
 		{
 			if (trigger == "HNUHQU")
 			{
@@ -558,18 +557,18 @@ legend22->SetTextSize(0.042);
 legend22->Draw();
 if (trigger == "HNUHQU")
 {
-	c22->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeff/HNUHQU/accxeffH3_Anti_HNUHQU.root");
-	c22->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeff/HNUHQU/accxeffH3_Anti_HNUHQU.pdf");
+	c22->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/HNUHQU/accxeffH3_Anti_HNUHQU.root");
+	c22->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/HNUHQU/accxeffH3_Anti_HNUHQU.pdf");
 }
 else if (trigger == "HNU")
 {
-	c22->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeff/HNU/accxeffH3_Anti_HNU.pdf");
-	c22->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeff/HNU/accxeffH3_Anti_HNU.root");
+	c22->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/HNU/accxeffH3_Anti_HNU.pdf");
+	c22->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/HNU/accxeffH3_Anti_HNU.root");
 }
 else if (trigger == "HQU")
 {
-	c22->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeff/HQU/accxeffH3_Anti_HQU.root");
-	c22->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/accxeff/HQU/accxeffH3_Anti_HQU.pdf");
+	c22->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/HQU/accxeffH3_Anti_HQU.root");
+	c22->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/accxeff/HQU/accxeffH3_Anti_HQU.pdf");
 }
 
 //___________________________________________________________________________________________________________
@@ -659,23 +658,23 @@ Int_t nEntriesRecHe = (Int_t)fTreeDataHe->GetEntries();
 			if (!tTrigMB) continue;
 			if (tCharge < 0) tTRDPid *= (243.85/228.58);
 			else tTRDPid *= (243.70/223.34);
-			bool isHQU = (tTRDPid >= 130 && tTRDnTracklets >= 5 && tPt > 2 && tTRDLayerMask & 1);
-			//bool isHNU = (tTRDnTracklets > 4 && tTRDPid >= 235) || (tTRDnTracklets == 4 && tTRDPid >= 255);
-			//if (!isHNU) continue; 
+			bool isHQU = (tTRDPid >= 130 && tTRDnTracklets >= 5 && tTRDPt >= 256 && tTRDLayerMask & 1 && tTRDSagitta < 0.2 && tTRDSagitta > -0.2 );
+			bool isHNU = (tTRDnTracklets > 4 && tTRDPid >= 235) || (tTRDnTracklets == 4 && tTRDPid >= 255);
+			if (!isHNU) continue; 
 			if (trigger == "HNUHQU")
 			{
 				if (!isHQU && !tTrigHNU) continue;
 			}
 			if (trigger == "HNU")
 			{
-				if (!tTrigHNU) continue;
+				if (!isHNU) continue;
 			}
 			if (trigger == "HQU")
 			{
 				if (!isHQU) continue;
 			}
 		}
-		else if (trigger == "no")
+		else if (correction == "no")
 		{
 			if (trigger == "HNUHQU")
 			{

@@ -25,8 +25,11 @@ TString rootfile_HNU = "/Users/matthias/alice/Master/Makros/Rootfiles/DataH3_HNU
 TString rootfile_He_HNU = "/Users/matthias/alice/Master/Makros/Rootfiles/DataHe3_HNU.root";
 TString rootfile_HQU = "/Users/matthias/alice/Master/Makros/Rootfiles/DataH3_HQU.root";
 TString rootfile_He_HQU = "/Users/matthias/alice/Master/Makros/Rootfiles/DataHe3_HQU.root";
-
-TString trigger = "HNU" // HNU, HQU or HNUHQU
+TFile *f;
+TFile *f2;
+TFile *fHe;
+TFile *f2He;
+TString trigger = "HNU"; // HNU, HQU or HNUHQU
 const Int_t nParticles = 3;
 
 void get_rawYieldHNU(){
@@ -37,15 +40,15 @@ void get_rawYieldHNU(){
 void get_rawH3HNU(){
     if (trigger == "HNU")
     {
-        TFile *f = TFile::Open(rootfile_HNU, "UPDATE");
+        f = TFile::Open(rootfile_HNU, "UPDATE");
     }
-    else if (trigger == "HQU")
+    if (trigger == "HQU")
     {
-        TFile *f = TFile::Open(rootfile_HQU, "UPDATE");
+        f = TFile::Open(rootfile_HQU, "UPDATE");
     }
-    else
+    if (trigger == "HNUHQU")
     {
-        TFile *f = TFile::Open(rootfile_HNUHQU, "UPDATE");
+        f = TFile::Open(rootfile_HNUHQU, "UPDATE");
     }
     
     if (!f || f->IsZombie()) {
@@ -63,20 +66,17 @@ void get_rawH3HNU(){
     }
     if (trigger == "HNU")
     {
-        TFile *f2 = TFile::Open("/Users/matthias/alice/Master/Makros/result/correction/correctionYield_HNU.root", "RECREATE");
-
+        f2 = TFile::Open("/Users/matthias/alice/Master/Makros/result/correction/correctionYield_HNU.root", "RECREATE");
     }
-    else if (trigger == "HQU")
+    if (trigger == "HQU")
     {
-        TFile *f2 = TFile::Open("/Users/matthias/alice/Master/Makros/result/correction/correctionYield_HQU.root", "RECREATE");
+        f2 = TFile::Open("/Users/matthias/alice/Master/Makros/result/correction/correctionYield_HQU.root", "RECREATE");
     }
-    else
+    if (trigger == "HNUHQU")
     {
-        TFile *f2 = TFile::Open("/Users/matthias/alice/Master/Makros/result/correction/correctionYield_HNUHQU.root", "RECREATE");
+        f2 = TFile::Open("/Users/matthias/alice/Master/Makros/result/correction/correctionYield_HNUHQU.root", "RECREATE");
     }
     
-    
-    TFile *f2 = TFile::Open("/Users/matthias/alice/Master/Makros/result/correction/correctionYield_HNU.root", "RECREATE");
     if (!f2 || f2->IsZombie()) {
         std::cerr << "Error creating output file" << std::endl;
         f->Close();
@@ -95,15 +95,15 @@ void get_rawH3HNU(){
 void get_rawHeHNU(){
        if (trigger == "HNU")
     {
-        TFile *fHe = TFile::Open(rootfile_He_HNU, "UPDATE");
+        fHe = TFile::Open(rootfile_He_HNU, "UPDATE");
     }
-    else if (trigger == "HQU")
+    if (trigger == "HQU")
     {
-        TFile *fHe = TFile::Open(rootfile_He_HQU, "UPDATE");
+        fHe = TFile::Open(rootfile_He_HQU, "UPDATE");
     }
-    else
+    if (trigger == "HNUHQU")
     {
-        TFile *fHe = TFile::Open(rootfile_He_HNUHQU, "UPDATE");
+        fHe = TFile::Open(rootfile_He_HNUHQU, "UPDATE");
     }
     
     if (!fHe || fHe->IsZombie()) {
@@ -121,15 +121,15 @@ void get_rawHeHNU(){
     }
     if (trigger == "HNU")
     {
-        TFile *f2He = TFile::Open("/Users/matthias/alice/Master/Makros/result/correction/correctionYieldHe_HNU.root", "RECREATE");
+        f2He = TFile::Open("/Users/matthias/alice/Master/Makros/result/correction/correctionYieldHe_HNU.root", "RECREATE");
     }
-    else if (trigger == "HQU")
+    if (trigger == "HQU")
     {
-        TFile *f2He = TFile::Open("/Users/matthias/alice/Master/Makros/result/correction/correctionYieldHe_HQU.root", "RECREATE");
+        f2He = TFile::Open("/Users/matthias/alice/Master/Makros/result/correction/correctionYieldHe_HQU.root", "RECREATE");
     }
-    else
+    if(trigger == "HNUHQU")
     {
-        TFile *f2He = TFile::Open("/Users/matthias/alice/Master/Makros/result/correction/correctionYieldHe_HNUHQU.root", "RECREATE");
+        f2He = TFile::Open("/Users/matthias/alice/Master/Makros/result/correction/correctionYieldHe_HNUHQU.root", "RECREATE");
     }
 
     if (!f2He || f2He->IsZombie()) {

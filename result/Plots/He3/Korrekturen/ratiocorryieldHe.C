@@ -4,7 +4,7 @@
 void ratiocorryieldHe()
 {
 //=========Macro generated from canvas: CorrYieldHe/He corr yield bin counting
-//=========  (Tue Jun 18 15:22:28 2024) by ROOT version 6.30/01
+//=========  (Fri Aug 16 10:57:31 2024) by ROOT version 6.30/01
    TCanvas *CorrYieldHe = new TCanvas("CorrYieldHe", "He corr yield bin counting",0,53,1440,847);
    gStyle->SetOptStat(0);
    CorrYieldHe->SetHighLightColor(2);
@@ -18,7 +18,7 @@ void ratiocorryieldHe()
    TPad *pad1hCorrHe0__2 = new TPad("pad1hCorrHe0", "pad1",0,0.4,1,1);
    pad1hCorrHe0__2->Draw();
    pad1hCorrHe0__2->cd();
-   pad1hCorrHe0__2->Range(1.183133,0.01,2.628916,2782.191);
+   pad1hCorrHe0__2->Range(1.183133,0.01,2.628916,2752.415);
    pad1hCorrHe0__2->SetFillColor(0);
    pad1hCorrHe0__2->SetBorderMode(0);
    pad1hCorrHe0__2->SetBorderSize(2);
@@ -32,12 +32,12 @@ void ratiocorryieldHe()
    hshCorrHe0->SetName("hshCorrHe0");
    hshCorrHe0->SetTitle("{}^{3}He;#it{p}_{T} (Gev/#it{c});Counts");
    hshCorrHe0->SetMinimum(0.01);
-   hshCorrHe0->SetMaximum(2503.973);
+   hshCorrHe0->SetMaximum(2477.175);
    Double_t xAxis5[4] = {1.4, 1.8, 2.2, 2.6}; 
    
    TH1F *hshCorrHe0_stack_2 = new TH1F("hshCorrHe0_stack_2","{}^{3}He",3, xAxis5);
    hshCorrHe0_stack_2->SetMinimum(0.01);
-   hshCorrHe0_stack_2->SetMaximum(2503.973);
+   hshCorrHe0_stack_2->SetMaximum(2477.175);
    hshCorrHe0_stack_2->SetDirectory(nullptr);
    hshCorrHe0_stack_2->SetStats(0);
 
@@ -64,13 +64,13 @@ void ratiocorryieldHe()
    Double_t xAxis6[4] = {1.4, 1.8, 2.2, 2.6}; 
    
    TH1D *hCorrHe0_stack_1 = new TH1D("hCorrHe0_stack_1","{}^{3}He",3, xAxis6);
-   hCorrHe0_stack_1->SetBinContent(1,1926.133);
-   hCorrHe0_stack_1->SetBinContent(2,1008.083);
-   hCorrHe0_stack_1->SetBinContent(3,630.4561);
-   hCorrHe0_stack_1->SetBinError(1,204.6448);
-   hCorrHe0_stack_1->SetBinError(2,80.11008);
-   hCorrHe0_stack_1->SetBinError(3,56.814);
-   hCorrHe0_stack_1->SetEntries(246.6161);
+   hCorrHe0_stack_1->SetBinContent(1,1905.519);
+   hCorrHe0_stack_1->SetBinContent(2,998.08);
+   hCorrHe0_stack_1->SetBinContent(3,622.3868);
+   hCorrHe0_stack_1->SetBinError(1,202.4394);
+   hCorrHe0_stack_1->SetBinError(2,79.31227);
+   hCorrHe0_stack_1->SetBinError(3,56.08515);
+   hCorrHe0_stack_1->SetEntries(246.5915);
    hCorrHe0_stack_1->SetStats(0);
 
    ci = TColor::GetColor("#0000ff");
@@ -89,13 +89,13 @@ void ratiocorryieldHe()
    Double_t xAxis7[4] = {1.4, 1.8, 2.2, 2.6}; 
    
    TH1D *hCorrHe1_stack_2 = new TH1D("hCorrHe1_stack_2","{}^{3}#bar{He}",3, xAxis7);
-   hCorrHe1_stack_2->SetBinContent(1,1578.539);
-   hCorrHe1_stack_2->SetBinContent(2,768.1964);
-   hCorrHe1_stack_2->SetBinContent(3,663.4056);
-   hCorrHe1_stack_2->SetBinError(1,187.2469);
-   hCorrHe1_stack_2->SetBinError(2,80.386);
-   hCorrHe1_stack_2->SetBinError(3,66.56498);
-   hCorrHe1_stack_2->SetEntries(197.1734);
+   hCorrHe1_stack_2->SetBinContent(1,1422.515);
+   hCorrHe1_stack_2->SetBinContent(2,755.6708);
+   hCorrHe1_stack_2->SetBinContent(3,652.7635);
+   hCorrHe1_stack_2->SetBinError(1,171.0316);
+   hCorrHe1_stack_2->SetBinError(2,79.07164);
+   hCorrHe1_stack_2->SetBinError(3,65.49461);
+   hCorrHe1_stack_2->SetEntries(201.3957);
    hCorrHe1_stack_2->SetStats(0);
 
    ci = TColor::GetColor("#ff0000");
@@ -159,7 +159,7 @@ void ratiocorryieldHe()
    TPad *pad2hCorrHe0__3 = new TPad("pad2hCorrHe0", "pad2",0,0.05,1,0.4);
    pad2hCorrHe0__3->Draw();
    pad2hCorrHe0__3->cd();
-   pad2hCorrHe0__3->Range(1.183133,0.3837971,2.628916,1.222121);
+   pad2hCorrHe0__3->Range(1.183133,0.3323193,2.628916,1.219833);
    pad2hCorrHe0__3->SetFillColor(0);
    pad2hCorrHe0__3->SetBorderMode(0);
    pad2hCorrHe0__3->SetBorderSize(2);
@@ -173,13 +173,13 @@ void ratiocorryieldHe()
    Double_t xAxis8[4] = {1.4, 1.8, 2.2, 2.6}; 
    
    TH1D *histRatiohCorrHe0__2 = new TH1D("histRatiohCorrHe0__2","",3, xAxis8);
-   histRatiohCorrHe0__2->SetBinContent(1,0.8195377);
-   histRatiohCorrHe0__2->SetBinContent(2,0.762037);
-   histRatiohCorrHe0__2->SetBinContent(3,1.052263);
-   histRatiohCorrHe0__2->SetBinError(1,0.1305076);
-   histRatiohCorrHe0__2->SetBinError(2,0.1001294);
-   histRatiohCorrHe0__2->SetBinError(3,0.1419136);
-   histRatiohCorrHe0__2->SetEntries(146.9799);
+   histRatiohCorrHe0__2->SetBinContent(1,0.7465239);
+   histRatiohCorrHe0__2->SetBinContent(2,0.7571245);
+   histRatiohCorrHe0__2->SetBinContent(3,1.048807);
+   histRatiohCorrHe0__2->SetBinError(1,0.1197753);
+   histRatiohCorrHe0__2->SetBinError(2,0.09947966);
+   histRatiohCorrHe0__2->SetBinError(3,0.1414426);
+   histRatiohCorrHe0__2->SetEntries(147.2378);
    histRatiohCorrHe0__2->SetStats(0);
    histRatiohCorrHe0__2->GetXaxis()->SetTitle("#it{p}_{T} (Gev/#it{c})");
    histRatiohCorrHe0__2->GetXaxis()->SetLabelFont(43);

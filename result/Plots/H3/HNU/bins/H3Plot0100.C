@@ -4,11 +4,11 @@
 void H3Plot0100()
 {
 //=========Macro generated from canvas: pt10/pt10
-//=========  (Mon Jul 22 15:37:55 2024) by ROOT version 6.30/01
+//=========  (Fri Aug 16 09:01:09 2024) by ROOT version 6.30/01
    TCanvas *pt10 = new TCanvas("pt10", "pt10",0,53,1400,847);
    gStyle->SetOptFit(1);
    pt10->SetHighLightColor(2);
-   pt10->Range(3.8,-1.688006,11.8,10.96457);
+   pt10->Range(3.8,-2.19138,11.8,14.23428);
    pt10->SetFillColor(0);
    pt10->SetBorderMode(0);
    pt10->SetBorderSize(2);
@@ -18,20 +18,14 @@ void H3Plot0100()
    pt10->SetFrameBorderMode(0);
    pt10->SetFrameBorderMode(0);
    
-   TH1D *histTOFfit0100__4 = new TH1D("histTOFfit0100__4","",25,5,11);
-   histTOFfit0100__4->SetBinContent(12,2);
-   histTOFfit0100__4->SetBinContent(13,7);
-   histTOFfit0100__4->SetBinContent(14,3);
-   histTOFfit0100__4->SetBinContent(16,1);
-   histTOFfit0100__4->SetBinContent(18,1);
-   histTOFfit0100__4->SetBinContent(19,1);
-   histTOFfit0100__4->SetBinError(12,1.414214);
-   histTOFfit0100__4->SetBinError(13,2.645751);
-   histTOFfit0100__4->SetBinError(14,1.732051);
-   histTOFfit0100__4->SetBinError(16,1);
-   histTOFfit0100__4->SetBinError(18,1);
-   histTOFfit0100__4->SetBinError(19,1);
-   histTOFfit0100__4->SetEntries(15);
+   TH1D *histTOFfit0100__4 = new TH1D("histTOFfit0100__4","",15,5,11);
+   histTOFfit0100__4->SetBinContent(8,2);
+   histTOFfit0100__4->SetBinContent(10,1);
+   histTOFfit0100__4->SetBinContent(11,1);
+   histTOFfit0100__4->SetBinError(8,1.414214);
+   histTOFfit0100__4->SetBinError(10,1);
+   histTOFfit0100__4->SetBinError(11,1);
+   histTOFfit0100__4->SetEntries(4);
    histTOFfit0100__4->SetDirectory(nullptr);
    histTOFfit0100__4->SetStats(0);
    
@@ -40,41 +34,41 @@ void H3Plot0100()
    fitfunc4->SetFillStyle(0);
    fitfunc4->SetLineColor(2);
    fitfunc4->SetLineWidth(5);
-   fitfunc4->SetChisquare(2.114416e-05);
-   fitfunc4->SetNDF(6);
+   fitfunc4->SetChisquare(8.661291e-08);
+   fitfunc4->SetNDF(0);
    fitfunc4->GetXaxis()->SetLabelFont(42);
    fitfunc4->GetXaxis()->SetTitleOffset(1);
    fitfunc4->GetXaxis()->SetTitleFont(42);
    fitfunc4->GetYaxis()->SetLabelFont(42);
    fitfunc4->GetYaxis()->SetTitleFont(42);
-   fitfunc4->SetParameter(0,6.13366);
-   fitfunc4->SetParError(0,0);
-   fitfunc4->SetParLimits(0,6.13366,6.13366);
-   fitfunc4->SetParameter(1,8.02857);
-   fitfunc4->SetParError(1,0);
-   fitfunc4->SetParLimits(1,8.02857,8.02857);
-   fitfunc4->SetParameter(2,0.141486);
-   fitfunc4->SetParError(2,0);
-   fitfunc4->SetParLimits(2,0.141486,0.141486);
-   fitfunc4->SetParameter(3,-0.0814496);
-   fitfunc4->SetParError(3,0);
-   fitfunc4->SetParLimits(3,-0.0814496,-0.0814496);
-   fitfunc4->SetParameter(4,0.00890916);
-   fitfunc4->SetParError(4,0);
-   fitfunc4->SetParLimits(4,0.00890916,0.00890916);
+   fitfunc4->SetParameter(0,13.45319);
+   fitfunc4->SetParError(0,255.8572);
+   fitfunc4->SetParLimits(0,0,0);
+   fitfunc4->SetParameter(1,7.470821);
+   fitfunc4->SetParError(1,1.902442);
+   fitfunc4->SetParLimits(1,0,0);
+   fitfunc4->SetParameter(2,0.2321183);
+   fitfunc4->SetParError(2,0.8168654);
+   fitfunc4->SetParLimits(2,0,0);
+   fitfunc4->SetParameter(3,-0.006863894);
+   fitfunc4->SetParError(3,6.722345);
+   fitfunc4->SetParLimits(3,0,0);
+   fitfunc4->SetParameter(4,0.0007758435);
+   fitfunc4->SetParError(4,0.7468717);
+   fitfunc4->SetParLimits(4,0,0);
    fitfunc4->SetParent(histTOFfit0100__4);
    histTOFfit0100__4->GetListOfFunctions()->Add(fitfunc4);
    histTOFfit0100__4->SetLineWidth(5);
    histTOFfit0100__4->SetMarkerStyle(20);
    histTOFfit0100__4->SetMarkerSize(2);
    histTOFfit0100__4->GetXaxis()->SetTitle("m^{2}/z^{2} (GeV^{2}/#it{c}^{4})");
-   histTOFfit0100__4->GetXaxis()->SetRange(1,25);
+   histTOFfit0100__4->GetXaxis()->SetRange(1,15);
    histTOFfit0100__4->GetXaxis()->SetLabelFont(42);
    histTOFfit0100__4->GetXaxis()->SetLabelSize(0.05);
    histTOFfit0100__4->GetXaxis()->SetTitleSize(0.05);
    histTOFfit0100__4->GetXaxis()->SetTitleOffset(1);
    histTOFfit0100__4->GetXaxis()->SetTitleFont(42);
-   histTOFfit0100__4->GetYaxis()->SetTitle("Counts / (240 MeV^{2}/#it{c}^{4})");
+   histTOFfit0100__4->GetYaxis()->SetTitle("Counts / (400 MeV^{2}/#it{c}^{4})");
    histTOFfit0100__4->GetYaxis()->SetLabelFont(42);
    histTOFfit0100__4->GetYaxis()->SetLabelSize(0.05);
    histTOFfit0100__4->GetYaxis()->SetTitleSize(0.05);
@@ -124,7 +118,7 @@ void H3Plot0100()
    entry->SetMarkerStyle(21);
    entry->SetMarkerSize(1);
    entry->SetTextFont(42);
-   entry=leg->AddEntry("NULL","TRD trigger","");
+   entry=leg->AddEntry("NULL","TRD HNU trigger","");
    entry->SetLineColor(1);
    entry->SetLineStyle(1);
    entry->SetLineWidth(1);

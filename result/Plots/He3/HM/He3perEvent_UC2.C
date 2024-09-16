@@ -4,7 +4,7 @@
 void He3perEvent_UC2()
 {
 //=========Macro generated from canvas: ratioPlot_event22/
-//=========  (Mon Jul 22 09:57:29 2024) by ROOT version 6.30/01
+//=========  (Fri Aug 23 10:49:08 2024) by ROOT version 6.30/01
    TCanvas *ratioPlot_event22 = new TCanvas("ratioPlot_event22", "",0,53,1440,847);
    ratioPlot_event22->SetHighLightColor(2);
    ratioPlot_event22->Range(0,0,1,1);

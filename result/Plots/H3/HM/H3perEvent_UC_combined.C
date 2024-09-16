@@ -4,7 +4,7 @@
 void H3perEvent_UC_combined()
 {
 //=========Macro generated from canvas: combinedCanvasH3/
-//=========  (Mon Jul 22 09:57:29 2024) by ROOT version 6.30/01
+//=========  (Fri Aug 23 10:49:08 2024) by ROOT version 6.30/01
    TCanvas *combinedCanvasH3 = new TCanvas("combinedCanvasH3", "",0,53,1440,847);
    combinedCanvasH3->SetHighLightColor(2);
    combinedCanvasH3->Range(1.25,-8.001646,2.75,-6.889827);

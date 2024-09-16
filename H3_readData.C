@@ -20,7 +20,7 @@
 #include <vector>
 #include "H3_readData.h"
 
-TString trigger = "HNU"; // "HNU" or "HM" or "HNU&HQU" or "HQU"
+TString trigger = "HQU"; // "HNU" or "HM" or "HNU&HQU" or "HQU"
 TString resultPath = "/Users/matthias/alice/root_results/H3";
 const Int_t nPtBins = 3;
 TString periods16 = "deghijklop";
@@ -126,16 +126,16 @@ void setTreeBranchH3(TTree *fTree) {
 void readDataH3(){
 	if (trigger == "HNU") {
         rootfile = "/Users/matthias/alice/Master/Makros/Rootfiles/DataH3_HNU.root";
-        tofBinsH3[0] = {25, 25, 25, 25, 25, 25, 25, 35, 25}; // TRD H3 TRD
-        tofBinsH3[1] = {25, 25, 25, 25, 25, 25, 25, 35, 25}; // TRD Anti H3
-        tofBinsH3[2] = {25, 25, 25, 25, 25, 25, 25, 35, 25}; // Both
-        ptBins = {1.3, 1.8, 2.3, 2.8}; // HNU
+        tofBinsH3[0] = {10, 10, 10, 10, 25, 25, 25, 35, 25}; // TRD H3 TRD
+        tofBinsH3[1] = {10, 10, 10, 10, 25, 25, 25, 35, 25}; // TRD Anti H3
+        tofBinsH3[2] = {10, 10, 10, 10, 25, 25, 25, 35, 25}; // Both
+        ptBins = {1., 1.3, 1.6}; // HNU
         cutConf = {0.15,  0.15,  2.0,    120,    2,     1,      1,       0,        0,       0};
     } else if (trigger == "HQU") {
         rootfile = "/Users/matthias/alice/Master/Makros/Rootfiles/DataH3_HQU.root";
-        tofBinsH3[0] = {25, 25, 25, 25, 25, 25, 25, 35, 25}; // TRD H3 TRD
-        tofBinsH3[1] = {25, 25, 25, 25, 25, 25, 25, 35, 25}; // TRD Anti H3
-        tofBinsH3[2] = {25, 25, 25, 25, 25, 25, 25, 35, 25}; // Both
+        tofBinsH3[0] = {25, 25, 25, 15, 25, 25, 25, 35, 25}; // TRD H3 TRD
+        tofBinsH3[1] = {25, 25, 25, 15, 25, 25, 25, 35, 25}; // TRD Anti H3
+        tofBinsH3[2] = {25, 25, 25, 15, 25, 25, 25, 35, 25}; // Both
         ptBins = {1.3, 1.8, 2.3, 2.8}; // HNU
         cutConf = {0.15,  0.15,  2.0,    120,    2,     1,      1,       0,        0,       0};
     } else if (trigger == "HNU&HQU") {

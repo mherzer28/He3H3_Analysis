@@ -21,7 +21,13 @@ int const nParticles = 3;
 const TString particleNames[] = {"{}^{3}H","{}^{3}#bar{H}","{}^{3}H+{}^{3}#bar{H}"};
 const TString particleNamesHe[] = {"{}^{3}He","{}^{3}#bar{He}","{}^{3}He+{}^{3}#bar{He}"};
 int particleColors[] = {kBlue, kRed, kBlack};
-TString trigger = "HNUHQU" //HNUHQU HNU HQU
+TFile *result;
+TFile *resultHe;
+TFile *result2;
+TFile *result2He;
+TFile *resultCorrection;
+TString triggerH3 = "HQU";//HNUHQU HNU HQU
+TString triggerHe = "HNU";
 
 //_____________________________________________________________________________________________________________
 void normHisto(TH1D* hist) {
@@ -239,38 +245,30 @@ TLegend* legendParticleHe(TH1D* h[nParticles], int partMode) {
 	return particleLegend;
 }
 //_____________________________________________________________________________________________________________
-void correctionHNU(){
-    double rapidity = 1.0;
-    TH1D* rawHistHe[nParticles] = {0};
+void correctionH3(){
+	double rapidity = 1.0;
     TH1D* rawHist[nParticles] = {0};
     TH1D* hCorr[nParticles] = {0};
-    TH1D* hCorrHe[nParticles] = {0};
     TH1D* hGenH3[nParticles] = {0};
     TH1D* hRecH3[nParticles] = {0};
-    TH1D* hGenHe[nParticles] = {0};
-    TH1D* hRecHe[nParticles] = {0};
     TH1D* hGenH3W[nParticles] = {0};
     TH1D* hRecH3W[nParticles] = {0};
-    TH1D* hGenHeW[nParticles] = {0};
-    TH1D* hRecHeW[nParticles] = {0};
     TH1D* hAccEffH3[nParticles] = {0};
-    TH1D* hAccEffHe[nParticles] = {0};
     TH1D* ratio[nParticles] = {0};
-
-    gStyle->SetOptStat(0);
-	if (trigger == "HNU")
-	{
-		TFile *result = new TFile("/Users/matthias/alice/Master/Makros/result/correction/correctionYield_HNU.root", "UPDATE");
+    gStyle->SetOptStat(0);	
+    if (triggerH3 == "HNU"){
+        result = new TFile("/Users/matthias/alice/Master/Makros/result/correction/correctionYield_HNU.root", "UPDATE");
 	}
-	else if (trigger == "HQU")
-	{
-		TFile *result = new TFile("/Users/matthias/alice/Master/Makros/result/correction/correctionYield_HQU.root", "UPDATE");
+    else if (triggerH3 == "HQU"){
+        result = new TFile("/Users/matthias/alice/Master/Makros/result/correction/correctionYield_HQU.root", "UPDATE");
 	}
-	else if (trigger == "HNUHQU")
-	{
-		TFile *result = new TFile("/Users/matthias/alice/Master/Makros/result/correction/correctionYield_HNUHQU.root", "UPDATE");
+    else if (triggerH3 == "HNUHQU"){
+        result = new TFile("/Users/matthias/alice/Master/Makros/result/correction/correctionYield_HNUHQU.root", "UPDATE");
 	}
-	
+    if (result->IsZombie()) {
+        std::cerr << "Error: Could not open the file for H3." << std::endl;
+        return;
+    }
 	for (int particle = 0; particle < nParticles; particle++){
         rawHist[particle] = (TH1D*) result->Get(Form("histRaw%02d", particle));
         rawHist[particle]->SetName(Form("rawHist%d", particle));
@@ -279,86 +277,55 @@ void correctionHNU(){
         normHisto(rawHist[particle]);
         rawHist[particle]->Scale(1. / rapidity);
     }
-	if (trigger == "HNU")
+	std::cout << "test1" << std::endl;
+	if (triggerH3 == "HNU")
 	{
-		TFile *resultHe = new TFile("/Users/matthias/alice/Master/Makros/result/correction/correctionYieldHe_HNU.root", "UPDATE");
+		result2 = new TFile("/Users/matthias/alice/Master/Makros/result/correction/correction_HNU.root", "UPDATE");
 	}
-	else if (trigger == "HQU")
+	else if (triggerH3 == "HQU")
 	{
-		TFile *resultHe = new TFile("/Users/matthias/alice/Master/Makros/result/correction/correctionYieldHe_HQU.root", "UPDATE");
+		result2 = new TFile("/Users/matthias/alice/Master/Makros/result/correction/correction_HQU.root", "UPDATE");
 	}
-	else if (trigger == "HNUHQU")
+	else if (triggerH3 == "HNUHQU")
 	{
-		TFile *resultHe = new TFile("/Users/matthias/alice/Master/Makros/result/correction/correctionYieldHe_HNUHQU.root", "UPDATE");
+		result2 = new TFile("/Users/matthias/alice/Master/Makros/result/correction/correction_HNUHQU.root", "UPDATE");
 	}
-    for (int particle = 0; particle < nParticles; particle++){
-        rawHistHe[particle] = (TH1D*)resultHe->Get(Form("histRaw%02d%02d", 0,particle));
-        rawHistHe[particle]->SetName(Form("rawHistHe%d", particle));
-        rawHistHe[particle]->GetXaxis()->SetTitle("#it{p}_{T} (Gev/#it{c})");
-        rawHistHe[particle]->GetYaxis()->SetTitle("Counts");
-        normHisto(rawHistHe[particle]);
-        rawHistHe[particle]->Scale(1. / rapidity);
-    }
-	if (trigger == "HNU")
-	{
-		TFile *result2 = new TFile("/Users/matthias/alice/Master/Makros/result/correction/correction_HNU.root", "UPDATE");
-	}
-	else if (trigger == "HQU")
-	{
-		TFile *result2 = new TFile("/Users/matthias/alice/Master/Makros/result/correction/correction_HQU.root", "UPDATE");
-	}
-	else if (trigger == "HNUHQU")
-	{
-		TFile *result2 = new TFile("/Users/matthias/alice/Master/Makros/result/correction/correction_HNUHQU.root", "UPDATE");
-	}
+	std::cout << "test1" << std::endl;
     hGenH3[0] = (TH1D*)result2->Get("hGen");
     hRecH3[0] = (TH1D*)result2->Get("hRec");
-    hGenHe[0] = (TH1D*)result2->Get("hGenHe");
-    hRecHe[0] = (TH1D*)result2->Get("hRecHe");
     hGenH3[1] = (TH1D*)result2->Get("hGenAnti");
     hRecH3[1] = (TH1D*)result2->Get("hRecAnti");
-    hGenHe[1] = (TH1D*)result2->Get("hGenHeAnti");
-    hRecHe[1] = (TH1D*)result2->Get("hRecHeAnti");
     hGenH3[2] = (TH1D*) hGenH3[0]->Clone(Form("hGenH3%d", 2));
     hGenH3[2]->Add(hGenH3[1]);
     hRecH3[2] = (TH1D*) hRecH3[0]->Clone(Form("hRecH3%d", 2));
     hRecH3[2]->Add(hRecH3[1]);
-    hGenHe[2] = (TH1D*) hGenHe[0]->Clone(Form("hGenHe%d", 2));
-    hGenHe[2]->Add(hGenHe[1]);
-    hRecHe[2] = (TH1D*) hRecHe[0]->Clone(Form("hRecHe%d", 2));
-    hRecHe[2]->Add(hRecHe[1]);
-    if (trigger == "HNU")
+	std::cout << "test1" << std::endl;
+    if (triggerH3 == "HNU")
 	{
-		TFile *resultCorrection = new TFile("/Users/matthias/alice/Master/Makros/result/correction/correctionresult_HNU.root", "recreate");
+		resultCorrection = new TFile("/Users/matthias/alice/Master/Makros/result/correction/correctionresult_HNU.root", "recreate");
 	}
-	else if (trigger == "HQU")
+	else if (triggerH3 == "HQU")
 	{
-		TFile *resultCorrection = new TFile("/Users/matthias/alice/Master/Makros/result/correction/correctionresult_HQU.root", "recreate");
+		resultCorrection = new TFile("/Users/matthias/alice/Master/Makros/result/correction/correctionresult_HQU.root", "recreate");
 	}
-	else if (trigger == "HNUHQU")
+	else if (triggerH3 == "HNUHQU")
 	{
-		TFile *resultCorrection = new TFile("/Users/matthias/alice/Master/Makros/result/correction/correctionresult_HNUHQU.root", "recreate");
+		resultCorrection = new TFile("/Users/matthias/alice/Master/Makros/result/correction/correctionresult_HNUHQU.root", "recreate");
 	}
+	std::cout << "test1" << std::endl;
     for (int particle = 0; particle < nParticles; particle++){
         hGenH3[particle]->Write(0, TObject::kOverwrite);
         hRecH3[particle]->Write(0, TObject::kOverwrite);
-        hGenHe[particle]->Write(0, TObject::kOverwrite);
-        hRecHe[particle]->Write(0, TObject::kOverwrite);
     }
     for (int particle = 0; particle < nParticles; particle++){
         rawHist[particle]->Write(0, TObject::kOverwrite);
-        rawHistHe[particle]->Write(0, TObject::kOverwrite);
     }
 
     for (int particle = 0; particle < nParticles; particle++){
         hGenH3W[particle] = wAvgHist(rawHist[particle], hGenH3[particle], Form("hGenH3W%d", particle));
 	    hRecH3W[particle] = wAvgHist(rawHist[particle], hRecH3[particle], Form("hGRecH3W%d", particle));
-        hGenHeW[particle] = wAvgHist(rawHist[particle], hGenHe[particle], Form("hGenHeW%d", particle));
-	    hRecHeW[particle] = wAvgHist(rawHist[particle], hRecHe[particle], Form("hRecHeW%d", particle));
         hGenH3W[particle]->Write(0, TObject::kOverwrite);
         hRecH3W[particle]->Write(0, TObject::kOverwrite);
-        hGenHeW[particle]->Write(0, TObject::kOverwrite);
-        hRecHeW[particle]->Write(0, TObject::kOverwrite);
     }
     
     for (int particle = 0; particle < nParticles; particle++){
@@ -379,27 +346,6 @@ void correctionHNU(){
     hCorr[0]->SetTitle("{}^{3}H");
     hCorr[1]->SetTitle("{}^{3}#bar{H}");
     hCorr[2]->SetTitle("{}^{3}H + {}^{3}#bar{H}");
-
-    for (int particle = 0; particle < nParticles; particle++){
-        hAccEffHe[particle] = (TH1D*) hRecHeW[particle]->Clone(Form("hAccEffHe%d", particle));
-        hAccEffHe[particle]->Divide(hGenHeW[particle]);
-        hAccEffHe[particle]->SetTitle(";#it{p}_{T} (GeV/c);acc x eff");
-        hAccEffHe[particle]->Write(0, TObject::kOverwrite);
-    }
-
-    for (int particle = 0; particle < nParticles-1; particle++){
-        hCorrHe[particle] = (TH1D*) rawHistHe[particle]->Clone(Form("hCorrHe%d", particle));
-        hCorrHe[particle]->Divide(hAccEffHe[particle]);
-        hCorrHe[particle]->Write(0, TObject::kOverwrite);
-    }
-    hCorrHe[2] = (TH1D*) hCorrHe[0]->Clone(Form("hCorrHe%d", 2));
-    hCorrHe[2]->Add(hCorrHe[1]);
-    hCorrHe[2]->Write(0, TObject::kOverwrite);
-    hCorrHe[0]->SetTitle("{}^{3}He");
-    hCorrHe[1]->SetTitle("{}^{3}#bar{He}");
-    hCorrHe[2]->SetTitle("{}^{3}He + {}^{3}#bar{He}");
-    hAccEffHe[0]->SetTitle("{}^{3}He");
-    hAccEffHe[1]->SetTitle("{}^{3}#bar{He}");
     hAccEffH3[0]->SetTitle("{}^{3}H");
     hAccEffH3[1]->SetTitle("{}^{3}#bar{H}");
     TCanvas * c = new TCanvas("H3", "H3" , 1920, 1080);
@@ -423,15 +369,15 @@ void correctionHNU(){
 	infoLabel->SetFillStyle(0);
  	infoLabel->AddText("Particle: " + particleNames[0] + "+" + particleNames[1]);
  	infoLabel->AddText("pp #sqrt{s} = 13 TeV");	 	
-	if (trigger == "HNU")
+	if (triggerH3 == "HNU")
 	{
 		infoLabel->AddText("Trigger: HNU");
 	}
-	else if (trigger == "HQU")
+	else if (triggerH3 == "HQU")
 	{
 		infoLabel->AddText("Trigger: HQU");
 	}
-	else if (trigger == "HNUHQU")
+	else if (triggerH3 == "HNUHQU")
 	{
 		infoLabel->AddText("Trigger: HNU HQU");
 	}
@@ -444,23 +390,155 @@ void correctionHNU(){
         hCorr[particle]->Draw();
         i++;
     }
-	if (trigger == "HNU")
+	if (triggerH3 == "HNU")
 	{
 		c->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HNU/corryield_H3_HNU.pdf");
 	}
-	else if (trigger == "HQU")
+	else if (triggerH3 == "HQU")
 	{
-		c->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HNU/corryield_H3_HQU.pdf");
+		c->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HQU/corryield_H3_HQU.pdf");
 	}
-	else if (trigger == "HNUHQU")
+	else if (triggerH3 == "HNUHQU")
 	{
-		c->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HNU/corryield_H3_HNUHQU.pdf");
+		c->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HNUHQU/corryield_H3_HNUHQU.pdf");
 	}
 
+    
+    TCanvas *canYield = new TCanvas("CorrYield", "corr yield bin counting", 1920, 1080);
+    TLegend *particleLegend = legendParticle(hCorr, 2);
+	canYield->cd();
+	canYield->Update();
+    plotRatio((TPad*) gROOT->GetSelectedPad(), hCorr, 0, 1.);
+    particleLegend->Draw("Same");
+    //hCorr[2]->Scale(1./2.);
+	//hCorr[2]->Draw("SAME");
+	if (triggerH3 == "HNU")
+	{
+		canYield->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HNU/ratiocorryield_H3_HNU.pdf");
+    	canYield->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HNU/ratiocorryield_H3_HNU.root");
+		canYield->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HNU/ratiocorryield_H3_HNU.C");
+	}
+	else if (triggerH3 == "HQU")
+	{
+		canYield->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HQU/ratiocorryield_H3_HQU.pdf");
+    	canYield->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HQU/ratiocorryield_H3_HQU.root");
+		canYield->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HQU/ratiocorryield_H3_HQU.C");
+	}
+	else if (triggerH3 == "HNUHQU")
+	{
+		canYield->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HNUHQU/ratiocorryield_H3_HNUHQU.pdf");
+    	canYield->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HNUHQU/ratiocorryield_H3_HNUHQU.root");
+		canYield->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HNUHQU/ratiocorryield_H3_HNUHQU.C");
+	}
+    
+    canYield->Write(0, TObject::kOverwrite);
+}
+//_____________________________________________________________________________________________________________
+void correctionHe(){
+	double rapidity = 1.0;
+    TH1D* rawHistHe[nParticles] = {0};
+    TH1D* hCorrHe[nParticles] = {0};
+    TH1D* hGenHe[nParticles] = {0};
+    TH1D* hRecHe[nParticles] = {0};
+    TH1D* hGenHeW[nParticles] = {0};
+    TH1D* hRecHeW[nParticles] = {0};
+    TH1D* hAccEffHe[nParticles] = {0};
+    TH1D* ratio[nParticles] = {0};
+
+    gStyle->SetOptStat(0);
+	if (triggerHe == "HNU")
+	{
+		resultHe = new TFile("/Users/matthias/alice/Master/Makros/result/correction/correctionYieldHe_HNU.root", "UPDATE");
+	}
+	else if (triggerHe == "HQU")
+	{
+		resultHe = new TFile("/Users/matthias/alice/Master/Makros/result/correction/correctionYieldHe_HQU.root", "UPDATE");
+	}
+	else if (triggerHe == "HNUHQU")
+	{
+		resultHe = new TFile("/Users/matthias/alice/Master/Makros/result/correction/correctionYieldHe_HNUHQU.root", "UPDATE");
+	}
+    for (int particle = 0; particle < nParticles; particle++){
+        rawHistHe[particle] = (TH1D*)resultHe->Get(Form("histRaw%02d%02d", 0,particle));
+        rawHistHe[particle]->SetName(Form("rawHistHe%d", particle));
+        rawHistHe[particle]->GetXaxis()->SetTitle("#it{p}_{T} (Gev/#it{c})");
+        rawHistHe[particle]->GetYaxis()->SetTitle("Counts");
+        normHisto(rawHistHe[particle]);
+        rawHistHe[particle]->Scale(1. / rapidity);
+    }
+	if (triggerHe == "HNU")
+	{
+		result2He = new TFile("/Users/matthias/alice/Master/Makros/result/correction/correction_HNU.root", "UPDATE");
+	}
+	else if (triggerHe == "HQU")
+	{
+		result2He = new TFile("/Users/matthias/alice/Master/Makros/result/correction/correction_HQU.root", "UPDATE");
+	}
+	else if (triggerHe == "HNUHQU")
+	{
+		result2He = new TFile("/Users/matthias/alice/Master/Makros/result/correction/correction_HNUHQU.root", "UPDATE");
+	}
+    hGenHe[0] = (TH1D*)result2He->Get("hGenHe");
+    hRecHe[0] = (TH1D*)result2He->Get("hRecHe");
+    hGenHe[1] = (TH1D*)result2He->Get("hGenHeAnti");
+    hRecHe[1] = (TH1D*)result2He->Get("hRecHeAnti");
+    hGenHe[2] = (TH1D*) hGenHe[0]->Clone(Form("hGenHe%d", 2));
+    hGenHe[2]->Add(hGenHe[1]);
+    hRecHe[2] = (TH1D*) hRecHe[0]->Clone(Form("hRecHe%d", 2));
+    hRecHe[2]->Add(hRecHe[1]);
+    if (triggerHe == "HNU")
+	{
+		resultCorrection = new TFile("/Users/matthias/alice/Master/Makros/result/correction/correctionresult_HNU.root", "recreate");
+	}
+	else if (triggerHe == "HQU")
+	{
+		resultCorrection = new TFile("/Users/matthias/alice/Master/Makros/result/correction/correctionresult_HQU.root", "recreate");
+	}
+	else if (triggerHe == "HNUHQU")
+	{
+		resultCorrection = new TFile("/Users/matthias/alice/Master/Makros/result/correction/correctionresult_HNUHQU.root", "recreate");
+	}
+    for (int particle = 0; particle < nParticles; particle++){
+        hGenHe[particle]->Write(0, TObject::kOverwrite);
+        hRecHe[particle]->Write(0, TObject::kOverwrite);
+    }
+    for (int particle = 0; particle < nParticles; particle++){
+        rawHistHe[particle]->Write(0, TObject::kOverwrite);
+    }
+
+    for (int particle = 0; particle < nParticles; particle++){
+        hGenHeW[particle] = wAvgHist(rawHistHe[particle], hGenHe[particle], Form("hGenHeW%d", particle));
+	    hRecHeW[particle] = wAvgHist(rawHistHe[particle], hRecHe[particle], Form("hRecHeW%d", particle));
+        hGenHeW[particle]->Write(0, TObject::kOverwrite);
+        hRecHeW[particle]->Write(0, TObject::kOverwrite);
+    }
+    
+   
+    for (int particle = 0; particle < nParticles; particle++){
+        hAccEffHe[particle] = (TH1D*) hRecHeW[particle]->Clone(Form("hAccEffHe%d", particle));
+        hAccEffHe[particle]->Divide(hGenHeW[particle]);
+        hAccEffHe[particle]->SetTitle(";#it{p}_{T} (GeV/c);acc x eff");
+        hAccEffHe[particle]->Write(0, TObject::kOverwrite);
+    }
+
+    for (int particle = 0; particle < nParticles-1; particle++){
+        hCorrHe[particle] = (TH1D*) rawHistHe[particle]->Clone(Form("hCorrHe%d", particle));
+        hCorrHe[particle]->Divide(hAccEffHe[particle]);
+        hCorrHe[particle]->Write(0, TObject::kOverwrite);
+    }
+    hCorrHe[2] = (TH1D*) hCorrHe[0]->Clone(Form("hCorrHe%d", 2));
+    hCorrHe[2]->Add(hCorrHe[1]);
+    hCorrHe[2]->Write(0, TObject::kOverwrite);
+    hCorrHe[0]->SetTitle("{}^{3}He");
+    hCorrHe[1]->SetTitle("{}^{3}#bar{He}");
+    hCorrHe[2]->SetTitle("{}^{3}He + {}^{3}#bar{He}");
+    hAccEffHe[0]->SetTitle("{}^{3}He");
+    hAccEffHe[1]->SetTitle("{}^{3}#bar{He}");
+ 
     TCanvas * c2 = new TCanvas("He", "He" , 1920, 1080);
 
     c2->Divide(3,2);
-    i = 1;
+    int i = 1;
     c2->cd(i);
     gPad->SetLeftMargin(0.18);
     hAccEffHe[0]->Draw();
@@ -477,8 +555,19 @@ void correctionHNU(){
 	infoLabelHe->SetBorderSize(0);
 	infoLabelHe->SetFillStyle(0);
  	infoLabelHe->AddText("Particle: " + particleNamesHe[0] + "+" + particleNamesHe[1]);
- 	infoLabelHe->AddText("pp #sqrt{s} = 13 TeV");	 	
-	infoLabelHe->AddText("Trigger: HNU HQU");
+ 	infoLabelHe->AddText("pp #sqrt{s} = 13 TeV");	
+	if (triggerHe == "HNU")
+	{
+		infoLabelHe->AddText("Trigger: HNU");
+	}
+	if (triggerHe == "HQU")
+	{
+		infoLabelHe->AddText("Trigger: HQU");
+	}
+	if (triggerHe == "HNUHQU")
+	{
+		infoLabelHe->AddText("Trigger: HNU HQU");
+	}
 	infoLabelHe->AddText("work in progress");  
     infoLabelHe->Draw();
     i = 4;
@@ -488,47 +577,18 @@ void correctionHNU(){
         hCorrHe[particle]->Draw();
         i++;
     }
-	if (trigger == "HNU")
+	if (triggerHe == "HNU")
 	{
 		c2->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HNU/corryield_He_HNU.pdf");
 	}
-	else if (trigger == "HQU")
+	else if (triggerHe == "HQU")
 	{
-		c2->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HNU/corryield_He_HQU.pdf");
+		c2->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HQU/corryield_He_HQU.pdf");
 	}
-	else if (trigger == "HNUHQU")
+	else if (triggerHe == "HNUHQU")
 	{
-		c2->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HNU/corryield_He_HNUHQU.pdf");
+		c2->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HNUHQU/corryield_He_HNUHQU.pdf");
 	}
-    
-    TCanvas *canYield = new TCanvas("CorrYield", "corr yield bin counting", 1920, 1080);
-    TLegend *particleLegend = legendParticle(hCorr, 2);
-	canYield->cd();
-	canYield->Update();
-    plotRatio((TPad*) gROOT->GetSelectedPad(), hCorr, 0, 1.);
-    particleLegend->Draw("Same");
-    //hCorr[2]->Scale(1./2.);
-	//hCorr[2]->Draw("SAME");
-	if (trigger == "HNU")
-	{
-		canYield->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HNU/ratiocorryield_H3_HNU.pdf");
-    	canYield->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HNU/ratiocorryield_H3_HNU.root");
-		canYield->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HNU/ratiocorryield_H3_HNU.C");
-	}
-	else if (trigger == "HQU")
-	{
-		canYield->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HNU/ratiocorryield_H3_HQU.pdf");
-    	canYield->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HNU/ratiocorryield_H3_HQU.root");
-		canYield->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HNU/ratiocorryield_H3_HQU.C");
-	}
-	else if (trigger == "HNUHQU")
-	{
-		canYield->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HNU/ratiocorryield_H3_HNUHQU.pdf");
-    	canYield->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HNU/ratiocorryield_H3_HNUHQU.root");
-		canYield->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HNU/ratiocorryield_H3_HNUHQU.C");
-	}
-    
-    canYield->Write(0, TObject::kOverwrite);
 
     TCanvas *canYieldHe = new TCanvas("CorrYieldHe", "He corr yield bin counting", 1920, 1080);
     TLegend *particleLegendHe = legendParticleHe(hCorrHe, 2);
@@ -538,24 +598,31 @@ void correctionHNU(){
     particleLegendHe->Draw("Same");
     //hCorrHe[2]->Scale(1./2.);
 	//hCorrHe[2]->Draw("SAME");
-	if (trigger == "HNU")
+	if (triggerHe == "HNU")
 	{
 		canYieldHe->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HNU/ratiocorryield_He3_HNU.pdf");
     	canYieldHe->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HNU/ratiocorryield_He3_HNU.root");
 		canYieldHe->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HNU/ratiocorryield_He3_HNU.C");
 	}
-	else if (trigger == "HQU")
+	else if (triggerHe == "HQU")
 	{
-		canYieldHe->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HNU/ratiocorryield_He3_HQU.pdf");
-    	canYieldHe->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HNU/ratiocorryield_He3_HQU.root");
-		canYieldHe->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HNU/ratiocorryield_He3_HQU.C");
+		canYieldHe->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HQU/ratiocorryield_He3_HQU.pdf");
+    	canYieldHe->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HQU/ratiocorryield_He3_HQU.root");
+		canYieldHe->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HQU/ratiocorryield_He3_HQU.C");
 	}
-	else if (trigger == "HNUHQU")
+	else if (triggerHe == "HNUHQU")
 	{
-		canYieldHe->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HNU/ratiocorryield_He3_HNUHQU.pdf");
-    	canYieldHe->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HNU/ratiocorryield_He3_HNUHQU.root");
-		canYieldHe->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HNU/ratiocorryield_He3_HNUHQU.C");
+		canYieldHe->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HNUHQU/ratiocorryield_He3_HNUHQU.pdf");
+    	canYieldHe->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HNUHQU/ratiocorryield_He3_HNUHQU.root");
+		canYieldHe->SaveAs("/Users/matthias/alice/Master/Makros/result/Plots/ratio/HNUHQU/ratiocorryield_He3_HNUHQU.C");
 	}
     
     canYieldHe->Write(0, TObject::kOverwrite);
 }
+//_____________________________________________________________________________________________________________
+void correctionHNU(){
+	correctionH3();
+	correctionHe();
+}
+//_____________________________________________________________________________________________________________
+   

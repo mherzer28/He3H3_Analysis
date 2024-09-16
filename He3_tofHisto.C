@@ -19,7 +19,7 @@
 #include "TLine.h"
 #include "He3_tofHisto.h"
 
-TString trigger = "HQU"; // "HNU" "HQU" "HNUHQU" or "HM" 
+TString trigger = "HNU"; // "HNU" "HQU" "HNUHQU" or "HM" 
 const Int_t nParticles = 3;	
 const Int_t nPtBins = 3;
 const TString particleNames[] = {"{}^{3}He", "{}^{3}#bar{He}","{}^{3}He+{}^{3}#bar{He}"};
@@ -86,33 +86,55 @@ void fit(){
 			fit->SetParNames("Constant", "Mean", "Sigma");
 			fit->SetParameters(20,1.96,0.2);
 			if (trigger == "HNU&HQU") {
-            if (particle == 0 && pt == 0) {
-                fit->FixParameter(0, 24.3842);
-                fit->FixParameter(1, 2.0938);
-                fit->FixParameter(2, 0.0821775);
-            } else if (particle == 1 && pt == 0) {
-                fit->FixParameter(0, 13);
-                fit->FixParameter(1, 2.11);
-                fit->FixParameter(2, 0.121189);
-            } else if (particle == 1 && pt == 1) {
-                fit->FixParameter(0, 101);
-                fit->FixParameter(1, 2.01018);
-                fit->FixParameter(2, 0.0594477);
-            } else if (particle == 1 && pt == 2) {
-                fit->FixParameter(0, 56.4487);
-                fit->FixParameter(1, 1.9747);
-                fit->FixParameter(2, 0.0597807);
-            }
-        } else if (trigger == "HM") {
-            if (particle == 0 && pt == 0) {
-                fit->FixParameter(2, 0.0927816);
-            } else if (particle == 0 && pt == 1) {
-                fit->FixParameter(0, 65.);
-                fit->FixParameter(2, 0.062112);
-            } else if (particle == 1 && pt == 0) {
-                fit->FixParameter(0, 12);
-            }
-        }
+				if (particle == 0 && pt == 0) {
+					fit->FixParameter(0, 24.3842);
+					fit->FixParameter(1, 2.0938);
+					fit->FixParameter(2, 0.0821775);
+				} else if (particle == 1 && pt == 0) {
+					fit->FixParameter(0, 13);
+					fit->FixParameter(1, 2.11);
+					fit->FixParameter(2, 0.121189);
+				} else if (particle == 1 && pt == 1) {
+					fit->FixParameter(0, 101);
+					fit->FixParameter(1, 2.01018);
+					fit->FixParameter(2, 0.0594477);
+				} else if (particle == 1 && pt == 2) {
+					fit->FixParameter(0, 56.4487);
+					fit->FixParameter(1, 1.9747);
+					fit->FixParameter(2, 0.0597807);
+				}
+        	} else if (trigger == "HM") {
+           		if (particle == 0 && pt == 0) {
+                	fit->FixParameter(2, 0.0927816);
+            	} else if (particle == 0 && pt == 1) {
+             		fit->FixParameter(0, 65.);
+             		fit->FixParameter(2, 0.062112);
+            	} else if (particle == 1 && pt == 0) {
+                	fit->FixParameter(0, 12);
+            	}
+        		} else if (trigger == "HNU") {
+				if (particle == 0 && pt == 0) {
+                	fit->FixParameter(0, 24.3842);
+                	fit->FixParameter(1, 2.0938);
+                	fit->FixParameter(2, 0.0821775);
+            	} else if (particle == 0 && pt == 2) {
+                	fit->FixParameter(0, 35.);
+           	 	}  else if (particle == 1 && pt == 0) {
+                	fit->FixParameter(0, 13);
+                	fit->FixParameter(1, 2.11);
+                	fit->FixParameter(2, 0.121189);
+            	} else if (particle == 1 && pt == 1) {
+                	fit->FixParameter(0, 101);
+                	fit->FixParameter(1, 2.020377);
+                	fit->FixParameter(2, 0.0594477);
+            	} else if (particle == 1 && pt == 0){
+					fit->FixParameter(0, 13);
+				} else if (particle == 1 && pt == 2) {
+                	fit->FixParameter(0, 56.4487);
+                	fit->FixParameter(1, 1.9747);
+                	fit->FixParameter(2, 0.0597807);
+            	}
+			}
 
 			TFitResultPtr fp = histTOFfit[particle][pt]->Fit("fitfunc","RS");
 			//histTOFfit[particle][pt]->Fit(fit, "B");

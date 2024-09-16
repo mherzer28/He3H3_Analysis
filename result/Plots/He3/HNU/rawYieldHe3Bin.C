@@ -4,7 +4,7 @@
 void rawYieldHe3Bin()
 {
 //=========Macro generated from canvas: raw/Raw Yield
-//=========  (Mon Jun 17 17:36:11 2024) by ROOT version 6.30/01
+//=========  (Fri Aug 23 16:17:39 2024) by ROOT version 6.30/01
    TCanvas *raw = new TCanvas("raw", "Raw Yield",0,53,800,847);
    gStyle->SetOptFit(1);
    raw->SetHighLightColor(2);
@@ -64,10 +64,10 @@ void rawYieldHe3Bin()
    Double_t xAxis2[4] = {1.3, 1.8, 2.3, 2.8}; 
    
    TH1D *histRaw0000_stack_1 = new TH1D("histRaw0000_stack_1"," ",3, xAxis2);
-   histRaw0000_stack_1->SetBinContent(1,75);
+   histRaw0000_stack_1->SetBinContent(1,68);
    histRaw0000_stack_1->SetBinContent(2,188);
    histRaw0000_stack_1->SetBinContent(3,87);
-   histRaw0000_stack_1->SetBinError(1,8.660254);
+   histRaw0000_stack_1->SetBinError(1,8.246211);
    histRaw0000_stack_1->SetBinError(2,13.71131);
    histRaw0000_stack_1->SetBinError(3,9.327379);
    histRaw0000_stack_1->SetEntries(3);
@@ -93,10 +93,10 @@ void rawYieldHe3Bin()
    TH1D *histRaw0001_stack_2 = new TH1D("histRaw0001_stack_2"," ",3, xAxis3);
    histRaw0001_stack_2->SetBinContent(1,59);
    histRaw0001_stack_2->SetBinContent(2,205);
-   histRaw0001_stack_2->SetBinContent(3,124);
+   histRaw0001_stack_2->SetBinContent(3,120);
    histRaw0001_stack_2->SetBinError(1,7.681146);
    histRaw0001_stack_2->SetBinError(2,14.31782);
-   histRaw0001_stack_2->SetBinError(3,11.13553);
+   histRaw0001_stack_2->SetBinError(3,10.95445);
    histRaw0001_stack_2->SetEntries(3);
    histRaw0001_stack_2->SetDirectory(nullptr);
    histRaw0001_stack_2->SetStats(0);
@@ -163,7 +163,7 @@ void rawYieldHe3Bin()
    TPad *pad2histRaw0000__1 = new TPad("pad2histRaw0000", "pad2",0,0.05,1,0.4);
    pad2histRaw0000__1->Draw();
    pad2histRaw0000__1->cd();
-   pad2histRaw0000__1->Range(1.028916,0.1404152,2.836145,1.675797);
+   pad2histRaw0000__1->Range(1.028916,0.2637931,2.836145,1.618695);
    pad2histRaw0000__1->SetFillColor(0);
    pad2histRaw0000__1->SetBorderMode(0);
    pad2histRaw0000__1->SetBorderSize(2);
@@ -177,13 +177,13 @@ void rawYieldHe3Bin()
    Double_t xAxis4[4] = {1.3, 1.8, 2.3, 2.8}; 
    
    TH1D *histRatiohistRaw0000__10 = new TH1D("histRatiohistRaw0000__10","",3, xAxis4);
-   histRatiohistRaw0000__10->SetBinContent(1,0.7866667);
+   histRatiohistRaw0000__10->SetBinContent(1,0.8676471);
    histRatiohistRaw0000__10->SetBinContent(2,1.090426);
-   histRatiohistRaw0000__10->SetBinContent(3,1.425287);
-   histRatiohistRaw0000__10->SetBinError(1,0.1368947);
+   histRatiohistRaw0000__10->SetBinContent(3,1.37931);
+   histRatiohistRaw0000__10->SetBinError(1,0.1543706);
    histRatiohistRaw0000__10->SetBinError(2,0.1101125);
-   histRatiohistRaw0000__10->SetBinError(3,0.1993302);
-   histRatiohistRaw0000__10->SetEntries(154.4774);
+   histRatiohistRaw0000__10->SetBinError(3,0.1942213);
+   histRatiohistRaw0000__10->SetEntries(151.1752);
    histRatiohistRaw0000__10->SetDirectory(nullptr);
    histRatiohistRaw0000__10->SetStats(0);
    histRatiohistRaw0000__10->SetMarkerStyle(8);

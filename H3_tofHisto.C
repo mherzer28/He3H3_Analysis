@@ -19,7 +19,7 @@
 #include "TLine.h"
 #include "H3_tofHisto.h"
 
-TString trigger = "HNU"; // "HNU" "HNU&QHU" "HQU" or "HM" 
+TString trigger = "HQU"; // "HNU" "HNU&QHU" "HQU" or "HM" 
 const Int_t nParticles = 3;	
 const Int_t nPtBins = 3;
 const TString particleNames[] = {"{}^{3}H","{}^{3}#bar{H}","{}^{3}H+{}^{3}#bar{H}"};
@@ -47,9 +47,9 @@ void fit(){
         cutConf = {0.15,  0.15,  2.0,    120,    2,     1,      1,       0,        0,       0};
     } else if (trigger == "HQU") {
         rootfile = "/Users/matthias/alice/Master/Makros/Rootfiles/DataH3_HQU.root";
-        tofBinsH3[0] = {25, 25, 25, 25, 25, 25, 25, 35, 25}; // TRD H3 TRD
-        tofBinsH3[1] = {25, 25, 25, 25, 25, 25, 25, 35, 25}; // TRD Anti H3
-        tofBinsH3[2] = {25, 25, 25, 25, 25, 25, 25, 35, 25}; // Both
+        tofBinsH3[0] = {25, 25, 25, 15, 25, 25, 25, 35, 25}; // TRD H3 TRD
+        tofBinsH3[1] = {25, 25, 25, 15, 25, 25, 25, 35, 25}; // TRD Anti H3
+        tofBinsH3[2] = {25, 25, 25, 15, 25, 25, 25, 35, 25}; // Both
         ptBins = {1.3, 1.8, 2.3, 2.8}; // HNU
         cutConf = {0.15,  0.15,  2.0,    120,    2,     1,      1,       0,        0,       0};
     } else if (trigger == "HNU&HQU") {
@@ -84,7 +84,6 @@ void fit(){
 			histTOFfit[particle][pt] = (TH1D*)f->Get(Form("histPtH3%02d%02d",particle, pt));
 			histTOFfit[particle][pt]->SetName(Form("histTOFfit%02d%02d",particle, pt));
 			histTOFfit[particle][pt]->SetTitle("");
-			// define fit function
 			TF1 *fitGaus = new TF1("gauss", "gaus(0)", 7., 9.);
             TF1 *backg = new TF1("backg", "expo(3)", 5., 11.);
 			TF1 *fit = new TF1("fitfunc", "gaus(0)+expo(3)", 5, 11.);
@@ -111,8 +110,21 @@ void fit(){
 					}	
 				}
 			}
-			
-			
+			if (trigger == "HQU")
+			{
+				if (particle == 0){
+				if (pt == 0){
+					fit->FixParameter(2, 0.141263);
+					}	
+				}
+				if (particle == 1){
+				if (pt == 2){
+					fit->FixParameter(0, 33);
+					fit->FixParameter(1, 7.95);
+					fit->FixParameter(2, 0.27);
+					}	
+				}
+			}
             //histTOFfit[particle][pt]->Fit(fitGaus,"R");
 			//histTOFfit[particle][pt]->Fit(backg,"R+");
 			Double_t par[6];
@@ -180,65 +192,67 @@ void histoH3(){
 			histTOFfit[particle][pt]->SetStats(0);
 			histTOFfit[particle][pt]->Draw();
 		}
-	TPaveText *cutLabel = new TPaveText(0.1, .1, 0.9, 0.9, "blNDC"); 
-	cutLabel->SetTextAlign(13);
-	cutLabel->SetTextFont(43);
-	cutLabel->SetTextSize(22);
-	cutLabel->SetBorderSize(0);
-	cutLabel->SetFillStyle(0);
-	cutLabel->AddText("|y| < 0.5");
-	cutLabel->AddText(Form("|TPC n#sigma| < %.0f",cutConf[2]));
-	cutLabel->AddText("|Dca XY| < 0.15 cm");
-	cutLabel->AddText("|Dca Z| < 0.15 cm");
-	if (trigger == "HM"){
-		cutLabel->AddText("tTRDnTracklets > 0");
-	}
 	
-	TPaveText *infoLabel=new TPaveText(0.1, .1, 0.9, 0.9, "blNDC");
-	infoLabel->SetTextAlign(13);
-	infoLabel->SetTextFont(43);
-	infoLabel->SetTextSize(11);
-	infoLabel->SetBorderSize(0);
-	infoLabel->SetFillStyle(0);
- 	infoLabel->AddText("Particle: " + particleNames[particle]);
- 	infoLabel->AddText("pp #sqrt{s} = 13 TeV");	 	
- 	if (trigger == "HM"){
+		TPaveText *cutLabel = new TPaveText(0.1, .1, 0.9, 0.9, "blNDC"); 
+		cutLabel->SetTextAlign(13);
+		cutLabel->SetTextFont(43);
+		cutLabel->SetTextSize(22);
+		cutLabel->SetBorderSize(0);
+		cutLabel->SetFillStyle(0);
+		cutLabel->AddText("|y| < 0.5");
+		cutLabel->AddText(Form("|TPC n#sigma| < %.0f",cutConf[2]));
+		cutLabel->AddText("|Dca XY| < 0.15 cm");
+		cutLabel->AddText("|Dca Z| < 0.15 cm");
+		if (trigger == "HM"){
+			cutLabel->AddText("tTRDnTracklets > 0");
+		}
+	
+		TPaveText *infoLabel=new TPaveText(0.1, .1, 0.9, 0.9, "blNDC");
+		infoLabel->SetTextAlign(13);
+		infoLabel->SetTextFont(43);
+		infoLabel->SetTextSize(11);
+		infoLabel->SetBorderSize(0);
+		infoLabel->SetFillStyle(0);
+ 		infoLabel->AddText("Particle: " + particleNames[particle]);
+ 		infoLabel->AddText("pp #sqrt{s} = 13 TeV");	 	
+ 		if (trigger == "HM"){
 		infoLabel->AddText("Trigger: HM");
-	}
-	else if (trigger == "HNU&HQU"){
-		infoLabel->AddText("Trigger: HNU & HQU");
-	}
-	else if (trigger == "HNU"){
-		infoLabel->AddText("Trigger: HNU");
-	}
-	else if (trigger == "HQU"){
-		infoLabel->AddText("Trigger: HQU");
-	}
+		}
+		else if (trigger == "HNU&HQU"){
+			infoLabel->AddText("Trigger: HNU & HQU");
+		}
+		else if (trigger == "HNU"){
+			infoLabel->AddText("Trigger: HNU");
+		}
+		else if (trigger == "HQU"){
+			infoLabel->AddText("Trigger: HQU");
+		}
 
-	infoLabel->AddText("work in progress"); 
-	canPtBinsH3[particle]->cd(3 * rows);
-	cutLabel->Draw();
-	canPtBinsH3[particle]->cd(3 * rows - 1);
-	infoLabel->Draw();
-	if (trigger == "HM"){
-		canPtBinsH3[particle]->SaveAs(Folder + Form("/Plots/H3/HM/%02dBinsH3%02d.pdf", nPtBins, particle));
-		canPtBinsH3[particle]->SaveAs(Folder + Form("/Plots/H3/HM/%02dBinsH3%02d.png", nPtBins, particle));
-		canPtBinsH3[particle]->SaveAs(Folder + Form("/Plots/H3/HM/%02dBinsH3%02d.root", nPtBins, particle));	
-	}
-	else if (trigger == "HNU&HQU"){
-		canPtBinsH3[particle]->SaveAs(Folder + Form("/Plots/H3/HNUHQU/%02dBinsH3%02d.pdf", nPtBins, particle));
-		canPtBinsH3[particle]->SaveAs(Folder + Form("/Plots/H3/HNUHQU/%02dBinsH3%02d.png", nPtBins, particle));
-		canPtBinsH3[particle]->SaveAs(Folder + Form("/Plots/H3/HNUHQU/%02dBinsH3%02d.root", nPtBins, particle));	
-	}
-	else if (trigger == "HNU"){
-		canPtBinsH3[particle]->SaveAs(Folder + Form("/Plots/H3/HNU/%02dBinsH3%02d.pdf", nPtBins, particle));
-		canPtBinsH3[particle]->SaveAs(Folder + Form("/Plots/H3/HNU/%02dBinsH3%02d.png", nPtBins, particle));
-		canPtBinsH3[particle]->SaveAs(Folder + Form("/Plots/H3/HNU/%02dBinsH3%02d.root", nPtBins, particle));	
-	}
-	else if (trigger == "HQU"){
-		canPtBinsH3[particle]->SaveAs(Folder + Form("/Plots/H3/HQU/%02dBinsH3%02d.pdf", nPtBins, particle));
-		canPtBinsH3[particle]->SaveAs(Folder + Form("/Plots/H3/HQU/%02dBinsH3%02d.png", nPtBins, particle));
-		canPtBinsH3[particle]->SaveAs(Folder + Form("/Plots/H3/HQU/%02dBinsH3%02d.root", nPtBins, particle));	
+		infoLabel->AddText("work in progress"); 
+		canPtBinsH3[particle]->cd(3 * rows);
+		cutLabel->Draw();
+		canPtBinsH3[particle]->cd(3 * rows - 1);
+		infoLabel->Draw();
+		if (trigger == "HM"){
+			canPtBinsH3[particle]->SaveAs(Folder + Form("/Plots/H3/HM/%02dBinsH3%02d.pdf", nPtBins, particle));
+			canPtBinsH3[particle]->SaveAs(Folder + Form("/Plots/H3/HM/%02dBinsH3%02d.png", nPtBins, particle));
+			canPtBinsH3[particle]->SaveAs(Folder + Form("/Plots/H3/HM/%02dBinsH3%02d.root", nPtBins, particle));	
+		}
+		else if (trigger == "HNU&HQU"){
+			canPtBinsH3[particle]->SaveAs(Folder + Form("/Plots/H3/HNUHQU/%02dBinsH3%02d.pdf", nPtBins, particle));
+			canPtBinsH3[particle]->SaveAs(Folder + Form("/Plots/H3/HNUHQU/%02dBinsH3%02d.png", nPtBins, particle));
+			canPtBinsH3[particle]->SaveAs(Folder + Form("/Plots/H3/HNUHQU/%02dBinsH3%02d.root", nPtBins, particle));	
+		}
+		else if (trigger == "HNU"){
+			canPtBinsH3[particle]->SaveAs(Folder + Form("/Plots/H3/HNU/%02dBinsH3%02d.pdf", nPtBins, particle));
+			canPtBinsH3[particle]->SaveAs(Folder + Form("/Plots/H3/HNU/%02dBinsH3%02d.png", nPtBins, particle));
+			canPtBinsH3[particle]->SaveAs(Folder + Form("/Plots/H3/HNU/%02dBinsH3%02d.root", nPtBins, particle));	
+		}
+		else if (trigger == "HQU"){
+			canPtBinsH3[particle]->SaveAs(Folder + Form("/Plots/H3/HQU/%02dBinsH3%02d.pdf", nPtBins, particle));
+			canPtBinsH3[particle]->SaveAs(Folder + Form("/Plots/H3/HQU/%02dBinsH3%02d.png", nPtBins, particle));
+			canPtBinsH3[particle]->SaveAs(Folder + Form("/Plots/H3/HQU/%02dBinsH3%02d.root", nPtBins, particle));	
+		}
 	}
 	TCanvas *canTOF[nParticles][nPtBins] = {0}; 
 	TLegend *legendtof[nParticles][nPtBins] = {0};
@@ -312,9 +326,9 @@ void histoH3(){
 			legendtof2[particle][pt]->AddEntry(histTOFfit[particle][pt],"Data","l");
 			legendtof2[particle][pt]->Draw("same");
 			if(trigger == "HM"){
-			canTOF[particle][pt]->SaveAs(Folder + Form("/Plots/H3/HM/bins/H3Plot%02d%02d.pdf", particle, pt));
-			canTOF[particle][pt]->SaveAs(Folder + Form("/Plots/H3/HM/bins/H3Plot%02d%02d.root", particle, pt));
-			canTOF[particle][pt]->SaveAs(Folder + Form("/Plots/H3/HM/bins/H3Plot%02d%02d.C", particle, pt));
+				canTOF[particle][pt]->SaveAs(Folder + Form("/Plots/H3/HM/bins/H3Plot%02d%02d.pdf", particle, pt));
+				canTOF[particle][pt]->SaveAs(Folder + Form("/Plots/H3/HM/bins/H3Plot%02d%02d.root", particle, pt));
+				canTOF[particle][pt]->SaveAs(Folder + Form("/Plots/H3/HM/bins/H3Plot%02d%02d.C", particle, pt));
 			}
 			else if (trigger == "HNU&HQU"){
 				canTOF[particle][pt]->SaveAs(Folder + Form("/Plots/H3/HNUHQU/bins/H3Plot%02d%02d.pdf", particle, pt));
@@ -417,6 +431,7 @@ void histoH3(){
     //canRawCombined->Write(0, TObject::kOverwrite);
 
 	f->Close();
+
 }
 //___________________________________________________________________________
 TLegend* legendParticle(TH1D* h[nParticles], int partMode) {

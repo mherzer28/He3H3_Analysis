@@ -4,7 +4,7 @@
 void He3Plot0202()
 {
 //=========Macro generated from canvas: pt22/pt22
-//=========  (Mon Jun 17 17:36:11 2024) by ROOT version 6.30/01
+//=========  (Fri Aug 23 16:17:39 2024) by ROOT version 6.30/01
    TCanvas *pt22 = new TCanvas("pt22", "pt22",0,53,1400,847);
    gStyle->SetOptFit(1);
    pt22->SetHighLightColor(2);
@@ -19,53 +19,49 @@ void He3Plot0202()
    pt22->SetFrameBorderMode(0);
    
    TH1D *histTOFfit000202__9 = new TH1D("histTOFfit000202__9","",25,1.4,3.2);
-   histTOFfit000202__9->SetBinContent(0,3);
    histTOFfit000202__9->SetBinContent(5,3);
    histTOFfit000202__9->SetBinContent(6,1);
-   histTOFfit000202__9->SetBinContent(7,17);
-   histTOFfit000202__9->SetBinContent(8,77);
+   histTOFfit000202__9->SetBinContent(7,16);
+   histTOFfit000202__9->SetBinContent(8,75);
    histTOFfit000202__9->SetBinContent(9,80);
    histTOFfit000202__9->SetBinContent(10,21);
-   histTOFfit000202__9->SetBinContent(11,14);
+   histTOFfit000202__9->SetBinContent(11,13);
    histTOFfit000202__9->SetBinContent(12,3);
-   histTOFfit000202__9->SetBinContent(13,2);
-   histTOFfit000202__9->SetBinContent(20,1);
-   histTOFfit000202__9->SetBinError(0,1.732051);
+   histTOFfit000202__9->SetBinContent(13,1);
    histTOFfit000202__9->SetBinError(5,1.732051);
    histTOFfit000202__9->SetBinError(6,1);
-   histTOFfit000202__9->SetBinError(7,4.123106);
-   histTOFfit000202__9->SetBinError(8,8.774964);
+   histTOFfit000202__9->SetBinError(7,4);
+   histTOFfit000202__9->SetBinError(8,8.660254);
    histTOFfit000202__9->SetBinError(9,8.944272);
    histTOFfit000202__9->SetBinError(10,4.582576);
-   histTOFfit000202__9->SetBinError(11,3.741657);
+   histTOFfit000202__9->SetBinError(11,3.605551);
    histTOFfit000202__9->SetBinError(12,1.732051);
-   histTOFfit000202__9->SetBinError(13,1.414214);
-   histTOFfit000202__9->SetBinError(20,1);
-   histTOFfit000202__9->SetEntries(222);
+   histTOFfit000202__9->SetBinError(13,1);
+   histTOFfit000202__9->SetEntries(213);
    histTOFfit000202__9->SetDirectory(nullptr);
    histTOFfit000202__9->SetStats(0);
    
-   TF1 *fitfunc9 = new TF1("fitfunc","gaus(0)",1.4,3.2, TF1::EAddToList::kNo);
+   TF1 *fitfunc9 = new TF1("fitfunc","gaus(0)",1.5,2.5, TF1::EAddToList::kNo);
    fitfunc9->SetFillColor(19);
    fitfunc9->SetFillStyle(0);
    fitfunc9->SetLineColor(2);
    fitfunc9->SetLineWidth(5);
-   fitfunc9->SetChisquare(19.98358);
-   fitfunc9->SetNDF(7);
+   fitfunc9->SetChisquare(16.98342);
+   fitfunc9->SetNDF(6);
    fitfunc9->GetXaxis()->SetLabelFont(42);
    fitfunc9->GetXaxis()->SetTitleOffset(1);
    fitfunc9->GetXaxis()->SetTitleFont(42);
    fitfunc9->GetYaxis()->SetLabelFont(42);
    fitfunc9->GetYaxis()->SetTitleFont(42);
-   fitfunc9->SetParameter(0,90.65852);
-   fitfunc9->SetParError(0,8.574703);
+   fitfunc9->SetParameter(0,89.51453);
+   fitfunc9->SetParError(0,8.583815);
    fitfunc9->SetParLimits(0,0,0);
-   fitfunc9->SetParameter(1,1.98101);
-   fitfunc9->SetParError(1,0.004686406);
+   fitfunc9->SetParameter(1,1.981988);
+   fitfunc9->SetParError(1,0.004691473);
    fitfunc9->SetParLimits(1,0,0);
-   fitfunc9->SetParameter(2,0.06305127);
-   fitfunc9->SetParError(2,0.003945923);
-   fitfunc9->SetParLimits(2,0,0);
+   fitfunc9->SetParameter(2,0.06289871);
+   fitfunc9->SetParError(2,0.004022486);
+   fitfunc9->SetParLimits(2,0,0.8458273);
    fitfunc9->SetParent(histTOFfit000202__9);
    histTOFfit000202__9->GetListOfFunctions()->Add(fitfunc9);
    histTOFfit000202__9->SetLineWidth(5);
@@ -128,7 +124,7 @@ void He3Plot0202()
    entry->SetMarkerStyle(21);
    entry->SetMarkerSize(1);
    entry->SetTextFont(42);
-   entry=leg->AddEntry("NULL","TRD trigger","");
+   entry=leg->AddEntry("NULL","TRD HNU trigger","");
    entry->SetLineColor(1);
    entry->SetLineStyle(1);
    entry->SetLineWidth(1);
